@@ -1,0 +1,86 @@
+<div class="example-containerw-full h-screen grid grid-cols-4 gap-5 justify-center items-center"
+      cdkDropListGroup>
+      <section id="To-Do"
+            class="example-list h-full flex flex-col justify-start space-y-3 p-3 items-center bg-slate-200" cdkDropList
+            [cdkDropListData]="todoTasks()" (cdkDropListDropped)="drop($event)" cdkDropListOrientation="horizontal">
+            <h2>To-Do</h2>
+            @for (task of todoTasks(); track task.id) {
+            <div #taskCard
+                  class="example-box text-black w-full h-48 p-7 rounded-lg shadow-md bg-blue-500 bg-opacity-80 cursor-pointer"
+                  cdkDrag>
+                  <!-- <div class="task-cover">
+                              <img class="w-36 h-36 rounded-lg" alt="task cover">
+                        </div> -->
+                  <div class="task-info">
+                        <h3>{{task.id}}</h3>
+                        <p>{{task.reporter}}</p>
+                        <p>Sales: {{task.assignee}}</p>
+                        <p>Recommendation: {{task.board}}</p>
+                  </div>
+            </div>
+            }
+      </section>
+      <section id="In-Progress"
+            class="example-list h-full flex flex-col justify-start space-y-3 p-3 items-center bg-slate-200" cdkDropList
+            [cdkDropListData]="inprogressTasks()" (cdkDropListDropped)="drop($event)">
+            <h2>In-Progress</h2>
+            @for (task of inprogressTasks(); track task.id) {
+            <div class="example-box text-black w-full h-48 p-7 rounded-lg shadow-md bg-orange-600 bg-opacity-80 cursor-pointer"
+                  cdkDrag>
+                  <!-- <div class="task-cover">
+            <img class="w-36 h-36 rounded-lg" alt="task cover">
+      </div> -->
+                  <div class="task-info">
+                        <h3>{{task.id}}</h3>
+                        <p>{{task.reporter}}</p>
+                        <p>Sales: {{task.assignee}}</p>
+                        <p>Recommendation: {{task.board}}</p>
+                  </div>
+            </div>
+            }
+      </section>
+
+
+
+      <section id="Blocked"
+            class="example-list h-full flex flex-col justify-start space-y-3 p-3 items-center bg-slate-200" cdkDropList
+            [cdkDropListData]="blockedTasks()" (cdkDropListDropped)="drop($event)" cdkDropListOrientation="horizontal">
+            <h2>Blocked</h2>
+            @for (task of blockedTasks(); track task.id) {
+            <div #taskCard
+                  class="example-box text-black w-full h-48 p-7 rounded-lg shadow-md bg-yellow-500 bg-opacity-80 cursor-pointer"
+                  cdkDrag>
+                  <!-- <div class="task-cover">
+                        <img class="w-36 h-36 rounded-lg" alt="task cover">
+                  </div> -->
+                  <div class="task-info">
+                        <h3>{{task.id}}</h3>
+                        <p>{{task.reporter}}</p>
+                        <p>Sales: {{task.assignee}}</p>
+                        <p>Recommendation: {{task.board}}</p>
+                  </div>
+            </div>
+            }
+      </section>
+
+      <section id="Done" class="example-list h-full flex flex-col justify-start space-y-3 p-3 items-center bg-slate-200"
+            cdkDropList [cdkDropListData]="doneTasks()" (cdkDropListDropped)="drop($event)"
+            cdkDropListOrientation="horizontal">
+            <h2>Done</h2>
+            @for (task of doneTasks(); track task.id) {
+            <div #taskCard
+                  class="example-box text-black w-full h-48 p-7 rounded-lg shadow-md bg-green-800 bg-opacity-80 cursor-pointer"
+                  cdkDrag>
+                  <!-- <div class="task-cover">
+                  <img class="w-36 h-36 rounded-lg" alt="task cover">
+            </div> -->
+                  <div class="task-info">
+                        <h3>{{task.id}}</h3>
+                        <p>{{task.reporter}}</p>
+                        <p>Sales: {{task.assignee}}</p>
+                        <p>Recommendation: {{task.board}}</p>
+                  </div>
+            </div>
+            }
+      </section>
+</div>

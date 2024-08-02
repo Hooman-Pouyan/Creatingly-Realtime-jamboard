@@ -1,0 +1,13 @@
+<div class="cursor-grab" *ngFor="let note of notes; let i = index" [ngClass]="{ 'pinned': note.pinned }"
+      [style.opacity]="note.opacity" [style.width]="note.width + 'px'" [style.height]="note.height + 'px'"
+      class="sticky-note bg-slate-400 rounded-lg shadow-md">
+      <div class="flex justify-start items-center">
+            <ng-content select="[slot=header]"></ng-content>
+      </div>
+      <div class="p-5 flex justify-center">
+            <ng-content select="[slot=content]"></ng-content>
+      </div>
+      <div class="mt-3">
+            <ng-content select="[slot=detail]"></ng-content>
+      </div>
+</div>

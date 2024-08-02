@@ -16,7 +16,9 @@ export class JamboardComponent implements OnInit {
   jamBoardService = inject(JamBoardService);
   socketService = inject(SocketService);
   jamBoardSocketStream = toSignal(this.socketService.onMessage('JamBoard'));
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.socketService.onMessage('JamBoard').subscribe(console.log);
+  }
 
   notes = Array(5)
     .fill(0)

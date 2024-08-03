@@ -1,0 +1,14 @@
+<p>jamboard works!</p>
+
+@for(note of jamboardState.notes(); track note.id) {
+<app-note [classList]="['bg-red-500']" [noteState]="note" [latestPosition]="latestPosition()"
+      [latestSize]="latestSize()" class="flex !w-fit"
+      (positionUpdate)="dispatchEvent(jamboardEvents.ELEMENT.POSITION, $event)"
+      (sizeUpdate)="dispatchEvent(jamboardEvents.ELEMENT.SIZE, $event)">
+      <div slot="header">header</div>
+      <div slot="content">main</div>
+      <div slot="detail">detail</div>
+</app-note>
+}
+{{latestPosition() | json }}
+{{latestSize() | json }}

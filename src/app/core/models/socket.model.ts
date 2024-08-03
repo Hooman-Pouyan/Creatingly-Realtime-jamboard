@@ -2,6 +2,7 @@ export const SocketEvents = {
   JAMBOARD: {
     STATE: 'jambaord:state',
     ELEMENT: {
+      STATE: 'jamboard:element',
       SIZE: 'jamboard:element:size',
       POSITION: 'jamboard:element:position',
       APPEARENCE: 'jamboard:element:appearence',
@@ -12,6 +13,7 @@ export const SocketEvents = {
       MOVE: 'jamboard:cursor:move',
     },
     USERS: {
+      STATE: 'jamboard:users',
       ACTIVE: 'jamboard:users:active',
     },
   },

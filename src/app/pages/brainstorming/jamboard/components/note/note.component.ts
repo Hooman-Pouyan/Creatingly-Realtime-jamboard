@@ -42,9 +42,9 @@ export class NoteComponent implements OnInit {
   ngOnInit(): void {}
 
   constructor() {
-    effect(() => {
-      console.log(this.noteState());
-    });
+    // effect(() => {
+    //   console.log(this.noteState());
+    // });
   }
   pinned = signal(false);
   opacity = signal(0.8);

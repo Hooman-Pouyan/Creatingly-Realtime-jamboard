@@ -30,10 +30,19 @@ import {
   tap,
   throttleTime,
 } from 'rxjs';
+import {
+  IUser,
+  TPosition,
+  TStatus,
+} from '../../pages/brainstorming/jamboard/models/jamboard.model';
+import { EStatus } from '../../pages/planning/issue-tracking/models/task.models';
+import { makeOptional } from '../../core/models/transformers';
 
-export interface DragDropPosition {
-  x: number;
-  y: number;
+export interface DragDropPosition extends TPosition {
+  previousPosition?: TPosition;
+  modifier?: IUser;
+  lastModifiedAt?: Date;
+  isBeingDragged?: boolean;
 }
 
 @Directive({
@@ -53,8 +62,11 @@ export class DragdropDirective implements OnInit {
   positionY: WritableSignal<number> = signal(0);
   allowdResizeZone = 5;
   // ---- I/O ----
-  latestPosition: InputSignal<DragDropPosition> = input({ x: 300, y: 300 });
-  positionUpdate: OutputEmitterRef<DragDropPosition> = output();
+  latestPosition: InputSignal<DragDropPosition> = input({
+    x: 300,
+    y: 300,
+  });
+  positionUpdate: OutputEmitterRef<makeOptional<DragDropPosition>> = output();
 
   setUpCurrentPosition = effect(() => {
     this.renderer.setStyle(
@@ -96,6 +108,11 @@ export class DragdropDirective implements OnInit {
     //   'true'
     // );
     // fromEvent(document, 'mousemove').subscribe(console.log);
+    this.dargCancelation$.subscribe(() => {
+      this.positionUpdate.emit({
+        isBeingDragged: false,
+      });
+    });
   }
 
   mouseDown$ = fromEvent(this.draggableElement, 'mousedown');
@@ -131,9 +148,13 @@ export class DragdropDirective implements OnInit {
   emitLatestPosition = this.dragMove$
     .pipe(
       takeUntilDestroyed(this.destoryRef$),
-      throttleTime(50),
+      throttleTime(500),
       tap((elementPosition) => {
-        this.positionUpdate.emit(elementPosition);
+        this.positionUpdate.emit({
+          isBeingDragged: true,
+          x: elementPosition.x,
+          y: elementPosition.y,
+        });
       })
     )
     .subscribe();

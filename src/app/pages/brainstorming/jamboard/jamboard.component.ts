@@ -15,11 +15,13 @@ import { CommonModule } from '@angular/common';
 import { SocketEvents } from '../../../core/models/socket.model';
 import { patchState, SignalState, signalState } from '@ngrx/signals';
 import { makeOptional } from '../../../core/models/transformers';
-import { IUser } from './models/note.model';
+import { ConvertToPropertyPipe } from '../../../shared/pipes/ConvertToProperty.pipe';
+import { IUser } from './models/jamboard.model';
 
 export interface IJamboardState {
   notes: INote[];
   users: IUser[];
+  isLoading: boolean;
 }
 
 export interface INote {
@@ -27,11 +29,9 @@ export interface INote {
   label: string;
   createdAt: Date;
   content: string;
-  position: { x: number; y: number };
-  size: { width: number; height: number };
+  position: { x: number; y: number; isBeingDragged: boolean };
+  size: { width: number; height: number; isBeingResized: boolean };
   isPinned: boolean;
-  isBeingDragged: boolean;
-  isBeingResized: boolean;
   appearence: {
     opacity: number;
   };
@@ -41,10 +41,13 @@ export interface INote {
   selector: 'app-jamboard',
   standalone: true,
   imports: [NoteComponent, CommonModule],
+  providers: [ConvertToPropertyPipe],
   templateUrl: './jamboard.component.html',
   styleUrl: './jamboard.component.scss',
 })
 export class JamboardComponent implements OnInit {
+  constructor() {}
+
   jamboardState: SignalState<IJamboardState> = signalState({
     notes: [
       {
@@ -52,21 +55,33 @@ export class JamboardComponent implements OnInit {
         label: 'test',
         content: 'test content',
         createdAt: new Date(),
-        position: { x: 200, y: 200 },
-        size: { width: 300, height: 300 },
+        position: { x: 200, y: 200, isBeingDragged: false },
+        size: { width: 300, height: 300, isBeingResized: false },
         isPinned: false,
-        isBeingDragged: false,
-        isBeingResized: true,
         appearence: {
           opacity: 0.8,
         },
       },
+      // {
+      //   id: '1',
+      //   label: 'test',
+      //   content: 'test content',
+      //   createdAt: new Date(),
+      //   position: { x: 200, y: 200, isBeingDragged: false },
+      //   size: { width: 300, height: 300, isBeingResized: false },
+      //   isPinned: false,
+      //   appearence: {
+      //     opacity: 0.8,
+      //   },
+      // },
     ],
     users: [],
+    isLoading: false,
   });
 
   jamBoardService = inject(JamBoardService);
   socketService = inject(SocketService);
+  ConvertToPropertyPipe = inject(ConvertToPropertyPipe);
   jamboardEvents = SocketEvents.JAMBOARD;
   latestPosition = toSignal(
     this.socketService.onMessage(SocketEvents.JAMBOARD.ELEMENT.POSITION)
@@ -75,19 +90,52 @@ export class JamboardComponent implements OnInit {
     this.socketService.onMessage(SocketEvents.JAMBOARD.ELEMENT.SIZE)
   );
 
-  a = effect(() => {
-    console.log(this.jamboardState(), this.latestSize());
+  updateJamBoardState(
+    noteId: string,
+    property: string,
+    data: any,
+    eventName: string
+  ) {
     patchState(this.jamboardState, (state) => ({
       ...state,
-      notes: state.notes.map((note) => ({
-        ...note,
-        size: {
-          width: 100,
-          height: 100,
-        },
-      })),
+      notes: state.notes.map((note: INote) =>
+        note.id == noteId
+          ? {
+              ...note,
+              [property]: {
+                ...(note[property as keyof INote] as object),
+                ...data,
+              },
+            }
+          : note
+      ),
     }));
-  });
+    this.sendSocketMessage(eventName, this.jamboardState());
+  }
+
+  sendSocketMessage(event: string, data: IJamboardState) {
+    this.socketService.sendMessage(event, data);
+  }
+
+  r = effect(
+    () => {
+      // patchState(this.jamboardState, (state) => ({
+      //   ...state,
+      //   notes: state.notes.map((note) =>
+      //     note.id == '1'
+      //       ? {
+      //           ...note,
+      //           size: {
+      //             width: this.latestSize().width,
+      //             height: this.latestSize().height,
+      //           },
+      //         }
+      //       : note
+      //   ),
+      // }));
+    },
+    { allowSignalWrites: true }
+  );
 
   ngOnInit(): void {
     // this.socketService
@@ -102,15 +150,12 @@ export class JamboardComponent implements OnInit {
     //   });
   }
 
-  pinned = signal(false);
-  opacity = signal(0.8);
-  width = signal(300);
-  height = signal(200);
-  connectorService = inject(ConnectorsService);
-
-  connections = this.connectorService.connections();
-
-  dispatchEvent(event: string, data: any) {
-    this.socketService.sendMessage(event, data);
+  dispatchEvent(noteId: string, eventName: string, data: any) {
+    this.updateJamBoardState(
+      noteId,
+      this.ConvertToPropertyPipe.transform(eventName, 'jamboard') ?? '',
+      data,
+      eventName
+    );
   }
 }

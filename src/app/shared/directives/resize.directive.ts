@@ -29,10 +29,12 @@ import {
   tap,
   throttleTime,
 } from 'rxjs';
+import { TSize } from '../../pages/brainstorming/jamboard/models/jamboard.model';
+import { makeOptional } from '../../core/models/transformers';
 
-export interface IResizeData {
-  width: number;
-  height: number;
+export interface IResizeData extends TSize {
+  isBeingResized?: boolean;
+  direction?: EResizeDirections;
 }
 
 export enum EResizeDirections {
@@ -50,6 +52,12 @@ export class ResizeDirective implements OnInit {
   ngOnInit(): void {
     this.resizeStart$.subscribe({
       next: (size: IResizeData) => this.setupSize(size),
+    });
+
+    this.resizeCancelation$.subscribe(() => {
+      this.sizeUpdate.emit({
+        isBeingResized: false,
+      });
     });
   }
 
@@ -78,7 +86,7 @@ export class ResizeDirective implements OnInit {
   height: WritableSignal<number> = signal(0);
   // ---- I/O ----
 
-  sizeUpdate: OutputEmitterRef<IResizeData> = output();
+  sizeUpdate: OutputEmitterRef<makeOptional<IResizeData>> = output();
   latestSize: InputSignal<IResizeData> = input({ width: 300, height: 300 });
 
   mouseDown$ = fromEvent(this.resizableElement, 'mousedown');
@@ -99,8 +107,6 @@ export class ResizeDirective implements OnInit {
       const firstHeight = this.resizableElement.clientHeight;
       const firstMouseX = mouseMove.clientX;
       const firstMosueY = mouseMove.clientY;
-      console.log(mouseMove.offsetY);
-
       return this.mouseMove$.pipe(
         // debounceTime(10),
         map((move: any) => ({
@@ -120,28 +126,17 @@ export class ResizeDirective implements OnInit {
   isValidForResize(offsetX: number, offsetY: number): boolean | string {
     switch (true) {
       case offsetX <= this.resizeZoneGap:
-        console.log('1');
-
         return EResizeDirections.horizontal;
       case offsetY <= this.resizeZoneGap:
-        console.log('2');
-
         return EResizeDirections.vertical;
       case offsetX <= this.resizeZoneGap && offsetY >= this.allowdYResizeGap:
-        console.log('3');
-
         return EResizeDirections.Wdiagonal;
       case offsetX >= this.allowdXResizeGap && offsetY <= this.resizeZoneGap:
-        console.log('4');
-
         return EResizeDirections.Ediagonal;
         // case offsetX >= this.allowdXResizeGap && offsetY >= this.allowdYResizeGap:
         //   console.log('5');
-
         return EResizeDirections.Wdiagonal;
       case offsetX <= this.resizeZoneGap && offsetY <= this.resizeZoneGap:
-        console.log('6');
-
         return EResizeDirections.Ediagonal;
       default:
         return false;
@@ -151,9 +146,13 @@ export class ResizeDirective implements OnInit {
   emitLatestSize = this.resizeStart$
     .pipe(
       takeUntilDestroyed(this.destoryRef$),
-      throttleTime(50),
+      throttleTime(500),
       tap((elementPosition) => {
-        this.sizeUpdate.emit(elementPosition);
+        this.sizeUpdate.emit({
+          ...elementPosition,
+          direction: EResizeDirections.Ediagonal,
+          isBeingResized: true,
+        });
       })
     )
     .subscribe();

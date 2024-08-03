@@ -1,5 +1,5 @@
 <div class="cursor-grabbing w-full"
-      [ngClass]="{ 'pinned': noteState()?.isPinned, 'resize-handle': noteState()?.isBeingResized, 'cursor-grabbing': noteState()?.isBeingDragged}"
+      [ngClass]="{ 'pinned': noteState()?.isPinned, 'resize-handle': noteState()?.size?.isBeingResized}"
       [style.opacity]="noteState()?.appearence?.opacity" [style.width]="noteState()?.size?.width + 'px'"
       [style.height]="noteState()?.size?.height + 'px'" class="">
       <div class="flex justify-start items-center">

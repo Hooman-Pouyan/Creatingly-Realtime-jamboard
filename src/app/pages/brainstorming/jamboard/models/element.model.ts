@@ -1,4 +1,5 @@
 import { makeOptional } from '../../../../core/models/transformers';
+import { IUser } from './jamboard.model';
 
 export type IElement = {
   appearence: IAppearence;
@@ -22,16 +23,6 @@ export type IElementInfo = {
   modifiedBy: IUser;
 };
 
-export interface IJamUser extends IUser {}
-
-export interface IUser {
-  id: string;
-  name: string;
-  email: string;
-}
-
-export type EJamStatus = 'online';
-
 export type IAppearence = makeOptional<{
   width: number;
   height: number;
@@ -40,3 +31,7 @@ export type IAppearence = makeOptional<{
   draggable: boolean;
   dropBasedOnGrid: boolean;
 }>;
+export { IUser };
+  
+  
+

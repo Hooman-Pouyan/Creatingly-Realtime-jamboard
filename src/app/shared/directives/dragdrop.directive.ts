@@ -134,7 +134,7 @@ export class DragdropDirective implements OnInit {
       this.mouseMove$.pipe(
         map((moveEvent: any) => {
           const offsetX = moveEvent.x - start.offsetX;
-          const offsetY = moveEvent.y - start.offsetX;
+          const offsetY = moveEvent.y - start.offsetY;
           return {
             x: offsetX,
             y: offsetY,

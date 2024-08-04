@@ -1,4 +1,9 @@
 
+
+:host {
+        pointer-events: all;
+
+}
 .resize-handle {
   cursor: nwse-resize;
 }

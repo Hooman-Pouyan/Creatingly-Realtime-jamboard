@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   effect,
   inject,
@@ -17,24 +18,14 @@ import { patchState, SignalState, signalState } from '@ngrx/signals';
 import { makeOptional } from '../../../core/models/transformers';
 import { ConvertToPropertyPipe } from '../../../shared/pipes/ConvertToProperty.pipe';
 import { IUser } from './models/jamboard.model';
+import { IJamElement } from './models/element.model';
 
 export interface IJamboardState {
-  notes: INote[];
+  id: string;
+  name: string;
+  elements: IJamElement[];
   users: IUser[];
   isLoading: boolean;
-}
-
-export interface INote {
-  id: string;
-  label: string;
-  createdAt: Date;
-  content: string;
-  position: { x: number; y: number; isBeingDragged: boolean };
-  size: { width: number; height: number; isBeingResized: boolean };
-  isPinned: boolean;
-  appearence: {
-    opacity: number;
-  };
 }
 
 @Component({
@@ -44,38 +35,107 @@ export interface INote {
   providers: [ConvertToPropertyPipe],
   templateUrl: './jamboard.component.html',
   styleUrl: './jamboard.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class JamboardComponent implements OnInit {
   constructor() {}
 
   jamboardState: SignalState<IJamboardState> = signalState({
-    notes: [
+    id: '1',
+    name: 'project 1',
+    elements: [
       {
         id: '1',
-        label: 'test',
-        content: 'test content',
-        createdAt: new Date(),
-        position: { x: 200, y: 200, isBeingDragged: false },
-        size: { width: 300, height: 300, isBeingResized: false },
-        isPinned: false,
-        appearence: {
-          opacity: 0.8,
+        appearence: {},
+        data: {
+          content: {
+            title: 'text',
+            content: 'hi',
+            imageUrl: 'aa',
+          },
         },
+        info: {},
+        size: {
+          width: 300,
+          height: 300,
+        },
+        position: {
+          x: 400,
+          y: 200,
+        },
+        status: '',
+        options: {},
       },
-      // {
-      //   id: '1',
-      //   label: 'test',
-      //   content: 'test content',
-      //   createdAt: new Date(),
-      //   position: { x: 200, y: 200, isBeingDragged: false },
-      //   size: { width: 300, height: 300, isBeingResized: false },
-      //   isPinned: false,
-      //   appearence: {
-      //     opacity: 0.8,
-      //   },
-      // },
+      {
+        id: '2',
+        appearence: {},
+        data: {
+          content: {
+            title: 'contentttttt',
+            content: 'heyyyyy',
+            imageUrl: 'gasasas',
+          },
+        },
+        info: {},
+        size: {
+          width: 400,
+          height: 300,
+        },
+        position: {
+          x: 1000,
+          y: 500,
+        },
+        status: '',
+        options: {},
+      },
     ],
-    users: [],
+    users: [
+      {
+        id: '1',
+        name: 'user 1',
+        avatarUrl: 'https://avatars.githubusercontent.com/u/10214025?v=4',
+        curser: {
+          id: '1',
+          color: 'red',
+          position: {
+            x: 100,
+            y: 100,
+          },
+        },
+        status: 'editting',
+        activeModule: 'jamboard',
+      },
+      {
+        id: '2',
+        name: 'user 2',
+        avatarUrl: 'https://avatars.githubusercontent.com/u/10214025?v=4',
+        curser: {
+          id: '2',
+          color: 'blue',
+          position: {
+            x: 200,
+            y: 200,
+          },
+        },
+        status: 'offline',
+        activeModule: 'planning',
+      },
+      {
+        id: '3',
+        name: 'user 3',
+        avatarUrl: 'https://avatars.githubusercontent.com/u/10214025?v=4',
+        curser: {
+          id: '3',
+          color: 'green',
+          position: {
+            x: 300,
+            y: 300,
+          },
+        },
+        status: 'online',
+        activeModule: 'design',
+      },
+    ],
     isLoading: false,
   });
 
@@ -83,42 +143,37 @@ export class JamboardComponent implements OnInit {
   socketService = inject(SocketService);
   ConvertToPropertyPipe = inject(ConvertToPropertyPipe);
   jamboardEvents = SocketEvents.JAMBOARD;
-  latestPosition = toSignal(
-    this.socketService.onMessage(SocketEvents.JAMBOARD.ELEMENT.POSITION)
-  );
-  latestSize = toSignal(
-    this.socketService.onMessage(SocketEvents.JAMBOARD.ELEMENT.SIZE)
-  );
 
-  updateJamBoardState(
-    noteId: string,
-    property: string,
-    data: any,
-    eventName: string
-  ) {
+  updateJamBoardState(event: {
+    elementId: string;
+    property: string;
+    data: any;
+    eventName: string;
+  }) {
     patchState(this.jamboardState, (state) => ({
       ...state,
-      notes: state.notes.map((note: INote) =>
-        note.id == noteId
+      elements: state.elements.map((element: IJamElement) =>
+        element.id == event.elementId
           ? {
-              ...note,
-              [property]: {
-                ...(note[property as keyof INote] as object),
-                ...data,
+              ...element,
+              [event.property]: {
+                ...(element[event.property as keyof IJamElement] as object),
+                ...event.data,
               },
             }
-          : note
+          : element
       ),
     }));
-    this.sendSocketMessage(eventName, this.jamboardState());
   }
 
-  sendSocketMessage(event: string, data: IJamboardState) {
-    this.socketService.sendMessage(event, data);
+  sendSocketMessage(id: string = '1', event: string, data: IJamboardState) {
+    // this.socketService.sendMessage(id, event, data);
   }
 
   r = effect(
     () => {
+      console.log('this.jamboardState()', this.jamboardState());
+
       // patchState(this.jamboardState, (state) => ({
       //   ...state,
       //   notes: state.notes.map((note) =>
@@ -141,21 +196,17 @@ export class JamboardComponent implements OnInit {
     // this.socketService
     //   .onMessage(SocketEvents.JAMBOARD.ELEMENT.POSITION)
     //   .subscribe((data) => {
-    //     this.latestPosition.set(data);
+    //     this.updateJamBoardState(
+    //       data.id,
+    //       this.ConvertToPropertyPipe.transform(data.event, 'jamboard') ?? '',
+    //       data,
+    //       data.event
+    //     );
     //   });
     // this.socketService
     //   .onMessage(SocketEvents.JAMBOARD.ELEMENT.SIZE)
     //   .subscribe((data) => {
     //     this.latestSize.set(data);
     //   });
-  }
-
-  dispatchEvent(noteId: string, eventName: string, data: any) {
-    this.updateJamBoardState(
-      noteId,
-      this.ConvertToPropertyPipe.transform(eventName, 'jamboard') ?? '',
-      data,
-      eventName
-    );
   }
 }

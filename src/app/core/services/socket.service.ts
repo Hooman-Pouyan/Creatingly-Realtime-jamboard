@@ -26,7 +26,7 @@ export class SocketService {
     });
   }
 
-  sendMessage(eventName: string, data: any): void {
-    this.socket.emit(eventName, data);
+  sendMessage(id: string, event: string, data: any): void {
+    this.socket.emit(event, id, data);
   }
 }

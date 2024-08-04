@@ -1,37 +1,54 @@
 import { makeOptional } from '../../../../core/models/transformers';
 import { IUser } from './jamboard.model';
 
-export type IElement = {
-  appearence: IAppearence;
-};
-
-export type IElementData = {
+export type IJamElement = {
   id: string;
-  content: IElementContent;
-  info: IElementInfo;
+  appearence: TAppearence;
+  data: TJamElementData;
+  info: TJamElementInfo;
+  size: TSize;
+  position: TPosition;
+  status: TJamElementStatus;
+  options: unknown;
 };
 
-export type IElementContent = {
+export type TJamElementData = {
+  content: TJamElementContent;
+};
+export type TSize = { width: number; height: number };
+export type TJamElementStatus =
+  | 'selected'
+  | 'editted'
+  | 'grabbed'
+  | 'resized'
+  | 'pinned'
+  | '';
+export type TPosition = { x: number; y: number };
+
+export enum EJameElementStatus {
+  Selected = 'selected',
+  Editted = 'editted',
+  Grabbed = 'grabbed',
+  Resized = 'resized',
+  Pinned = 'pinned',
+}
+
+export type TJamElementContent = {
   title: string;
   content: string;
+  imageUrl: string;
 };
 
-export type IElementInfo = {
+export type TJamElementInfo = makeOptional<{
   createAt: Date;
   modifiedAt: Date;
-  createdBy: IUser;
-  modifiedBy: IUser;
-};
+  createdBy: Pick<IUser, 'id'>;
+  modifiedBy: Pick<IUser, 'id'>;
+}>;
 
-export type IAppearence = makeOptional<{
+export type TAppearence = makeOptional<{
   width: number;
   height: number;
   opacity: number;
-  pinned: boolean;
-  draggable: boolean;
-  dropBasedOnGrid: boolean;
 }>;
 export { IUser };
-  
-  
-

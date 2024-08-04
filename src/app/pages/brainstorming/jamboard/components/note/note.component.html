@@ -14,9 +14,8 @@
 </div> -->
 @if(dataSource()) {
 <nz-card canResize canDragdrop [latestPosition]="elementState.position()" [latestSize]="elementState.size()"
-      (positionUpdate)="dispatchEvent(elementState().id, jamboardEvents.JAMBOARD.ELEMENT.POSITION, $event)"
-      (sizeUpdate)="dispatchEvent(elementState().id, jamboardEvents.JAMBOARD.ELEMENT.SIZE, $event)"
-      [elementId]="elementState().id" [minAllowedSize]="200" [maxAllowedSize]="400" [nzCover]="coverTemplate"
+      (positionUpdate)="dispatchEvent('position', $event)" (sizeUpdate)="dispatchEvent('size', $event)"
+      [minAllowedSize]="200" [maxAllowedSize]="400" [nzCover]="coverTemplate"
       [nzActions]="[actionSetting, actionEdit, actionEllipsis]">
       <nz-card-meta nzTitle="Card title" nzDescription="This is the description"
             [nzAvatar]="avatarTemplate"></nz-card-meta>

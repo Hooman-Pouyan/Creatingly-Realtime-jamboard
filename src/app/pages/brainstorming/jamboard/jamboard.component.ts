@@ -145,10 +145,10 @@ export class JamboardComponent implements OnInit {
   jamboardEvents = SocketEvents.JAMBOARD;
 
   updateJamBoardState(event: {
+    event: string;
     elementId: string;
     property: string;
     data: any;
-    eventName: string;
   }) {
     patchState(this.jamboardState, (state) => ({
       ...state,
@@ -172,8 +172,7 @@ export class JamboardComponent implements OnInit {
 
   r = effect(
     () => {
-      console.log('this.jamboardState()', this.jamboardState());
-
+      // console.log('this.jamboardState()', this.jamboardState());
       // patchState(this.jamboardState, (state) => ({
       //   ...state,
       //   notes: state.notes.map((note) =>

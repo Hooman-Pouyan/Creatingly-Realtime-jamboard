@@ -1,3 +1,5 @@
+import { TPosition } from './element.model';
+
 export type TModules = 'jamboard' | 'planning' | 'design';
 
 export interface ICurser {
@@ -6,18 +8,18 @@ export interface ICurser {
   position: TPosition;
 }
 
-export type TStatus = 'online' | 'offline' | 'stale' | 'editting';
-export type TPosition = { x: number; y: number };
+export type TUserStatus = 'online' | 'offline' | 'stale' | 'editting';
 
 export interface IJamUser extends IUser {}
 
 export interface IUser {
   id: string;
   name: string;
-  email: string;
+  email?: string;
   curser: ICurser;
-  status: TStatus;
-  activeModule: TModules | false;
+  status: TUserStatus;
+  avatarUrl: string;
+  activeModule?: TModules | false;
 }
 
-export type TSize = { width: number; height: number };
+export { TPosition };

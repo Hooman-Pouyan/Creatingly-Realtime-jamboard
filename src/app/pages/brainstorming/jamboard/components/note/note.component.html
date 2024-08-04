@@ -1,4 +1,4 @@
-<div class="cursor-grabbing w-full"
+<!-- <div class="cursor-grabbing w-full"
       [ngClass]="{ 'pinned': noteState()?.isPinned, 'resize-handle': noteState()?.size?.isBeingResized}"
       [style.opacity]="noteState()?.appearence?.opacity" [style.width]="noteState()?.size?.width + 'px'"
       [style.height]="noteState()?.size?.height + 'px'" class="">
@@ -11,4 +11,29 @@
       <div class="mt-3">
             <ng-content select="[slot=detail]"></ng-content>
       </div>
-</div>
+</div> -->
+@if(dataSource()) {
+<nz-card canResize canDragdrop [latestPosition]="elementState.position()" [latestSize]="elementState.size()"
+      (positionUpdate)="dispatchEvent(elementState().id, jamboardEvents.JAMBOARD.ELEMENT.POSITION, $event)"
+      (sizeUpdate)="dispatchEvent(elementState().id, jamboardEvents.JAMBOARD.ELEMENT.SIZE, $event)"
+      [elementId]="elementState().id" [minAllowedSize]="200" [maxAllowedSize]="400" [nzCover]="coverTemplate"
+      [nzActions]="[actionSetting, actionEdit, actionEllipsis]">
+      <nz-card-meta nzTitle="Card title" nzDescription="This is the description"
+            [nzAvatar]="avatarTemplate"></nz-card-meta>
+</nz-card>
+<ng-template #avatarTemplate>
+      <nz-avatar draggable="false" nzSrc="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"></nz-avatar>
+</ng-template>
+<ng-template #coverTemplate>
+      <img draggable="false" alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
+</ng-template>
+<ng-template #actionSetting>
+      <span nz-icon nzType="setting"></span>
+</ng-template>
+<ng-template #actionEdit>
+      <span nz-icon nzType="edit"></span>
+</ng-template>
+<ng-template #actionEllipsis>
+      <span nz-icon nzType="ellipsis"></span>
+</ng-template>
+}

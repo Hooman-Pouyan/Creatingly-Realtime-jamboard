@@ -112,6 +112,6 @@ export class JamBoardService implements OnInit {
   }
 
   sendSocketMessage(eventName: string, data: any) {
-    this.socketService.sendMessage(eventName, data);
+    // this.socketService.sendMessage(eventName, data);
   }
 }

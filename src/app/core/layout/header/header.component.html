@@ -1,34 +1,34 @@
 <nav class="px-10 w-full h-full flex justify-center items-center">
-      <section class="w-full space-x-6 h-full flex flex-row-reverse justify-between items-center">
-            <div class="flex justify-center items-center">
-                  @if(isAuthenticated()){
-                  <div class="userProfile-menu">
-                        <app-drop-down [menuItems]="userProfileMenuItems">
-                              <span ngprojectAs="label" s>{{ userProfile.name }}</span>
-                        </app-drop-down>
-                  </div>
-                  }@else {
-                  <div class="flex justify-center items-center">
-                        <button nz-button nzType="primary" class="!m-0" (click)="showModal()">Sign In</button>
-                  </div>
-                  }
-            </div>
-            <div>
-                  <nz-avatar-group class="flex justify-center items-center mr-5">
-                        @for(user of usersInSession(); track user.id) {
-                        <nz-badge nzDot>
-                              <nz-avatar class="bg-slate-200" [nzSize]="40" [nzSrc]="user.avatarUrl" nzIcon="user"
-                                    nzText="NG" nz-tooltip nzTooltipTitle="NG-ZORRO User"></nz-avatar>
-                        </nz-badge>
-                        }
-                  </nz-avatar-group>
-            </div>
-      </section>
+  <section class="w-full space-x-6 h-full flex flex-row-reverse justify-between items-center">
+    <div class="flex justify-center items-center">
+      @if(userProfile()){
+      <div class="userProfile-menu">
+        <app-drop-down [menuItems]="userProfileMenuItems">
+          <span ngprojectAs="label" s>{{ userProfile().name }}</span>
+        </app-drop-down>
+      </div>
+      }@else {
+      <div class="flex justify-center items-center">
+        <button nz-button nzType="primary" class="!m-0" (click)="showModal()">Sign In</button>
+      </div>
+      }
+    </div>
+    <div>
+      <nz-avatar-group class="flex justify-center items-center mr-5">
+        @for(user of usersInSession(); track user.id) {
+        <nz-badge nzDot>
+          <nz-avatar class="bg-slate-200" [nzSize]="40" [nzSrc]="user.avatarUrl" nzIcon="user" nzText="NG" nz-tooltip
+            nzTooltipTitle="NG-ZORRO User"></nz-avatar>
+        </nz-badge>
+        }
+      </nz-avatar-group>
+    </div>
+  </section>
 </nav>
 
 <nz-modal [(nzVisible)]="isVisible" nzTitle="Modal Title" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
-      [nzOkLoading]="isOkLoading">
-      <p *nzModalContent class="flex justify-center items-center w-full h-full">
-            <app-login-modal />
-      </p>
+  [nzOkLoading]="isOkLoading">
+  <p *nzModalContent class="flex justify-center items-center w-full h-full">
+    <app-login-modal (formUpdateOutput)="sendLoginData($event)" />`
+  </p>
 </nz-modal>

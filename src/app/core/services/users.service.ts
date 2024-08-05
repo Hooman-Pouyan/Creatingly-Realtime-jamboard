@@ -4,6 +4,7 @@ import { BaseRepository } from '../repositories/base.repository';
 import { UserProfileRepository } from '../repositories/userProfile.repository';
 import { SocketService } from './socket.service';
 import { SocketEvents } from '../models/socket.model';
+import { DatabaseService } from './database.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +13,7 @@ export class UsersService {
   constructor() {}
 
   authService = inject(AuthService);
+  dbService = inject(DatabaseService);
   socketService = inject(SocketService);
   userProfileRepository = inject(UserProfileRepository);
 

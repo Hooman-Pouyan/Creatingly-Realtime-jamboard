@@ -17,11 +17,12 @@ import {
 } from '@ngrx/signals';
 import { IUser } from '../../pages/brainstorming/jamboard/models/jamboard.model';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
+import { SocketService } from '../services/socket.service';
 export interface IAuthState {
-  isAuthenticated: Signal<boolean>;
-  userProfile: DeepSignal<IUser>;
-  activeUsersInSession: DeepSignal<IUser[]>;
+  isAuthenticated: boolean;
+  userProfile: IUser;
+  UsersInSession: IUser[];
 }
 
 @Injectable({
@@ -33,51 +34,65 @@ export class AuthService implements OnInit {
   constructor(
     @Inject(API_BASE_URL) baseUrl: string,
     private userProfileRepository: UserProfileRepository,
-    private router: Router
+    private router: Router,
+    private socketService: SocketService
   ) {
     this.apiUrl = baseUrl;
+    if (JSON.parse(localStorage.getItem?.('isAuthenticated')!)) {
+      patchState(this.authStore, {
+        isAuthenticated: true,
+        userProfile: this.getUserProfile(),
+        UsersInSession: [],
+      });
+      console.log(this.authStore());
+    }
   }
-  ngOnInit(): void {
-    localStorage.setItem('isAuthenticated', 'false');
-  }
+  ngOnInit(): void {}
 
   authInitialState: IAuthState = {
-    isAuthenticated: signal(this.isAuthenticated()),
+    isAuthenticated: this.isAuthenticated(),
     userProfile: this.getUserProfile(),
-    activeUsersInSession: signal<IUser[]>([]),
+    UsersInSession: [],
   };
 
   authStore: SignalState<IAuthState> = signalState(this.authInitialState);
 
   login(data: { email?: string; password?: string }): void {
-    console.log(data.email);
-
-    this.userProfileRepository.getUserProfile(data.email!).subscribe((res) => {
-      console.log(res);
-      localStorage.setItem('isAuthenticated', JSON.stringify(true));
-      localStorage.setItem('userProfile', JSON.stringify(res));
-    });
+    this.userProfileRepository
+      .getUserProfile(data.email!)
+      .pipe(
+        tap((res: IUser) => {
+          this.socketService.sendMessage(
+            'jamboard:users:login',
+            res.id,
+            'login',
+            res
+          );
+          patchState(this.authStore, {
+            isAuthenticated: true,
+            userProfile: res,
+            UsersInSession: [],
+          });
+          localStorage.setItem('isAuthenticated', JSON.stringify(true));
+          localStorage.setItem('userProfile', JSON.stringify(res));
+        })
+      )
+      .subscribe();
   }
 
   logout() {
     patchState(this.authStore, {
-      isAuthenticated: signal(false),
+      isAuthenticated: false,
       userProfile: undefined,
-      activeUsersInSession: signal([]),
+      UsersInSession: [],
     });
     localStorage.removeItem('userProfile');
     localStorage.setItem('isAuthenticated', 'false');
     this.router.navigate(['/']);
   }
 
-  a = effect((trigger$) => {
-    console.log(this.authStore());
-  });
-
   getUserProfile() {
-    return this.isAuthenticated()
-      ? JSON.parse(localStorage.getItem('userProfile') ?? '')
-      : null;
+    return JSON.parse(localStorage.getItem('userProfile')!);
   }
 
   isAuthenticated(): boolean {
@@ -85,7 +100,6 @@ export class AuthService implements OnInit {
       JSON.parse(localStorage.getItem('isAuthenticated') ?? 'false') ?? false
     );
   }
-
   getUsers(query: string): Observable<IUser[]> {
     return this.userProfileRepository.searchUsers(query);
   }

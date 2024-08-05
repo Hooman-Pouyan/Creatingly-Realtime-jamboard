@@ -2,6 +2,8 @@ import {
   Component,
   effect,
   inject,
+  input,
+  InputSignal,
   OnInit,
   Signal,
   signal,
@@ -28,13 +30,10 @@ import { UsersService } from '../../services/users.service';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent implements OnInit {
-  ngOnInit(): void {
-    this.usersService.onUsersMessages().subscribe(console.log);
-  }
+  ngOnInit(): void {}
   authService = inject(AuthService);
-  usersService = inject(UsersService);
-  isAuthenticated = this.authService.authStore.isAuthenticated();
-  userProfile = this.authService.authStore.userProfile();
+  userProfile: InputSignal<IUser> = input.required();
+  usersInSession: InputSignal<IUser[]> = input.required();
 
   // b = effect(() => {
   //   console.log('aaaaa', this.a());
@@ -67,9 +66,9 @@ export class HeaderComponent implements OnInit {
     },
   ];
 
-  usersInSession: Signal<IUser[] | undefined> = toSignal(
-    this.authService.getUsers('status=online')
-  );
+  // usersInSession: Signal<IUser[] | undefined> = toSignal(
+  //   this.authService.getUsers('status=online')
+  // );
 
   isVisible = false;
   isOkLoading = false;
@@ -88,5 +87,10 @@ export class HeaderComponent implements OnInit {
 
   handleCancel(): void {
     this.isVisible = false;
+  }
+
+  sendLoginData(formData: any) {
+    this.authService.login(formData);
+    this.handleCancel();
   }
 }

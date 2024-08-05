@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, output, OutputEmitterRef } from '@angular/core';
 import {
   FormGroup,
   FormControl,
@@ -19,7 +19,8 @@ import { AuthService } from '../../auth.service';
 })
 export class LoginModalComponent {
   fb = inject(NonNullableFormBuilder);
-  authService = inject(AuthService);
+
+  formUpdateOutput: OutputEmitterRef<any> = output();
 
   validateForm: FormGroup<{
     email: FormControl<string>;
@@ -30,8 +31,7 @@ export class LoginModalComponent {
   });
 
   submitForm(): void {
-    this.authService.login(this.validateForm.value);
-    console.log('submit', this.validateForm.value);
+    this.formUpdateOutput.emit(this.validateForm.value);
     if (this.validateForm.valid) {
     } else {
       Object.values(this.validateForm.controls).forEach((control) => {

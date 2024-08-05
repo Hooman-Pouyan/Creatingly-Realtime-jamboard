@@ -26,8 +26,8 @@
   "users": [
     {
       "id": "1",
-      "name": "user 1",
-      "avatarUrl": "https://avatars.githubusercontent.com/u/10214025?v=4",
+      "name": "Hooman",
+      "avatarUrl": "https://avatars.githubusercontent.com/u/10214025?v=1",
       "curser": {
         "id": "1",
         "color": "red",
@@ -51,7 +51,7 @@
           "y": 200
         }
       },
-      "status": "offline",
+      "status": "online",
       "activeModule": "planning"
     },
     {
@@ -66,12 +66,12 @@
           "y": 300
         }
       },
-      "status": "offline",
+      "status": "online",
       "activeModule": "design"
     },
     {
-      "id": "3",
-      "name": "user 3",
+      "id": "4",
+      "name": "user 4",
       "avatarUrl": "https://avatars.githubusercontent.com/u/10214025?v=4",
       "curser": {
         "id": "3",
@@ -81,7 +81,7 @@
           "y": 300
         }
       },
-      "status": "offline",
+      "status": "online",
       "activeModule": "jamboard"
     }
   ]

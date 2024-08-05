@@ -12,24 +12,18 @@ export class UserProfileRepository extends BaseRepository {
 
   getUserProfile(userId: string): Observable<IUser> {
     let url = this.baseUrl + `users/${userId}`;
-    console.log(url);
     return this.getWithoutCache(url).pipe(
-      switchMap((res: any) => this.updateUser(res.id, { status: 'online' })),
-      tap((res: IUser) =>
-        this.socketService.sendMessage('users', res.id, 'login', res)
-      )
+      switchMap((res: any) => this.updateUser(res.id, { status: 'online' }))
     );
   }
 
   searchUsers(query: string): Observable<IUser[]> {
     let url = this.baseUrl + `users/?${query}`;
-    console.log(url);
     return this.getWithoutCache(url);
   }
 
   updateUser(userId: string, data: unknown): Observable<IUser> {
     let url = this.baseUrl + `users/${userId}`;
-    console.log(url);
     return this.patch(url, data);
   }
 }

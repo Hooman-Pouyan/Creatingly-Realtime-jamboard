@@ -46,13 +46,19 @@ export class JamboardGateWay implements OnModuleInit {
       data: body[1],
     });
     // console.log(body);
-    // this.jamboardService.handleElementPositionChange(body);
+    this.jamboardService.handleElementPositionChange(body);
   }
 
-  @SubscribeMessage(SocketEvents.JAMBOARD.ELEMENT.APPEARANCE)
+  @SubscribeMessage('jamboard:element')
   handleElementAppearanceChange(@MessageBody() body: any) {
-    this.server.emit(SocketEvents.JAMBOARD.ELEMENT.APPEARANCE, body);
-    this.jamboardService.handleElementAppearanceChange(body);
+    console.log(body);
+    this.server.emit('jamboard:element', {
+      event: 'jamboard:element',
+      id: body[0],
+      type: body[1],
+      data: body[2],
+    });
+    // this.jamboardService.handleElementAppearanceChange(body);
   }
 
   @SubscribeMessage(SocketEvents.JAMBOARD.ELEMENT.DATA)
@@ -73,9 +79,9 @@ export class JamboardGateWay implements OnModuleInit {
     this.jamboardService.handleCursorMove(body);
   }
 
-  @SubscribeMessage(SocketEvents.JAMBOARD.USERS.ACTIVE)
+  @SubscribeMessage(SocketEvents.JAMBOARD.USERS.LOGIN)
   handleActiveUsers(@MessageBody() body: any) {
-    this.server.emit(SocketEvents.JAMBOARD.USERS.ACTIVE, body);
+    this.server.emit(SocketEvents.JAMBOARD.USERS.LOGIN, body);
     this.jamboardService.handleActiveUsers(body);
   }
 }

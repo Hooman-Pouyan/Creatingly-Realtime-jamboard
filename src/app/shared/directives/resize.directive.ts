@@ -78,7 +78,7 @@ export class ResizeDirective implements OnInit, AfterViewInit {
   mouseMove$ = fromEvent(document, 'mousemove');
   resizeCancelation$ = race(
     fromEvent(this.resizableElement, 'mouseup'),
-    // fromEvent(document, 'mouseup'),
+    fromEvent(document, 'mouseup'),
     fromEvent(document, 'contextmenu')
   );
 
@@ -171,8 +171,6 @@ export class ResizeDirective implements OnInit, AfterViewInit {
           bufferSize: 1,
           refCount: true,
         }),
-        takeUntilDestroyed(this.destoryRef$),
-        takeUntil(this.resizeCancelation$),
         filter(
           (mouseMove: any) => this.isValidForResize(mouseMove.x, mouseMove.y)
           // !this.resizableElement.classList.contains('dragged')
@@ -189,6 +187,7 @@ export class ResizeDirective implements OnInit, AfterViewInit {
           (a: IResizeData, b: IResizeData) =>
             a.width === b.width && a.height === b.height
         ),
+        takeUntilDestroyed(this.destoryRef$),
         takeUntil(this.resizeCancelation$)
       );
     })

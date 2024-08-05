@@ -13,8 +13,9 @@ export const SocketEvents = {
       MOVE: 'jamboard:cursor:move',
     },
     USERS: {
-      STATE: 'jamboard:users',
-      ACTIVE: 'jamboard:users:active',
+      LOGIN: 'jamboard:users:login',
+      LOGOUT: 'jamboard:user:logout',
+      UPDATE: 'jamboard:users:update',
     },
   },
   PLANNING: {

@@ -1,100 +1,92 @@
-import { Component, signal } from '@angular/core';
+import {
+  Component,
+  effect,
+  inject,
+  OnInit,
+  Signal,
+  signal,
+} from '@angular/core';
 import { IUser } from '../../../pages/brainstorming/jamboard/models/element.model';
-import { NzSelectModule } from 'ng-zorro-antd/select';
-import { NzSwitchModule } from 'ng-zorro-antd/switch';
-import { NzAvatarModule } from 'ng-zorro-antd/avatar';
-import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { DropDownComponent } from '../../../shared/drop-down/drop-down.component';
+import { AuthService } from '../../authentication/auth.service';
+import { SharedModule } from '../../../shared/shared.module';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { LoginModalComponent } from '../../authentication/components/login-modal/login-modal.component';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { UsersService } from '../../services/users.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [
-    NzAvatarModule,
-    NzSwitchModule,
-    NzSelectModule,
-    NzBadgeModule,
+    SharedModule,
     DropDownComponent,
+    NzModalModule,
+    LoginModalComponent,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-export class HeaderComponent {
-  userProfileMenuItems = {
-    title: 'Hooman',
-    items: [
-      {
-        label: 'Profile',
-        icon: 'user',
-        route: '',
-        onClick: () => {
-          console.log('profile clicked');
-        },
-      },
-      {
-        label: '',
-        icon: 'user',
-        route: '',
-        onClick: () => {
-          console.log('profile clicked');
-        },
-      },
-      {
-        label: 'Logout',
-        icon: 'logout',
-        route: './logout',
-        onClick: () => {
-          console.log('profile clicked');
-        },
-      },
-    ],
-  };
+export class HeaderComponent implements OnInit {
+  ngOnInit(): void {
+    this.usersService.onUsersMessages().subscribe(console.log);
+  }
+  authService = inject(AuthService);
+  usersService = inject(UsersService);
+  isAuthenticated = this.authService.authStore.isAuthenticated();
+  userProfile = this.authService.authStore.userProfile();
 
-  users = signal<IUser[]>([
+  // b = effect(() => {
+  //   console.log('aaaaa', this.a());
+  // });
+
+  userProfileMenuItems = [
     {
-      id: '1',
-      name: 'user 1',
-      avatarUrl: 'https://avatars.githubusercontent.com/u/10214025?v=4',
-      curser: {
-        id: '1',
-        color: 'red',
-        position: {
-          x: 100,
-          y: 100,
-        },
+      label: 'Profile',
+      icon: 'user',
+      route: '',
+      onClick: () => {
+        console.log('profile clicked');
       },
-      status: 'editting',
-      activeModule: 'jamboard',
     },
     {
-      id: '2',
-      name: 'user 2',
-      avatarUrl: 'https://avatars.githubusercontent.com/u/10214025?v=4',
-      curser: {
-        id: '2',
-        color: 'blue',
-        position: {
-          x: 200,
-          y: 200,
-        },
+      label: '',
+      icon: 'user',
+      route: '',
+      onClick: () => {
+        console.log('profile clicked');
       },
-      status: 'offline',
-      activeModule: 'planning',
     },
     {
-      id: '3',
-      name: 'user 3',
-      avatarUrl: 'https://avatars.githubusercontent.com/u/10214025?v=4',
-      curser: {
-        id: '3',
-        color: 'green',
-        position: {
-          x: 300,
-          y: 300,
-        },
+      label: 'Logout',
+      icon: 'logout',
+      route: './logout',
+      onClick: () => {
+        this.authService.logout();
       },
-      status: 'online',
-      activeModule: 'design',
     },
-  ]);
+  ];
+
+  usersInSession: Signal<IUser[] | undefined> = toSignal(
+    this.authService.getUsers('status=online')
+  );
+
+  isVisible = false;
+  isOkLoading = false;
+
+  showModal(): void {
+    this.isVisible = true;
+  }
+
+  handleOk(): void {
+    this.isOkLoading = true;
+    setTimeout(() => {
+      this.isVisible = false;
+      this.isOkLoading = false;
+    }, 3000);
+  }
+
+  handleCancel(): void {
+    this.isVisible = false;
+  }
 }

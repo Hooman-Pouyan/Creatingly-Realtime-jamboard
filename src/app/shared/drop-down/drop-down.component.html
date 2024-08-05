@@ -12,7 +12,9 @@
 </div> -->
 
 <nz-button-group>
-      <button nz-button (click)="viewProfile()">{{menuItems().title}}</button>
+      <button nz-button (click)="viewProfile()">
+            <ng-content selector="[label]"></ng-content>
+      </button>
       <button nz-button nz-dropdown [nzDropdownMenu]="menu2" nzPlacement="bottomRight">
             <span nz-icon nzType="user" nzTheme="outline"></span>
       </button>
@@ -20,7 +22,7 @@
 
 <nz-dropdown-menu #menu2="nzDropdownMenu">
       <ul nz-menu>
-            @for(item of menuItems().items; track $index) {
+            @for(item of menuItems(); track $index) {
             <li nz-menu-item (click)="item.onClick()">{{ item.label }}</li>
             }
       </ul>

@@ -1,13 +1,88 @@
 {
   "elements": [
-    { "id": "1", "title": "a title", "views": 100 },
-    { "id": "2", "title": "another title", "views": 200 }
+    {
+      "id": "1",
+      "title": "a title",
+      "views": 100
+    },
+    {
+      "id": "2",
+      "title": "another title",
+      "views": 200
+    }
   ],
   "comments": [
-    { "id": "1", "text": "a comment about post 1", "postId": "1" },
-    { "id": "2", "text": "another comment about post 1", "postId": "1" }
+    {
+      "id": "1",
+      "text": "a comment about post 1",
+      "postId": "1"
+    },
+    {
+      "id": "2",
+      "text": "another comment about post 1",
+      "postId": "1"
+    }
   ],
-  "profile": {
-    "name": "typicode"
-  }
+  "users": [
+    {
+      "id": "1",
+      "name": "user 1",
+      "avatarUrl": "https://avatars.githubusercontent.com/u/10214025?v=4",
+      "curser": {
+        "id": "1",
+        "color": "red",
+        "position": {
+          "x": 100,
+          "y": 100
+        }
+      },
+      "status": "online",
+      "activeModule": "jamboard"
+    },
+    {
+      "id": "2",
+      "name": "user 2",
+      "avatarUrl": "https://avatars.githubusercontent.com/u/10214025?v=4",
+      "curser": {
+        "id": "2",
+        "color": "blue",
+        "position": {
+          "x": 200,
+          "y": 200
+        }
+      },
+      "status": "offline",
+      "activeModule": "planning"
+    },
+    {
+      "id": "3",
+      "name": "user 3",
+      "avatarUrl": "https://avatars.githubusercontent.com/u/10214025?v=4",
+      "curser": {
+        "id": "3",
+        "color": "green",
+        "position": {
+          "x": 300,
+          "y": 300
+        }
+      },
+      "status": "offline",
+      "activeModule": "design"
+    },
+    {
+      "id": "3",
+      "name": "user 3",
+      "avatarUrl": "https://avatars.githubusercontent.com/u/10214025?v=4",
+      "curser": {
+        "id": "3",
+        "color": "green",
+        "position": {
+          "x": 300,
+          "y": 300
+        }
+      },
+      "status": "offline",
+      "activeModule": "jamboard"
+    }
+  ]
 }

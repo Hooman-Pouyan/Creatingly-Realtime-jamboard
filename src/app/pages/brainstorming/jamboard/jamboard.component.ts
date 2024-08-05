@@ -19,7 +19,8 @@ import { makeOptional } from '../../../core/models/transformers';
 import { ConvertToPropertyPipe } from '../../../shared/pipes/ConvertToProperty.pipe';
 import { IUser } from './models/jamboard.model';
 import { IJamElement } from './models/element.model';
-
+import { JamsidebarComponent } from './components/jamsidebar/jamsidebar.component';
+import { NzGridModule } from 'ng-zorro-antd/grid';
 export interface IJamboardState {
   id: string;
   name: string;
@@ -31,7 +32,7 @@ export interface IJamboardState {
 @Component({
   selector: 'app-jamboard',
   standalone: true,
-  imports: [NoteComponent, CommonModule],
+  imports: [NoteComponent, CommonModule, JamsidebarComponent, NzGridModule],
   providers: [ConvertToPropertyPipe],
   templateUrl: './jamboard.component.html',
   styleUrl: './jamboard.component.scss',
@@ -40,6 +41,7 @@ export interface IJamboardState {
 export class JamboardComponent implements OnInit {
   constructor() {}
 
+  activeSettings = signal<string>('general');
   jamboardState: SignalState<IJamboardState> = signalState({
     id: '1',
     name: 'project 1',
@@ -56,8 +58,8 @@ export class JamboardComponent implements OnInit {
         },
         info: {},
         size: {
-          width: 300,
-          height: 300,
+          width: 600,
+          height: 600,
         },
         position: {
           x: 400,
@@ -145,10 +147,10 @@ export class JamboardComponent implements OnInit {
   jamboardEvents = SocketEvents.JAMBOARD;
 
   updateJamBoardState(event: {
+    event: string;
     elementId: string;
     property: string;
     data: any;
-    eventName: string;
   }) {
     patchState(this.jamboardState, (state) => ({
       ...state,
@@ -172,8 +174,7 @@ export class JamboardComponent implements OnInit {
 
   r = effect(
     () => {
-      console.log('this.jamboardState()', this.jamboardState());
-
+      // console.log('this.jamboardState()', this.jamboardState());
       // patchState(this.jamboardState, (state) => ({
       //   ...state,
       //   notes: state.notes.map((note) =>

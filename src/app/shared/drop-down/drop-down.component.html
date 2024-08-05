@@ -1,0 +1,29 @@
+<!-- <div>
+      @for (position of listOfPosition; track position) {
+      <button nz-button nz-dropdown [nzDropdownMenu]="menu" [nzPlacement]="position">{{ position }}</button>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu>
+                  <li nz-menu-item>1st menu item length</li>
+                  <li nz-menu-item>2nd menu item length</li>
+                  <li nz-menu-item>3rd menu item length</li>
+            </ul>
+      </nz-dropdown-menu>
+      }
+</div> -->
+
+<nz-button-group>
+      <button nz-button (click)="viewProfile()">
+            <ng-content selector="[label]"></ng-content>
+      </button>
+      <button nz-button nz-dropdown [nzDropdownMenu]="menu2" nzPlacement="bottomRight">
+            <span nz-icon nzType="user" nzTheme="outline"></span>
+      </button>
+</nz-button-group>
+
+<nz-dropdown-menu #menu2="nzDropdownMenu">
+      <ul nz-menu>
+            @for(item of menuItems(); track $index) {
+            <li nz-menu-item (click)="item.onClick()">{{ item.label }}</li>
+            }
+      </ul>
+</nz-dropdown-menu>

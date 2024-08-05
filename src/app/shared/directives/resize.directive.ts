@@ -17,6 +17,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
+  catchError,
   debounceTime,
   distinctUntilChanged,
   filter,
@@ -27,6 +28,7 @@ import {
   of,
   OperatorFunction,
   race,
+  shareReplay,
   switchMap,
   takeUntil,
   takeWhile,
@@ -59,55 +61,59 @@ export class ResizeDirective implements OnInit, AfterViewInit {
   destoryRef$ = inject(DestroyRef);
   // ---- specific ----
   resizableElement = this.elementRef.nativeElement;
-  resizableElementBoundings!: WritableSignal<DOMRect>;
-  resizeZoneGap = 5;
-  allowdXResizeGap = this.resizableElement.clientWidth - this.resizeZoneGap;
-  allowdYResizeGap = this.resizableElement.clientHeight - this.resizeZoneGap;
+  resizableElementRect: WritableSignal<DOMRect> = signal({} as DOMRect);
+  resizeZoneGap = 30;
   // ---- states ----
   width: WritableSignal<number> = signal(0);
   height: WritableSignal<number> = signal(0);
   // ---- I/O ----
   sizeUpdate: OutputEmitterRef<makeOptional<IResizeData>> = output();
   latestSize: InputSignal<IResizeData> = input({ width: 300, height: 300 });
-  elementId: InputSignal<string> = input.required();
   minAllowedSize: InputSignal<number> = input.required();
   maxAllowedSize: InputSignal<number> = input.required();
-  resizeHandler!: HTMLSpanElement;
+  resizeHandler!: any;
 
   mouseDown$ = fromEvent(this.resizableElement, 'mousedown');
   mouseLeave$ = fromEvent(this.resizableElement, 'mouseLeave');
   mouseMove$ = fromEvent(document, 'mousemove');
   resizeCancelation$ = race(
     fromEvent(this.resizableElement, 'mouseup'),
-    fromEvent(document, 'mouseup'),
+    // fromEvent(document, 'mouseup'),
     fromEvent(document, 'contextmenu')
   );
 
   ngOnInit(): void {
     this.resizeStart$.subscribe({
-      next: (size: IResizeData) => this.setupSize(size),
+      next: (size: IResizeData) => this.updateSize(size),
+      error: (err) => catchError(err),
     });
-    this.resizeCancelation$.subscribe(() => {
-      this.renderer.removeClass(this.resizableElement, 'resized');
-      this.sizeUpdate.emit({
-        isBeingResized: false,
+
+    this.resizeCancelation$
+      .pipe(takeUntilDestroyed(this.destoryRef$))
+      .subscribe(() => {
+        this.renderer.removeClass(this.resizableElement, 'resized');
+        this.sizeUpdate.emit({
+          width: this.width(),
+          height: this.height(),
+          isBeingResized: false,
+        });
       });
-    });
     this.drawResizeHandler();
     // this.listenToCurserPosition().subscribe();
   }
 
   ngAfterViewInit(): void {
-    this.resizableElementBoundings.set(
+    this.resizableElementRect.set(
       this.elementRef.nativeElement.getBoundingClientRect()
     );
   }
 
-  setupInitialSize = effect(() => {
-    console.log('this.latestSize()', this.latestSize());
-
-    this.setupSize(this.latestSize());
-  });
+  setupSize = effect(
+    () => {
+      this.updateSize(this.latestSize());
+    },
+    { allowSignalWrites: true }
+  );
 
   drawResizeHandler() {
     this.resizeHandler = document.createElement('span');
@@ -115,7 +121,9 @@ export class ResizeDirective implements OnInit, AfterViewInit {
     this.renderer.appendChild(this.resizableElement, this.resizeHandler);
   }
 
-  setupSize(size: IResizeData) {
+  updateSize(size: IResizeData) {
+    this.width.set(size.width);
+    this.height.set(size.height);
     this.renderer.setStyle(this.resizableElement, 'width', `${size.width}px`);
     this.renderer.setStyle(this.resizableElement, 'height', `${size.height}px`);
     this.renderer.addClass(this.resizableElement, 'resized');
@@ -154,12 +162,20 @@ export class ResizeDirective implements OnInit, AfterViewInit {
       const firstMouseX = mouseMove.clientX;
       const firstMosueY = mouseMove.clientY;
       return this.mouseMove$.pipe(
+        tap(() =>
+          this.resizableElementRect.set(
+            this.elementRef.nativeElement.getBoundingClientRect()
+          )
+        ),
+        shareReplay({
+          bufferSize: 1,
+          refCount: true,
+        }),
         takeUntilDestroyed(this.destoryRef$),
         takeUntil(this.resizeCancelation$),
         filter(
-          (mouseMove: any) =>
-            // this.isValidForResize(mouseMove.offsetX, mouseMove.offsetY)
-            !this.resizableElement.classList.contains('dragged')
+          (mouseMove: any) => this.isValidForResize(mouseMove.x, mouseMove.y)
+          // !this.resizableElement.classList.contains('dragged')
         ),
         // debounceTime(10),
         map((move: any) => ({
@@ -187,33 +203,53 @@ export class ResizeDirective implements OnInit, AfterViewInit {
     );
   }
 
-  // isValidForResize(offsetX: number, offsetY: number): boolean | string {
-  //   switch (true) {
-  //     case offsetX <= this.resizeZoneGap:
-  //       return EResizeDirections.horizontal;
-  //     case offsetY <= this.resizeZoneGap:
-  //       return EResizeDirections.vertical;
-  //     case offsetX <= this.resizeZoneGap && offsetY >= this.allowdYResizeGap:
-  //       return EResizeDirections.Wdiagonal;
-  //     case offsetX >= this.allowdXResizeGap && offsetY <= this.resizeZoneGap:
-  //       return EResizeDirections.Ediagonal;
-  //       // case offsetX >= this.allowdXResizeGap && offsetY >= this.allowdYResizeGap:
-  //       //   console.log('5');
-  //       return EResizeDirections.Wdiagonal;
-  //     case offsetX <= this.resizeZoneGap && offsetY <= this.resizeZoneGap:
-  //       return EResizeDirections.Ediagonal;
-  //     default:
-  //       return false;
-  //   }
-  // }
+  isValidForResize(offsetX: number, offsetY: number): boolean {
+    // console.log(!this.resizableElement.classList.contains('dragged'));
+
+    return (
+      Math.abs(
+        offsetY -
+          this.resizableElementRect().y -
+          this.resizableElementRect().height
+      ) < this.resizeZoneGap &&
+      Math.abs(
+        offsetX -
+          this.resizableElementRect().x -
+          this.resizableElementRect().width
+      ) < this.resizeZoneGap
+    );
+    // switch (true) {
+    //   case offsetX <= this.resizeZoneGap:
+    //     return EResizeDirections.horizontal;
+    //   case offsetY <= this.resizeZoneGap:
+    //     return EResizeDirections.vertical;
+    //   case offsetX <= this.resizeZoneGap && offsetY >= this.allowdYResizeGap:
+    //     return EResizeDirections.Wdiagonal;
+    //   case offsetX >= this.allowdXResizeGap && offsetY <= this.resizeZoneGap:
+    //     return EResizeDirections.Ediagonal;
+    //     // case offsetX >= this.allowdXResizeGap && offsetY >= this.allowdYResizeGap:
+    //     //   console.log('5');
+    //     return EResizeDirections.Wdiagonal;
+    //   case offsetX <= this.resizeZoneGap && offsetY <= this.resizeZoneGap:
+    //     return EResizeDirections.Ediagonal;
+    //   default:
+    //     return false;
+    // }
+  }
 
   emitLatestSize = this.resizeStart$
     .pipe(
       takeUntilDestroyed(this.destoryRef$),
+      takeUntil(this.resizeCancelation$),
       throttleTime(500),
       tap((elementPosition) => {
         this.sizeUpdate.emit({
-          ...elementPosition,
+          width:
+            elementPosition.width != 0 ? elementPosition.width : this.width(),
+          height:
+            elementPosition.height != 0
+              ? elementPosition.height
+              : this.height(),
           direction: EResizeDirections.Ediagonal,
           isBeingResized: true,
         });

@@ -19,7 +19,7 @@ registerLocaleData(fa);
 
 export const API_BASE_URL = new InjectionToken('API_BASE_URL', {
   factory: () => {
-    return 'http://localhost:9000/elements';
+    return 'http://localhost:9000/';
   },
 });
 
@@ -31,6 +31,6 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(FormsModule),
     provideAnimationsAsync(),
     provideHttpClient(),
-    { useValue: 'http://localhost:9000/elements', provide: API_BASE_URL },
+    { useValue: 'http://localhost:9000/', provide: API_BASE_URL },
   ],
 };

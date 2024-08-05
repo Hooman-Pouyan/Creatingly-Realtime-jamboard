@@ -31,10 +31,10 @@ export class BaseJamElementComponent implements OnInit {
   socketService = inject(SocketService);
   convertToPropertyPipe = inject(ConvertToPropertyPipe);
   elementUpdate: OutputEmitterRef<{
+    event: string;
     elementId: string;
     property: string;
     data: any;
-    eventName: string;
   }> = output();
 
   elementId = computed(() => this.dataSource().id);
@@ -77,16 +77,15 @@ export class BaseJamElementComponent implements OnInit {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
     this.socketService
-      .onMessage(SocketEvents.JAMBOARD.ELEMENT.POSITION)
+      .onMessage('jamboard:element')
       .pipe(filter((event) => event.id === this.elementState.id()))
       .subscribe((event) => {
-        console.log('event in jamelement', event);
+        // console.log('event in jamelement', event);
         this.elementUpdate.emit({
+          event: event.event,
           elementId: this.elementState.id(),
-          property:
-            this.convertToPropertyPipe.transform(event.event, 'jamboard') ?? '',
+          property: event.type,
           data: event.data,
-          eventName: event.event,
         });
         patchState(this.elementState, {
           ...state,
@@ -96,7 +95,12 @@ export class BaseJamElementComponent implements OnInit {
       });
   }
 
-  dispatchEvent(elementId: string, event: string, data: any) {
-    this.socketService.sendMessage(elementId, event, data);
+  dispatchEvent(type: string, data: any) {
+    this.socketService.sendMessage(
+      this.elementState().id,
+      'jamboard:element',
+      type,
+      data
+    );
   }
 }

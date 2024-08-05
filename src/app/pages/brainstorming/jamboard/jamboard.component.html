@@ -1,11 +1,37 @@
-<p>jamboard works!</p>
+<div class="w-full h-full grid grid-cols-12 grid-flow-row justify-center items-center !overflow-hidden">
 
-@for(element of jamboardState.elements(); track element.id) {
-<app-note (elementUpdate)="updateJamBoardState($event)" [classList]="['bg-red-500']" [dataSource]="element"
-      class="flex !w-fit">
-      <div slot="header">header</div>
-      <div slot="content">main</div>
-      <div slot="detail">detail</div>
-</app-note>
-}
-{{jamboardState() | json }}
+      <section class="col-span-10 grid grid-cols-4 gap-2 justify-center items-center !overflow-hidden">
+            @for(element of jamboardState.elements(); track element.id) {
+            <app-note (elementUpdate)="updateJamBoardState($event)" [dataSource]=" element" class="flex !w-fit">
+                  <div slot="header">header</div>
+                  <div slot="content">main</div>
+                  <div slot="detail">detail</div>
+            </app-note>
+            }@empty {
+            <!-- <div class="slider-container">
+                  <span>Horizontal Gutter (px):</span>
+                  <div class="slider">
+                        <nz-slider [nzMarks]="marksHGutter" [nzStep]="null" [nzMin]="8" [nzMax]="48"
+                              [(ngModel)]="hGutter"></nz-slider>
+                  </div>
+                  <span>Vertical Gutter (px):</span>
+                  <div class="slider">
+                        <nz-slider [nzMarks]="marksVGutter" [nzStep]="null" [nzMin]="8" [nzMax]="48"
+                              [(ngModel)]="vGutter"></nz-slider>
+                  </div>
+                  <span>Column Count:</span>
+                  <div class="slider">
+                        <nz-slider [nzMarks]="marksCount" [nzStep]="null" [nzMin]="2" [nzMax]="12" [(ngModel)]="count"
+                              (ngModelChange)="reGenerateArray($event)"></nz-slider>
+                  </div>
+            </div> -->
+
+
+            }
+
+      </section>
+
+      <section class="w-full h-full col-span-2 justify-center items-center">
+            <app-jamsidebar [activeSettings]="activeSettings()"></app-jamsidebar>
+      </section>
+</div>

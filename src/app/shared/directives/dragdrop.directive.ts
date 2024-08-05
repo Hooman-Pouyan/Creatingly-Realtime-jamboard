@@ -36,6 +36,7 @@ import {
 } from '../../pages/brainstorming/jamboard/models/jamboard.model';
 import { EStatus } from '../../pages/planning/issue-tracking/models/task.models';
 import { makeOptional } from '../../core/models/transformers';
+import { EJameElementStatus } from '../../pages/brainstorming/jamboard/models/element.model';
 
 export interface DragDropPosition extends TPosition {
   previousPosition?: TPosition;
@@ -57,29 +58,28 @@ export class DragdropDirective implements OnInit {
   // ---- states ----
   positionX: WritableSignal<number> = signal(0);
   positionY: WritableSignal<number> = signal(0);
-  allowdResizeZone = 5;
+  allowdResizeZone = 20;
   // ---- I/O ----
-  elementId: InputSignal<string> = input.required();
-  latestPosition: InputSignal<DragDropPosition> = input({
-    x: 300,
-    y: 300,
-  });
+  latestPosition: InputSignal<DragDropPosition> = input.required();
   positionUpdate: OutputEmitterRef<makeOptional<DragDropPosition>> = output();
 
-  setUpCurrentPosition = effect(() => {
-    console.log('this.latestPosition()', this.latestPosition());
-
-    this.renderer.setStyle(
-      this.draggableElement,
-      'left',
-      this.latestPosition().x + 'px'
-    );
-    this.renderer.setStyle(
-      this.draggableElement,
-      'top',
-      this.latestPosition().y + 'px'
-    );
-  });
+  setUpCurrentPosition = effect(
+    () => {
+      this.positionX.set(this.latestPosition().x);
+      this.positionY.set(this.latestPosition().y);
+      this.renderer.setStyle(
+        this.draggableElement,
+        'left',
+        this.latestPosition().x + 'px'
+      );
+      this.renderer.setStyle(
+        this.draggableElement,
+        'top',
+        this.latestPosition().y + 'px'
+      );
+    },
+    { allowSignalWrites: true }
+  );
 
   constructor() {}
   ngOnInit(): void {
@@ -88,7 +88,7 @@ export class DragdropDirective implements OnInit {
       this.positionY.set(move.y);
       this.renderer.setStyle(this.draggableElement, 'left', move.x + 'px');
       this.renderer.setStyle(this.draggableElement, 'top', move.y + 'px');
-      this.renderer.addClass(this.draggableElement, 'dragged');
+      this.renderer.addClass(this.draggableElement, EJameElementStatus.Grabbed);
     });
     this.renderer.setStyle(
       this.elementRef.nativeElement,
@@ -98,8 +98,13 @@ export class DragdropDirective implements OnInit {
     this.dargCancelation$
       .pipe(takeUntilDestroyed(this.destoryRef$))
       .subscribe(() => {
-        this.renderer.removeClass(this.draggableElement, 'dragged');
+        this.renderer.removeClass(
+          this.draggableElement,
+          EJameElementStatus.Grabbed
+        );
         this.positionUpdate.emit({
+          x: this.positionX(),
+          y: this.positionY(),
           isBeingDragged: false,
         });
       });
@@ -109,7 +114,7 @@ export class DragdropDirective implements OnInit {
   mouseMove$ = fromEvent(document, 'mousemove');
   dargCancelation$ = race(
     fromEvent(this.draggableElement, 'mouseup'),
-    fromEvent(document, 'mouseup'),
+    // fromEvent(document, 'mouseup'),
     fromEvent(document, 'contextmenu')
   );
 
@@ -122,8 +127,11 @@ export class DragdropDirective implements OnInit {
     takeUntilDestroyed(this.destoryRef$),
     switchMap((start: any) =>
       this.mouseMove$.pipe(
+        shareReplay({
+          bufferSize: 1,
+          refCount: true,
+        }),
         takeUntilDestroyed(this.destoryRef$),
-        takeUntil(this.dargCancelation$),
         map((moveEvent: any) => {
           const offsetX = moveEvent.x - start.offsetX;
           const offsetY = moveEvent.y - start.offsetY;
@@ -143,8 +151,8 @@ export class DragdropDirective implements OnInit {
       tap((elementPosition) => {
         this.positionUpdate.emit({
           isBeingDragged: true,
-          x: elementPosition.x,
-          y: elementPosition.y,
+          x: elementPosition.x != 0 ? elementPosition.x : this.positionX(),
+          y: elementPosition.y != 0 ? elementPosition.y : this.positionY(),
         });
       })
     )

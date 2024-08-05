@@ -15,7 +15,7 @@
 @if(dataSource()) {
 <nz-card canResize canDragdrop [latestPosition]="elementState.position()" [latestSize]="elementState.size()"
       (positionUpdate)="dispatchEvent('position', $event)" (sizeUpdate)="dispatchEvent('size', $event)"
-      [minAllowedSize]="200" [maxAllowedSize]="400" [nzCover]="coverTemplate"
+      [maxAllowedSize]="maxAllowedSize" [minAllowedSize]="minAllowedSize" [nzCover]="coverTemplate"
       [nzActions]="[actionSetting, actionEdit, actionEllipsis]">
       <nz-card-meta nzTitle="Card title" nzDescription="This is the description"
             [nzAvatar]="avatarTemplate"></nz-card-meta>
@@ -35,4 +35,8 @@
 <ng-template #actionEllipsis>
       <span nz-icon nzType="ellipsis"></span>
 </ng-template>
+}@else {
+<nz-card style="width: 300px;margin-top: 16px" [nzLoading]="true">
+      <nz-card-meta nzTitle="Card title" nzDescription="This is the description"></nz-card-meta>
+</nz-card>
 }

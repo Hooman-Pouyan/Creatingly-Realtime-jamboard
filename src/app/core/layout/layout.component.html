@@ -25,10 +25,14 @@
       </nz-sider>
       <nz-layout>
             <nz-header>
-                  <div class="app-header">
-                        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
-                              <span class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
-                        </span>
+                  <div class="w-full app-header flex justify-between items-center">
+                        <div class="w-full">
+                              <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+                                    <span class="trigger" nz-icon
+                                          [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
+                              </span>
+                        </div>
+                        <app-header />
                   </div>
             </nz-header>
             <nz-content>

@@ -11,14 +11,10 @@ import {
   signal,
 } from '@angular/core';
 import { DragdropDirective } from '../../../../../shared/directives/dragdrop.directive';
-import { ConnectorsService } from '../../services/connectors.service';
 import { ConnectorsDirective } from '../../../../../shared/directives/connectors.directive';
 import { ResizeDirective } from '../../../../../shared/directives/resize.directive';
-import { JamboardComponent } from '../../jamboard.component';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { SocketEvents } from '../../../../../core/models/socket.model';
-
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { BaseJamElementComponent } from '../base-jam-element/base-jam-element.component';
 @Component({
@@ -49,4 +45,8 @@ import { BaseJamElementComponent } from '../base-jam-element/base-jam-element.co
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NoteComponent extends BaseJamElementComponent implements OnInit {}
+export class NoteComponent extends BaseJamElementComponent implements OnInit {
+  minAllowedSize = 200;
+  maxAllowedSize = 600;
+
+}

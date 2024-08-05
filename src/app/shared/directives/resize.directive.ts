@@ -88,14 +88,16 @@ export class ResizeDirective implements OnInit, AfterViewInit {
       error: (err) => catchError(err),
     });
 
-    this.resizeCancelation$.subscribe(() => {
-      this.renderer.removeClass(this.resizableElement, 'resized');
-      this.sizeUpdate.emit({
-        width: this.width(),
-        height: this.height(),
-        isBeingResized: false,
+    this.resizeCancelation$
+      .pipe(takeUntilDestroyed(this.destoryRef$))
+      .subscribe(() => {
+        this.renderer.removeClass(this.resizableElement, 'resized');
+        this.sizeUpdate.emit({
+          width: this.width(),
+          height: this.height(),
+          isBeingResized: false,
+        });
       });
-    });
     this.drawResizeHandler();
     // this.listenToCurserPosition().subscribe();
   }
@@ -172,8 +174,8 @@ export class ResizeDirective implements OnInit, AfterViewInit {
         takeUntilDestroyed(this.destoryRef$),
         takeUntil(this.resizeCancelation$),
         filter(
-          (mouseMove: any) => this.isValidForResize(mouseMove.x, mouseMove.y),
-          !this.resizableElement.classList.contains('dragged')
+          (mouseMove: any) => this.isValidForResize(mouseMove.x, mouseMove.y)
+          // !this.resizableElement.classList.contains('dragged')
         ),
         // debounceTime(10),
         map((move: any) => ({

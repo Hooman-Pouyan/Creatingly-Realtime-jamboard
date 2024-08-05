@@ -36,6 +36,7 @@ import {
 } from '../../pages/brainstorming/jamboard/models/jamboard.model';
 import { EStatus } from '../../pages/planning/issue-tracking/models/task.models';
 import { makeOptional } from '../../core/models/transformers';
+import { EJameElementStatus } from '../../pages/brainstorming/jamboard/models/element.model';
 
 export interface DragDropPosition extends TPosition {
   previousPosition?: TPosition;
@@ -87,7 +88,7 @@ export class DragdropDirective implements OnInit {
       this.positionY.set(move.y);
       this.renderer.setStyle(this.draggableElement, 'left', move.x + 'px');
       this.renderer.setStyle(this.draggableElement, 'top', move.y + 'px');
-      this.renderer.addClass(this.draggableElement, 'dragged');
+      this.renderer.addClass(this.draggableElement, EJameElementStatus.Grabbed);
     });
     this.renderer.setStyle(
       this.elementRef.nativeElement,
@@ -97,7 +98,10 @@ export class DragdropDirective implements OnInit {
     this.dargCancelation$
       .pipe(takeUntilDestroyed(this.destoryRef$))
       .subscribe(() => {
-        this.renderer.removeClass(this.draggableElement, 'dragged');
+        this.renderer.removeClass(
+          this.draggableElement,
+          EJameElementStatus.Grabbed
+        );
         this.positionUpdate.emit({
           x: this.positionX(),
           y: this.positionY(),

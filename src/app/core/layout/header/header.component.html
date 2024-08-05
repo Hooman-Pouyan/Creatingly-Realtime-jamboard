@@ -1,0 +1,18 @@
+<nav class="px-10 w-full h-full flex justify-center items-center">
+      <section class="w-full space-x-6 h-full flex flex-row-reverse justify-between items-center">
+            <div class="userProfile-menu">
+                  <app-drop-down [menuItems]="userProfileMenuItems" />
+            </div>
+            <div>
+                  <nz-avatar-group class="flex justify-center items-center mr-5">
+                        @for(user of users(); track user.id) {
+                        <nz-badge nzDot>
+                              <nz-avatar [nzSize]="40" [nzSrc]="user.avatarUrl" nzIcon="user"
+                                    style="background-color: #87d068" nzText="NG" nz-tooltip
+                                    nzTooltipTitle="NG-ZORRO User"></nz-avatar>
+                        </nz-badge>
+                        }
+                  </nz-avatar-group>
+            </div>
+      </section>
+</nav>

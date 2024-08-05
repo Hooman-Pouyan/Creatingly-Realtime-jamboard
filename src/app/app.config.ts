@@ -19,7 +19,7 @@ registerLocaleData(fa);
 
 export const API_BASE_URL = new InjectionToken('API_BASE_URL', {
   factory: () => {
-    return 'http://localhost:9000/elements';
+    return 'http://localhost:9000/';
   },
 });
 

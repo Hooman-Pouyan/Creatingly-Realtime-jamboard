@@ -31,7 +31,9 @@
             <span class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
           </span>
         </div>
-        <app-header [userProfile]="authStore.userProfile()" [usersInSession]="authStore.UsersInSession()" />
+        <app-header [userProfile]="authService.usersStore$.userProfile()!" [usersInSession]="usersInSession()"
+          (loginEmitter)="login($event)" (logoutEmitter)="logout()" />
+
       </div>
     </nz-header>
     <nz-content>

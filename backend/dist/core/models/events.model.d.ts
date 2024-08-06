@@ -1,7 +1,7 @@
 export declare const SocketEvents: {
     JAMBOARD: {
         STATE: string;
-        ELEMENT_: string;
+        ELEMENT$: string;
         ELEMENT: {
             SIZE: string;
             POSITION: string;
@@ -12,6 +12,7 @@ export declare const SocketEvents: {
         CURSOR: {
             MOVE: string;
         };
+        USERS$: string;
         USERS: {
             LOGIN: string;
             LOGOUT: string;

@@ -4,18 +4,20 @@ import {
   inject,
   input,
   InputSignal,
+  OnChanges,
   OnInit,
+  output,
   Signal,
   signal,
+  SimpleChanges,
 } from '@angular/core';
 import { IUser } from '../../../pages/brainstorming/jamboard/models/element.model';
 import { DropDownComponent } from '../../../shared/drop-down/drop-down.component';
-import { AuthService } from '../../authentication/auth.service';
+import { AuthService, IUsersState } from '../../authentication/auth.service';
 import { SharedModule } from '../../../shared/shared.module';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { LoginModalComponent } from '../../authentication/components/login-modal/login-modal.component';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { UsersService } from '../../services/users.service';
 
 @Component({
   selector: 'app-header',
@@ -29,11 +31,15 @@ import { UsersService } from '../../services/users.service';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnChanges {
+  ngOnChanges(changes: SimpleChanges): void {
+    // console.log(changes);
+  }
   ngOnInit(): void {}
-  authService = inject(AuthService);
+  usersInSession: InputSignal<IUser[] | undefined> = input.required();
   userProfile: InputSignal<IUser> = input.required();
-  usersInSession: InputSignal<IUser[]> = input.required();
+  logoutEmitter = output();
+  loginEmitter = output();
 
   // b = effect(() => {
   //   console.log('aaaaa', this.a());
@@ -60,9 +66,7 @@ export class HeaderComponent implements OnInit {
       label: 'Logout',
       icon: 'logout',
       route: './logout',
-      onClick: () => {
-        this.authService.logout();
-      },
+      onClick: () => this.logoutEmitter.emit(),
     },
   ];
 
@@ -90,7 +94,7 @@ export class HeaderComponent implements OnInit {
   }
 
   sendLoginData(formData: any) {
-    this.authService.login(formData);
+    this.loginEmitter.emit(formData);
     this.handleCancel();
   }
 }

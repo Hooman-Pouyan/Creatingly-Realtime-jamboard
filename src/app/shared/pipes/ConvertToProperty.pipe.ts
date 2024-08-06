@@ -18,8 +18,6 @@ export class ConvertToPropertyPipe implements PipeTransform {
         return 'data';
       case SocketEvents.JAMBOARD.ELEMENT.INFO:
         return 'info';
-      case SocketEvents.JAMBOARD.ELEMENT.STATE:
-        return 'state';
       default:
         return undefined;
     }

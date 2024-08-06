@@ -78,8 +78,8 @@ export class ResizeDirective implements OnInit, AfterViewInit {
   mouseMove$ = fromEvent(document, 'mousemove');
   resizeCancelation$ = race(
     fromEvent(this.resizableElement, 'mouseup'),
-    fromEvent(document, 'mouseup'),
-    fromEvent(document, 'contextmenu')
+    // fromEvent(document, 'mouseup'),
+    // fromEvent(document, 'contextmenu')
   );
 
   ngOnInit(): void {

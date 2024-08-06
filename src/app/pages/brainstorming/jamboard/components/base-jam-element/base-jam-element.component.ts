@@ -74,13 +74,11 @@ export class BaseJamElementComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
     this.socketService
-      .onMessage('jamboard:element')
+      .onMessage(SocketEvents.JAMBOARD.ELEMENT$)
       .pipe(filter((event) => event.id === this.elementState.id()))
       .subscribe((event) => {
-        // console.log('event in jamelement', event);
+        console.log('event in jamelement', event);
         this.elementUpdate.emit({
           event: event.event,
           elementId: this.elementState.id(),
@@ -96,9 +94,11 @@ export class BaseJamElementComponent implements OnInit {
   }
 
   dispatchEvent(type: string, data: any) {
+    console.log(type, data);
+
     this.socketService.sendMessage(
+      SocketEvents.JAMBOARD.ELEMENT$,
       this.elementState().id,
-      'jamboard:element',
       type,
       data
     );

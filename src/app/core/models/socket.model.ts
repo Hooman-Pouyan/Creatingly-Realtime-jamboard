@@ -1,8 +1,8 @@
 export const SocketEvents = {
   JAMBOARD: {
     STATE: 'jambaord:state',
+    ELEMENT$: 'jamboard:element',
     ELEMENT: {
-      STATE: 'jamboard:element',
       SIZE: 'jamboard:element:size',
       POSITION: 'jamboard:element:position',
       APPEARENCE: 'jamboard:element:appearence',
@@ -12,9 +12,10 @@ export const SocketEvents = {
     CURSOR: {
       MOVE: 'jamboard:cursor:move',
     },
+    USERS$: 'jamboard:users',
     USERS: {
       LOGIN: 'jamboard:users:login',
-      LOGOUT: 'jamboard:user:logout',
+      LOGOUT: 'jamboard:users:logout',
       UPDATE: 'jamboard:users:update',
     },
   },

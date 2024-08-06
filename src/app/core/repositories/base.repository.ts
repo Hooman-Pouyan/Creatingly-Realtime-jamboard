@@ -15,7 +15,7 @@ import { Observable, catchError, map, of } from 'rxjs';
 import { CacheService } from '../services/cache.service';
 import { API_BASE_URL } from '../../app.config';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class BaseRepository {
   protected http: HttpClient;
   protected baseUrl: string;
@@ -46,8 +46,6 @@ export class BaseRepository {
     url: string,
     options = this.options_
   ): Observable<T> {
-    console.log(url);
-
     return this.http.get<T>(url).pipe();
   }
 

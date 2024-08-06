@@ -11,19 +11,19 @@ export class UserProfileRepository extends BaseRepository {
   socketService = inject(SocketService);
 
   getUserProfile(userId: string): Observable<IUser> {
-    let url = this.baseUrl + `users/${userId}`;
+    let url = this.baseUrl + `/users/${userId}`;
     return this.getWithoutCache(url).pipe(
       switchMap((res: any) => this.updateUser(res.id, { status: 'online' }))
     );
   }
 
   searchUsers(query: string): Observable<IUser[]> {
-    let url = this.baseUrl + `users/?${query}`;
+    let url = this.baseUrl + `/users/?${query}`;
     return this.getWithoutCache(url);
   }
 
   updateUser(userId: string, data: unknown): Observable<IUser> {
-    let url = this.baseUrl + `users/${userId}`;
+    let url = this.baseUrl + `/users/${userId}`;
     return this.patch(url, data);
   }
 }

@@ -1,9 +1,11 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { AuthService } from './core/authentication/auth.service';
+import { UserCursorComponent } from './shared/components/user-cursor/user-cursor.component';
 
 @Component({
   selector: 'app-root',
@@ -15,11 +17,14 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
     NzIconModule,
     NzLayoutModule,
     NzMenuModule,
+    UserCursorComponent,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
+  authService = inject(AuthService);
+
   isCollapsed = false;
 }

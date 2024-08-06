@@ -114,8 +114,8 @@ export class DragdropDirective implements OnInit {
   mouseMove$ = fromEvent(document, 'mousemove');
   dargCancelation$ = race(
     fromEvent(this.draggableElement, 'mouseup'),
-    fromEvent(document, 'mouseup'),
-    fromEvent(document, 'contextmenu')
+    // fromEvent(document, 'mouseup'),
+    // fromEvent(document, 'contextmenu')
   );
 
   dragStart$ = this.mouseDown$;

@@ -8,6 +8,7 @@ import {
 import { Server } from 'socket.io';
 // import { SocketEvents } from 'src/core/models/events.model';
 import { UsersService } from './users.service';
+import { SocketEvents } from 'src/core/models/events.model';
 
 @WebSocketGateway({
   cors: {
@@ -26,24 +27,26 @@ export class UsersGateWay implements OnModuleInit {
 
   constructor(private readonly usersService: UsersService) {}
 
-  @SubscribeMessage('jamboard:users:login')
+  @SubscribeMessage(SocketEvents.JAMBOARD.USERS$)
   handleStateUpdate(@MessageBody() body: any) {
     console.log(body);
-    // this.server.emit('jamboard:users:login', {
-    //   event: 'jamboard:users:login',
-    //   id: body[0],
-    //   type: body[1],
-    //   data: body[2],
-    // });
+    this.server.emit(SocketEvents.JAMBOARD.USERS$, {
+      event: SocketEvents.JAMBOARD.USERS$,
+      id: body[0],
+      type: body[1],
+      data: body[2],
+    });
     // this.usersService.handleStateUpdate(body);
   }
 
   // @SubscribeMessage(SocketEvents.JAMBOARD.USERS.LOGOUT)
   // handleElementSizeChange(@MessageBody() body: any) {
+  //   console.log(body);
   //   this.server.emit(SocketEvents.JAMBOARD.USERS.LOGOUT, {
-  //     id: body[0],
   //     event: SocketEvents.JAMBOARD.USERS.LOGOUT,
-  //     data: body[1],
+  //     id: body[0],
+  //     type: body[1],
+  //     data: body[2],
   //   });
   //   // this.jamboardService.handleElementSizeChange(body);
   // }
@@ -51,11 +54,12 @@ export class UsersGateWay implements OnModuleInit {
   // @SubscribeMessage(SocketEvents.JAMBOARD.USERS.UPDATE)
   // handleElementPositionChange(@MessageBody() body: any) {
   //   this.server.emit(SocketEvents.JAMBOARD.USERS.UPDATE, {
-  //     id: body[0],
   //     event: SocketEvents.JAMBOARD.USERS.UPDATE,
-  //     data: body[1],
+  //     id: body[0],
+  //     type: body[1],
+  //     data: body[2],
   //   });
-  //   // console.log(body);
-  //   // this.usersService.handleElementPositionChange(body);
   // }
+  // console.log(body);
+  // this.usersService.handleElementPositionChange(body);
 }

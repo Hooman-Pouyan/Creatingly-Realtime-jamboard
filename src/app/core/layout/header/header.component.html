@@ -4,7 +4,7 @@
       @if(userProfile()){
       <div class="userProfile-menu">
         <app-drop-down [menuItems]="userProfileMenuItems">
-          <span ngprojectAs="label" s>{{ userProfile().name }}</span>
+          <span ngprojectAs="label">{{ userProfile().name }}</span>
         </app-drop-down>
       </div>
       }@else {

@@ -12,6 +12,24 @@ export type IJamElement = {
   options: unknown;
 };
 
+export const a: IUser = {
+  id: '',
+  name: '',
+  status: 'online',
+  avatarUrl: '',
+  curser: {
+    id: '',
+    position: {
+      x: 0,
+      y: 0,
+      moduleName: 'design',
+      projectId: '1',
+    },
+    actions: 'move',
+    color: '',
+  },
+};
+
 export type TJamElementData = {
   content: TJamElementContent;
 };

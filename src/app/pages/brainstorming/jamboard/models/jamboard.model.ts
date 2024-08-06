@@ -16,10 +16,36 @@ export interface IUser {
   id: string;
   name: string;
   email?: string;
-  curser: ICurser;
   status: TUserStatus;
   avatarUrl: string;
+  curser: Exclude<IUserCursor, 'id'>;
   activeModule?: TModules | false;
 }
+
+export interface IUserCursor {
+  id: string;
+  position: TModulePosition;
+  actions: TCursorActions;
+  color: string;
+}
+
+export type TModulePosition = TPosition & {
+  projectId: string;
+  moduleName: TModules;
+};
+
+export type IUserCursorState = {
+  id: string;
+  position: TPosition;
+  actions: TCursorActions;
+};
+
+export type TCursorActions =
+  | 'move'
+  | 'resize'
+  | 'click'
+  | 'drag'
+  | 'drop'
+  | 'delete';
 
 export { TPosition };

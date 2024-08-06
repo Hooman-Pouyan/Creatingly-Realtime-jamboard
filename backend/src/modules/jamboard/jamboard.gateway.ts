@@ -26,34 +26,11 @@ export class JamboardGateWay implements OnModuleInit {
 
   constructor(private readonly jamboardService: JamboardService) {}
 
-  @SubscribeMessage(SocketEvents.JAMBOARD.STATE)
-  handleStateUpdate(@MessageBody() body: any) {
-    // this.server.emit(SocketEvents.JAMBOARD.STATE, body);
-    this.jamboardService.handleStateUpdate(body);
-  }
-
-  @SubscribeMessage(SocketEvents.JAMBOARD.ELEMENT.SIZE)
-  handleElementSizeChange(@MessageBody() body: any) {
-    this.server.emit(SocketEvents.JAMBOARD.ELEMENT.SIZE, body);
-    // this.jamboardService.handleElementSizeChange(body);
-  }
-
-  @SubscribeMessage(SocketEvents.JAMBOARD.ELEMENT.POSITION)
-  handleElementPositionChange(@MessageBody() body: any) {
-    this.server.emit(SocketEvents.JAMBOARD.ELEMENT.POSITION, {
-      id: body[0],
-      event: SocketEvents.JAMBOARD.ELEMENT.POSITION,
-      data: body[1],
-    });
-    // console.log(body);
-    this.jamboardService.handleElementPositionChange(body);
-  }
-
-  @SubscribeMessage('jamboard:element')
+  @SubscribeMessage(SocketEvents.JAMBOARD.ELEMENT$)
   handleElementAppearanceChange(@MessageBody() body: any) {
     console.log(body);
-    this.server.emit('jamboard:element', {
-      event: 'jamboard:element',
+    this.server.emit(SocketEvents.JAMBOARD.ELEMENT$, {
+      event: SocketEvents.JAMBOARD.ELEMENT$,
       id: body[0],
       type: body[1],
       data: body[2],
@@ -77,11 +54,5 @@ export class JamboardGateWay implements OnModuleInit {
   handleCursorMove(@MessageBody() body: any) {
     this.server.emit(SocketEvents.JAMBOARD.CURSOR.MOVE, body);
     this.jamboardService.handleCursorMove(body);
-  }
-
-  @SubscribeMessage(SocketEvents.JAMBOARD.USERS.LOGIN)
-  handleActiveUsers(@MessageBody() body: any) {
-    this.server.emit(SocketEvents.JAMBOARD.USERS.LOGIN, body);
-    this.jamboardService.handleActiveUsers(body);
   }
 }

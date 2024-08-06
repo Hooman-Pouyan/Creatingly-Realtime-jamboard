@@ -16,6 +16,7 @@ exports.UsersGateWay = void 0;
 const websockets_1 = require("@nestjs/websockets");
 const socket_io_1 = require("socket.io");
 const users_service_1 = require("./users.service");
+const events_model_1 = require("../../core/models/events.model");
 let UsersGateWay = class UsersGateWay {
     onModuleInit() {
         this.server.on('connection', (socket) => {
@@ -27,6 +28,12 @@ let UsersGateWay = class UsersGateWay {
     }
     handleStateUpdate(body) {
         console.log(body);
+        this.server.emit(events_model_1.SocketEvents.JAMBOARD.USERS$, {
+            event: events_model_1.SocketEvents.JAMBOARD.USERS$,
+            id: body[0],
+            type: body[1],
+            data: body[2],
+        });
     }
 };
 exports.UsersGateWay = UsersGateWay;
@@ -35,7 +42,7 @@ __decorate([
     __metadata("design:type", socket_io_1.Server)
 ], UsersGateWay.prototype, "server", void 0);
 __decorate([
-    (0, websockets_1.SubscribeMessage)('jamboard:users:login'),
+    (0, websockets_1.SubscribeMessage)(events_model_1.SocketEvents.JAMBOARD.USERS$),
     __param(0, (0, websockets_1.MessageBody)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),

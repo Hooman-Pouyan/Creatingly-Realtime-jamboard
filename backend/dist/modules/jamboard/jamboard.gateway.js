@@ -26,24 +26,10 @@ let JamboardGateWay = class JamboardGateWay {
     constructor(jamboardService) {
         this.jamboardService = jamboardService;
     }
-    handleStateUpdate(body) {
-        this.jamboardService.handleStateUpdate(body);
-    }
-    handleElementSizeChange(body) {
-        this.server.emit(events_model_1.SocketEvents.JAMBOARD.ELEMENT.SIZE, body);
-    }
-    handleElementPositionChange(body) {
-        this.server.emit(events_model_1.SocketEvents.JAMBOARD.ELEMENT.POSITION, {
-            id: body[0],
-            event: events_model_1.SocketEvents.JAMBOARD.ELEMENT.POSITION,
-            data: body[1],
-        });
-        this.jamboardService.handleElementPositionChange(body);
-    }
     handleElementAppearanceChange(body) {
         console.log(body);
-        this.server.emit('jamboard:element', {
-            event: 'jamboard:element',
+        this.server.emit(events_model_1.SocketEvents.JAMBOARD.ELEMENT$, {
+            event: events_model_1.SocketEvents.JAMBOARD.ELEMENT$,
             id: body[0],
             type: body[1],
             data: body[2],
@@ -61,10 +47,6 @@ let JamboardGateWay = class JamboardGateWay {
         this.server.emit(events_model_1.SocketEvents.JAMBOARD.CURSOR.MOVE, body);
         this.jamboardService.handleCursorMove(body);
     }
-    handleActiveUsers(body) {
-        this.server.emit(events_model_1.SocketEvents.JAMBOARD.USERS.LOGIN, body);
-        this.jamboardService.handleActiveUsers(body);
-    }
 };
 exports.JamboardGateWay = JamboardGateWay;
 __decorate([
@@ -72,28 +54,7 @@ __decorate([
     __metadata("design:type", socket_io_1.Server)
 ], JamboardGateWay.prototype, "server", void 0);
 __decorate([
-    (0, websockets_1.SubscribeMessage)(events_model_1.SocketEvents.JAMBOARD.STATE),
-    __param(0, (0, websockets_1.MessageBody)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], JamboardGateWay.prototype, "handleStateUpdate", null);
-__decorate([
-    (0, websockets_1.SubscribeMessage)(events_model_1.SocketEvents.JAMBOARD.ELEMENT.SIZE),
-    __param(0, (0, websockets_1.MessageBody)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], JamboardGateWay.prototype, "handleElementSizeChange", null);
-__decorate([
-    (0, websockets_1.SubscribeMessage)(events_model_1.SocketEvents.JAMBOARD.ELEMENT.POSITION),
-    __param(0, (0, websockets_1.MessageBody)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], JamboardGateWay.prototype, "handleElementPositionChange", null);
-__decorate([
-    (0, websockets_1.SubscribeMessage)('jamboard:element'),
+    (0, websockets_1.SubscribeMessage)(events_model_1.SocketEvents.JAMBOARD.ELEMENT$),
     __param(0, (0, websockets_1.MessageBody)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -120,13 +81,6 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], JamboardGateWay.prototype, "handleCursorMove", null);
-__decorate([
-    (0, websockets_1.SubscribeMessage)(events_model_1.SocketEvents.JAMBOARD.USERS.LOGIN),
-    __param(0, (0, websockets_1.MessageBody)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], JamboardGateWay.prototype, "handleActiveUsers", null);
 exports.JamboardGateWay = JamboardGateWay = __decorate([
     (0, websockets_1.WebSocketGateway)({
         cors: {

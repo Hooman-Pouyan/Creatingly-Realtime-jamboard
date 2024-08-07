@@ -9,4 +9,8 @@ export class ContextServiceService {
 
   dropDownTemplateRef: WritableSignal<NzDropdownMenuComponent | undefined> =
     signal(undefined);
+  
+  addComment(comment: string) {
+    console.log(comment);
+  }
 }

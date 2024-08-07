@@ -1,20 +1,27 @@
 <div class="context-area" (contextmenu)="contextMenu($event, contextmenu)">Right Click on here</div>
 <nz-dropdown-menu #contextmenu="nzDropdownMenu">
       <ul nz-menu>
-            <li nz-menu-item>1st menu item</li>
-            <li nz-menu-item>2nd menu item</li>
-            <li nz-menu-item nzDisabled>disabled menu item</li>
-            <li nz-submenu nzTitle="sub menu">
-                  <ul>
-                        <li nz-menu-item>3rd menu item</li>
-                        <li nz-menu-item>4th menu item</li>
-                  </ul>
+            @for(item of defaultMenu; track $index) {
+            <li (click)="item.action()" nz-menu-item>
+                  <span><i [class]="item.icon"></i></span>
+                  <span>
+                        {{ item.label}}
+                  </span>
             </li>
-            <li z-submenu nzDisabled nzTitle="disabled sub menu">
-                  <ul>
-                        <li nz-menu-item>3rd menu item</li>
-                        <li nz-menu-item>4th menu item</li>
-                  </ul>
-            </li>
+            @if(item.children) {
+            <ul nz-menu>
+                  @for(submenu of item.children; track $index) {
+                  <li nzDisabled="false" [nzTitle]="submenu.label" (click)="item.action()" nz-submenu>
+                        <span><i [class]="item.icon"></i></span>
+                        <span>
+                              {{ item.label}}
+                        </span>
+                  </li>
+
+                  }
+            </ul>
+            }
+            }
+
       </ul>
 </nz-dropdown-menu>

@@ -15,6 +15,7 @@ import {
 } from 'ng-zorro-antd/dropdown';
 import { DropDownComponent } from '../../drop-down/drop-down.component';
 import { ContextServiceService } from '../../../core/services/context-service.service';
+import { contextMenuItems } from '../../../core/utilities/context-menu-items';
 
 @Component({
   selector: 'app-context-menu',
@@ -26,11 +27,14 @@ import { ContextServiceService } from '../../../core/services/context-service.se
 })
 export class ContextMenuComponent implements OnInit {
   contextService = inject(ContextServiceService);
+  defaultMenu = contextMenuItems;
 
   dropDownMenu: Signal<NzDropdownMenuComponent | undefined> =
     viewChild('contextmenu');
 
-  constructor(private nzContextMenuService: NzContextMenuService) {}
+  constructor(private nzContextMenuService: NzContextMenuService) {
+    this.defaultMenu[0].action.bind(this.contextService.addComment);
+  }
   ngOnInit(): void {
     this.contextService.dropDownTemplateRef.set(this.dropDownMenu());
   }
@@ -41,5 +45,9 @@ export class ContextMenuComponent implements OnInit {
 
   closeMenu(): void {
     this.nzContextMenuService.close();
+  }
+
+  doThat() {
+    console.log('doThat');
   }
 }

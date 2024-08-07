@@ -17,6 +17,7 @@ import {
   NzDropdownMenuComponent,
   NzContextMenuService,
 } from 'ng-zorro-antd/dropdown';
+import { ContextServiceService } from '../../core/services/context-service.service';
 
 @Directive({
   selector: '[canContextMenu]',
@@ -26,13 +27,13 @@ import {
 export class ContextMenuDirective implements OnInit {
   constructor(
     private viewContainerRef: ViewContainerRef,
-    private nzContextMenuService: NzContextMenuService
+    private nzContextMenuService: NzContextMenuService,
+    private contextService: ContextServiceService
   ) {}
   ngOnInit(): void {
     this.mouseDown$.subscribe((e) => {
       // this.contextMenu(e, this.contextMenu);
-      console.log('Right-clickkkkkk', this.contextableElement);
-      this.showContextMenu();
+      this.createContextMenu(e, this.contextService.dropDownTemplateRef()!);
     });
   }
 
@@ -60,11 +61,10 @@ export class ContextMenuDirective implements OnInit {
     a.className = 'context-area absolute top-0 left-0';
     a.textContent = 'contextahhohdfohdiosdhfisdhfodshfodshfodshf-area';
     this.renderer.appendChild(this.contextableElement, a);
-    this.contextMenu;
     // this.renderer.appendChild(this.contextableElement, this.contextMenu);
   }
 
-  contextMenu($event: MouseEvent, menu: NzDropdownMenuComponent): void {
+  createContextMenu($event: MouseEvent, menu: NzDropdownMenuComponent): void {
     this.nzContextMenuService.create($event, menu);
   }
 

@@ -2,6 +2,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   effect,
+  inject,
+  OnInit,
+  Signal,
+  TemplateRef,
   viewChild,
 } from '@angular/core';
 import {
@@ -10,6 +14,7 @@ import {
   NzDropDownModule,
 } from 'ng-zorro-antd/dropdown';
 import { DropDownComponent } from '../../drop-down/drop-down.component';
+import { ContextServiceService } from '../../../core/services/context-service.service';
 
 @Component({
   selector: 'app-context-menu',
@@ -19,14 +24,16 @@ import { DropDownComponent } from '../../drop-down/drop-down.component';
   styleUrl: './context-menu.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ContextMenuComponent {
-  dropDownMenu = viewChild('contextmenu');
+export class ContextMenuComponent implements OnInit {
+  contextService = inject(ContextServiceService);
 
-  a = effect(() => {
-    console.log('a', this.dropDownMenu());
-  });
+  dropDownMenu: Signal<NzDropdownMenuComponent | undefined> =
+    viewChild('contextmenu');
 
   constructor(private nzContextMenuService: NzContextMenuService) {}
+  ngOnInit(): void {
+    this.contextService.dropDownTemplateRef.set(this.dropDownMenu());
+  }
 
   contextMenu($event: MouseEvent, menu: NzDropdownMenuComponent): void {
     this.nzContextMenuService.create($event, menu);
@@ -34,9 +41,5 @@ export class ContextMenuComponent {
 
   closeMenu(): void {
     this.nzContextMenuService.close();
-  }
-
-  static contextMenu() {
-    return DropDownComponent;
   }
 }

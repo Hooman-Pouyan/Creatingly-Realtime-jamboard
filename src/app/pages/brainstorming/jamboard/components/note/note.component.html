@@ -13,10 +13,10 @@
       </div>
 </div> -->
 @if(dataSource()) {
-<nz-card canResize canDragdrop [latestPosition]="elementState.position()" [latestSize]="elementState.size()"
-      (positionUpdate)="dispatchEvent('position', $event)" (sizeUpdate)="dispatchEvent('size', $event)"
-      [maxAllowedSize]="maxAllowedSize" [minAllowedSize]="minAllowedSize" [nzCover]="coverTemplate"
-      [nzActions]="[actionSetting, actionEdit, actionEllipsis]">
+<nz-card canContextMenu canResize canDragdrop [latestPosition]="elementState.position()"
+      [latestSize]="elementState.size()" (positionUpdate)="dispatchEvent('position', $event)"
+      (sizeUpdate)="dispatchEvent('size', $event)" [maxAllowedSize]="maxAllowedSize" [minAllowedSize]="minAllowedSize"
+      [nzCover]="coverTemplate" [nzActions]="[actionSetting, actionEdit, actionEllipsis]">
       <nz-card-meta nzTitle="Card title" nzDescription="This is the description"
             [nzAvatar]="avatarTemplate"></nz-card-meta>
 </nz-card>

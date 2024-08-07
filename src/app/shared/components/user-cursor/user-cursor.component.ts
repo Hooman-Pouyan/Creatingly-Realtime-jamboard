@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   DestroyRef,
   effect,
@@ -27,6 +28,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   imports: [CommonModule],
   templateUrl: './user-cursor.component.html',
   styleUrl: './user-cursor.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserCursorComponent implements OnInit {
   authService = inject(AuthService);

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -33,6 +33,7 @@ import { SocketEvents } from '../models/socket.model';
   ],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LayoutComponent implements OnInit {
   ngOnInit(): void {}

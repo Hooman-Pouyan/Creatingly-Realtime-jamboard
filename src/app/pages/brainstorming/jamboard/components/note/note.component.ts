@@ -17,6 +17,8 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { BaseJamElementComponent } from '../base-jam-element/base-jam-element.component';
+import { ContextMenuDirective } from '../../../../../shared/directives/context-menu.directive';
+
 @Component({
   selector: 'app-note',
   standalone: true,
@@ -28,6 +30,7 @@ import { BaseJamElementComponent } from '../base-jam-element/base-jam-element.co
     NzCardModule,
     NzAvatarModule,
     NzIconModule,
+    ContextMenuDirective,
   ],
   templateUrl: './note.component.html',
   styleUrl: './note.component.scss',
@@ -48,5 +51,4 @@ import { BaseJamElementComponent } from '../base-jam-element/base-jam-element.co
 export class NoteComponent extends BaseJamElementComponent implements OnInit {
   minAllowedSize = 200;
   maxAllowedSize = 600;
-
 }

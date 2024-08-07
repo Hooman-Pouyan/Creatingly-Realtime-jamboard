@@ -1,5 +1,5 @@
-<div class="context-area" (contextmenu)="contextMenu($event, menu)">Right Click on here</div>
-<nz-dropdown-menu #menu="nzDropdownMenu">
+<div class="context-area" (contextmenu)="contextMenu($event, contextmenu)">Right Click on here</div>
+<nz-dropdown-menu #contextmenu="nzDropdownMenu">
       <ul nz-menu>
             <li nz-menu-item>1st menu item</li>
             <li nz-menu-item>2nd menu item</li>

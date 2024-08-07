@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   effect,
   inject,
@@ -30,6 +31,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {

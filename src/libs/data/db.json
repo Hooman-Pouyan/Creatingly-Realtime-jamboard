@@ -49,7 +49,7 @@
     {
       "id": "1",
       "name": "Hooman",
-      "status": "online",
+      "status": "offline",
       "avatarUrl": "https://avatars.githubusercontent.com/u/10214025?v=4",
       "curser": {
         "position": {
@@ -65,7 +65,7 @@
     {
       "id": "2",
       "name": "Ed Sheeran",
-      "status": "online",
+      "status": "offline",
       "avatarUrl": "https://avatars.githubusercontent.com/u/10214021?v=4",
       "curser": {
         "position": {

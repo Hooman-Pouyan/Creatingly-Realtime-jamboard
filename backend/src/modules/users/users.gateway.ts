@@ -25,7 +25,10 @@ export class UsersGateWay implements OnModuleInit {
   @WebSocketServer()
   server: Server;
 
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    // private compressionService: CompressionService,
+  ) {}
 
   @SubscribeMessage(SocketEvents.JAMBOARD.USERS$)
   handleStateUpdate(@MessageBody() body: any) {

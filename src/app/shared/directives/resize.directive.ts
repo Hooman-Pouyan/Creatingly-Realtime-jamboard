@@ -73,13 +73,15 @@ export class ResizeDirective implements OnInit, AfterViewInit {
   maxAllowedSize: InputSignal<number> = input.required();
   resizeHandler!: any;
 
-  mouseDown$ = fromEvent(this.resizableElement, 'mousedown');
+  mouseDown$ = fromEvent(this.resizableElement, 'mousedown').pipe(
+    filter((event: any) => event.button == 0)
+  );
   mouseLeave$ = fromEvent(this.resizableElement, 'mouseLeave');
   mouseMove$ = fromEvent(document, 'mousemove');
   resizeCancelation$ = race(
     fromEvent(this.resizableElement, 'mouseup'),
-    // fromEvent(document, 'mouseup'),
-    // fromEvent(document, 'contextmenu')
+    fromEvent(document, 'mouseup'),
+    fromEvent(document, 'contextmenu')
   );
 
   ngOnInit(): void {

@@ -1,4 +1,4 @@
-import { Component, input, InputSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, InputSignal } from '@angular/core';
 import { NzPlacementType } from 'ng-zorro-antd/dropdown';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { SharedModule } from '../shared.module';
@@ -9,6 +9,7 @@ import { SharedModule } from '../shared.module';
   imports: [NzDropDownModule, SharedModule],
   templateUrl: './drop-down.component.html',
   styleUrl: './drop-down.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DropDownComponent {
   menuItems: InputSignal<any> = input.required();

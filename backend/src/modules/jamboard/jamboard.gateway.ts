@@ -38,9 +38,16 @@ export class JamboardGateWay implements OnModuleInit {
     // this.jamboardService.handleElementAppearanceChange(body);
   }
 
-  @SubscribeMessage(SocketEvents.JAMBOARD.ELEMENT.DATA)
+  @SubscribeMessage(SocketEvents.JAMBOARD.COMMENTS$)
   handleElementDataChange(@MessageBody() body: any) {
-    this.server.emit(SocketEvents.JAMBOARD.ELEMENT.DATA, body);
+    console.log(body);
+
+    this.server.emit(SocketEvents.JAMBOARD.COMMENTS$, {
+      event: SocketEvents.JAMBOARD.COMMENTS$,
+      id: body[0],
+      type: body[1],
+      data: body[2],
+    });
     this.jamboardService.handleElementDataChange(body);
   }
 

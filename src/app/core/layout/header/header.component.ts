@@ -18,7 +18,8 @@ import { AuthService, IUsersState } from '../../authentication/auth.service';
 import { SharedModule } from '../../../shared/shared.module';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { LoginModalComponent } from '../../authentication/components/login-modal/login-modal.component';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import { heroUser } from '@ng-icons/heroicons/outline';
 
 @Component({
   selector: 'app-header',
@@ -28,7 +29,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
     DropDownComponent,
     NzModalModule,
     LoginModalComponent,
+    NgIconComponent,
   ],
+  providers: [provideIcons({ heroUser })],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -37,6 +40,7 @@ export class HeaderComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     // console.log(changes);
   }
+  user = heroUser;
   ngOnInit(): void {}
   usersInSession: InputSignal<IUser[] | undefined> = input.required();
   userProfile: InputSignal<IUser> = input.required();

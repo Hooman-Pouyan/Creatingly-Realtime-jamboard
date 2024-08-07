@@ -1,6 +1,6 @@
 import { TPosition } from './element.model';
 
-export type TModules = 'jamboard' | 'planning' | 'design';
+export type TModules = 'brainstorming' | 'planning' | 'design';
 
 export interface ICurser {
   id: string;
@@ -11,6 +11,14 @@ export interface ICurser {
 export type TUserStatus = 'online' | 'offline' | 'stale' | 'editting';
 
 export interface IJamUser extends IUser {}
+
+export interface IJamComment {
+  id: string;
+  content: string;
+  user: Pick<IJamUser, 'id' | 'name' | 'avatarUrl'>;
+  dateTime: Date;
+  position: TPosition;
+}
 
 export interface IUser {
   id: string;

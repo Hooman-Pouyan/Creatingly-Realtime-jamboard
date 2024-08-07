@@ -150,11 +150,13 @@ export class DragdropDirective implements OnInit {
   emitLatestPosition = this.dragMove$
     .pipe(
       throttleTime(500),
+      // auditTime(500),
+      // bufferTime(500),
       tap((elementPosition) => {
         this.positionUpdate.emit({
           isBeingDragged: true,
-          x: elementPosition.x != 0 ? elementPosition.x : this.positionX(),
-          y: elementPosition.y != 0 ? elementPosition.y : this.positionY(),
+          x: elementPosition.x ?? this.positionX(),
+          y: elementPosition.y ?? this.positionY(),
         });
       })
     )

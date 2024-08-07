@@ -22,6 +22,8 @@
     "@angular/router": "^18.1.0",
     "@liara/cli": "^7.0.6",
     "@nestjs/cli": "^10.4.2",
+    "@ng-icons/core": "^29.3.0",
+    "@ng-icons/heroicons": "^29.3.0",
     "@ngrx/operators": "^18.0.2",
     "@ngrx/signals": "^18.0.0",
     "json-server": "^1.0.0-beta.1",

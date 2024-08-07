@@ -1,8 +1,7 @@
-<div class="context-area" (contextmenu)="contextMenu($event, contextmenu)">Right Click on here</div>
 <nz-dropdown-menu #contextmenu="nzDropdownMenu">
       <ul nz-menu>
-            @for(item of defaultMenu; track $index) {
-            <li (click)="item.action()" nz-menu-item>
+            @for(item of defaultMenu(); track $index) {
+            <li [nzDisabled]="item.disabled" (click)="dispatchContextAction(item.name, '1')" nz-menu-item>
                   <span><i [class]="item.icon"></i></span>
                   <span>
                         {{ item.label}}
@@ -11,7 +10,8 @@
             @if(item.children) {
             <ul nz-menu>
                   @for(submenu of item.children; track $index) {
-                  <li nzDisabled="false" [nzTitle]="submenu.label" (click)="item.action()" nz-submenu>
+                  <li nzDisabled="true" [nzTitle]="submenu.label" (click)="dispatchContextAction(submenu.name, '1')"
+                        nz-submenu>
                         <span><i [class]="item.icon"></i></span>
                         <span>
                               {{ item.label}}

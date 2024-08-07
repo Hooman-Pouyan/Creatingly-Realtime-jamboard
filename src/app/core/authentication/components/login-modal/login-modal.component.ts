@@ -23,10 +23,10 @@ export class LoginModalComponent {
   formUpdateOutput: OutputEmitterRef<any> = output();
 
   validateForm: FormGroup<{
-    email: FormControl<string>;
+    username: FormControl<string>;
     password: FormControl<string>;
   }> = this.fb.group({
-    email: ['', [Validators.required]],
+    username: ['', [Validators.required]],
     password: ['', [Validators.required]],
   });
 

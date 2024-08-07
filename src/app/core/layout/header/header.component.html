@@ -5,11 +5,15 @@
       <div class="userProfile-menu">
         <app-drop-down [menuItems]="userProfileMenuItems">
           <span ngprojectAs="label">{{ userProfile().name }}</span>
+
         </app-drop-down>
       </div>
       }@else {
-      <div class="flex justify-center items-center">
-        <button nz-button nzType="primary" class="!m-0" (click)="showModal()">Sign In</button>
+      <div class="flex justify-between items-center bg-slate-200 pr-2 rounded-md">
+        <button class="flex justify-center items-center rounded-md" nz-button nzType="primary" class="!m-0"
+          (click)="showModal()">
+          Sign In</button>
+        <ng-icon class="ml-2" [svg]="user" />
       </div>
       }
     </div>

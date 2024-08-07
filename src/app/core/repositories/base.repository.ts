@@ -72,17 +72,7 @@ export class BaseRepository {
     data: any,
     options = this.options_
   ): Observable<T> {
-    return this.http.post<T>(url, data, options).pipe(
-      catchError((err) => {
-        throw err;
-      }),
-      map((response: HttpEvent<T>) => {
-        if (response instanceof HttpResponse) {
-          return response.body as T;
-        }
-        throw new Error('Unexpected response type');
-      })
-    );
+    return this.http.post<T>(url, data);
   }
 
   public put<T>(
@@ -119,17 +109,6 @@ export class BaseRepository {
     url: string,
     options = this.options_
   ): Observable<T> {
-    return this.http.get<T>(url, options).pipe(
-      catchError((err) => {
-        throw err;
-      }),
-      map((response: HttpEvent<T>) => {
-        if (response instanceof HttpResponse) {
-          this.cacheService.put(url, of(response.body));
-          return response.body as T;
-        }
-        throw new Error('Unexpected response type');
-      })
-    );
+    return this.http.get<T>(url);
   }
 }

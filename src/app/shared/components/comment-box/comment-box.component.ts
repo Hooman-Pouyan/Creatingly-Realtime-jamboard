@@ -5,27 +5,24 @@ import {
   input,
   InputSignal,
   signal,
-  ViewContainerRef,
   WritableSignal,
 } from '@angular/core';
 import { NzCommentModule } from 'ng-zorro-antd/comment';
+import { DragdropDirective } from '../../directives/dragdrop.directive';
 import { SharedModule } from '../../shared.module';
 import { AuthService } from '../../../core/authentication/auth.service';
-import { CommentService } from '../../../pages/brainstorming/jamboard/services/comment.service';
 import { IJamComment } from '../../../pages/brainstorming/jamboard/models/jamboard.model';
-import { DragdropDirective } from '../../directives/dragdrop.directive';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { CommentService } from '../../../pages/brainstorming/jamboard/services/comment.service';
 import { JamboardStore } from '../../../pages/brainstorming/jamboard/states/jamboard.state';
-import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-comment-flow',
+  selector: 'app-comment-box',
   standalone: true,
-  imports: [CommonModule, NzCommentModule, SharedModule, DragdropDirective],
-  templateUrl: './comment-flow.component.html',
-  styleUrl: './comment-flow.component.scss',
+  imports: [NzCommentModule, SharedModule, DragdropDirective],
+  templateUrl: './comment-box.component.html',
+  styleUrl: './comment-box.component.scss',
 })
-export class CommentFlowComponent {
+export class CommentBoxComponent {
   authService = inject(AuthService);
   jamboardStore = inject(JamboardStore);
   commentService = inject(CommentService);
@@ -45,5 +42,28 @@ export class CommentFlowComponent {
     author: this.userProfile()?.name,
     avatar: this.userProfile()?.avatarUrl,
   };
-  
+
+  inputValue = '';
+  handleSubmit(): void {
+    this.submitting = true;
+    const content = this.inputValue;
+    this.inputValue = '';
+    this.submitting = false;
+    this.data.set(
+      [
+        ...this.data(),
+        {
+          ...this.user,
+          id: '1',
+          content,
+          datetime: new Date(),
+        },
+      ].map((e) => ({
+        ...e,
+      }))
+    );
+    console.log(this.data);
+
+    this.commentService.addComment('1', '1', this.data);
+  }
 }

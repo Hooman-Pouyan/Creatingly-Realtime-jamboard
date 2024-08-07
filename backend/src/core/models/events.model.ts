@@ -2,6 +2,7 @@ export const SocketEvents = {
   JAMBOARD: {
     STATE: 'jambaord:state',
     ELEMENT$: 'jamboard:element',
+    COMMENTS$: 'jamboard:comments',
     ELEMENT: {
       SIZE: 'jamboard:element:size',
       POSITION: 'jamboard:element:position',

@@ -1,7 +1,7 @@
 import {
-  ComponentRef,
   DestroyRef,
   Directive,
+  effect,
   ElementRef,
   HostListener,
   inject,
@@ -17,7 +17,9 @@ import {
   NzDropdownMenuComponent,
   NzContextMenuService,
 } from 'ng-zorro-antd/dropdown';
-import { ContextServiceService } from '../../core/services/context-service.service';
+import { ContextService } from '../../core/services/context.service';
+import { CommentFlowComponent } from '../components/comment-flow/comment-flow.component';
+import { CommentBoxComponent } from '../components/comment-box/comment-box.component';
 
 @Directive({
   selector: '[canContextMenu]',
@@ -26,26 +28,51 @@ import { ContextServiceService } from '../../core/services/context-service.servi
 })
 export class ContextMenuDirective implements OnInit {
   constructor(
-    private viewContainerRef: ViewContainerRef,
     private nzContextMenuService: NzContextMenuService,
-    private contextService: ContextServiceService
+    private contextService: ContextService,
+    private vcr: ViewContainerRef
   ) {}
+
+  createComment() {
+    console.log('add comment');
+
+    this.vcr.clear();
+    this.vcr.createComponent(CommentBoxComponent);
+  }
+
   ngOnInit(): void {
     this.mouseDown$.subscribe((e) => {
-      // this.contextMenu(e, this.contextMenu);
       this.createContextMenu(e, this.contextService.dropDownTemplateRef()!);
     });
   }
 
-  a = NzDropdownMenuComponent;
+  ContextMenuSignal = effect(() => {
+    console.log(this.contextService.contextAction());
+    console.log(this.contextableElement.id);
+
+    if (this.contextService.contextAction()?.id == this.contextableElement.id) {
+      switch (this.contextService.contextAction()?.type) {
+        case 'comment':
+          this.createComment();
+          break;
+        case 'addReply':
+          break;
+        case 'addLike':
+          break;
+        case 'delete':
+          this.vcr.clear();
+          this.contextableElement.remove();
+          break;
+      }
+    }
+  });
 
   elementRef = inject(ElementRef);
   renderer = inject(Renderer2);
   destoryRef$ = inject(DestroyRef);
 
-  _contextMenu = ContextMenuComponent;
-
-  contextableElement = this.elementRef.nativeElement;
+  contextableElement: HTMLElement = this.elementRef.nativeElement;
+  elementId = this.contextableElement.id;
 
   @HostListener('contextmenu', ['$event'])
   onRightClick(event: MouseEvent) {

@@ -16,7 +16,8 @@
             <ng-content selector="[label]"></ng-content>
       </button>
       <button nz-button nz-dropdown [nzDropdownMenu]="menu2" nzPlacement="bottomRight">
-            <span nz-icon nzType="user" nzTheme="outline"></span>
+            <!-- <span nz-icon nzType="user" nzTheme="outline"></span> -->
+            <ng-icon class="mt-1" [svg]="user" />
       </button>
 </nz-button-group>
 

@@ -2,7 +2,15 @@
       [ngClass]="{ 'pinned': noteState()?.isPinned, 'resize-handle': noteState()?.size?.isBeingResized}"
       [style.opacity]="noteState()?.appearence?.opacity" [style.width]="noteState()?.size?.width + 'px'"
       [style.height]="noteState()?.size?.height + 'px'" class="">
-      <div class="flex justify-start items-center">
+</div> -->
+@if(dataSource()) {
+<nz-card [id]="elementState.id()" canContextMenu canResize canDragdrop [latestPosition]="elementState.position()"
+      [latestSize]="elementState.size()" (positionUpdate)="dispatchEvent('position', $event)"
+      (sizeUpdate)="dispatchEvent('size', $event)" [maxAllowedSize]="maxAllowedSize" [minAllowedSize]="minAllowedSize"
+      [nzCover]="coverTemplate" [nzActions]="[actionSetting, actionEdit, actionEllipsis]">
+      <nz-card-meta nzTitle="Card title" nzDescription="This is the description"
+            [nzAvatar]="avatarTemplate"></nz-card-meta>
+      <!-- <div class="flex justify-start items-center">
             <ng-content select="[slot=header]"></ng-content>
       </div>
       <div class="p-5 flex justify-center">
@@ -10,15 +18,7 @@
       </div>
       <div class="mt-3">
             <ng-content select="[slot=detail]"></ng-content>
-      </div>
-</div> -->
-@if(dataSource()) {
-<nz-card canContextMenu canResize canDragdrop [latestPosition]="elementState.position()"
-      [latestSize]="elementState.size()" (positionUpdate)="dispatchEvent('position', $event)"
-      (sizeUpdate)="dispatchEvent('size', $event)" [maxAllowedSize]="maxAllowedSize" [minAllowedSize]="minAllowedSize"
-      [nzCover]="coverTemplate" [nzActions]="[actionSetting, actionEdit, actionEllipsis]">
-      <nz-card-meta nzTitle="Card title" nzDescription="This is the description"
-            [nzAvatar]="avatarTemplate"></nz-card-meta>
+      </div> -->
 </nz-card>
 <ng-template #avatarTemplate>
       <nz-avatar draggable="false" nzSrc="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"></nz-avatar>

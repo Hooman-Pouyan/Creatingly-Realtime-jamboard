@@ -2,6 +2,7 @@ export declare const SocketEvents: {
     JAMBOARD: {
         STATE: string;
         ELEMENT$: string;
+        COMMENTS$: string;
         ELEMENT: {
             SIZE: string;
             POSITION: string;

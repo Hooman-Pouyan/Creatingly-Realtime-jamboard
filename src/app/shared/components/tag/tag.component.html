@@ -1,1 +1,8 @@
-<p>tag works!</p>
+<!-- <nz-tag canDragdrop [latestPosition]="elementState.position()" (positionUpdate)="dispatchEvent('position', $event)"
+      [id]="elementState.id()" [latestPosition]="{x: 300, y: 300}" [nzColor]="color()">
+      <ng-content></ng-content>
+</nz-tag> -->
+
+<nz-tag [nzColor]="color()" class="rounded-sm">
+      <ng-content></ng-content>
+</nz-tag>

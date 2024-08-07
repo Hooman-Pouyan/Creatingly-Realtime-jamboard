@@ -41,6 +41,12 @@ importers:
       '@nestjs/cli':
         specifier: ^10.4.2
         version: 10.4.2
+      '@ng-icons/core':
+        specifier: ^29.3.0
+        version: 29.3.0(@angular/common@18.1.3(@angular/core@18.1.3(rxjs@7.8.1)(zone.js@0.14.8))(rxjs@7.8.1))(@angular/core@18.1.3(rxjs@7.8.1)(zone.js@0.14.8))(rxjs@7.8.1)
+      '@ng-icons/heroicons':
+        specifier: ^29.3.0
+        version: 29.3.0
       '@ngrx/operators':
         specifier: ^18.0.2
         version: 18.0.2(rxjs@7.8.1)
@@ -1274,6 +1280,16 @@ packages:
     resolution: {integrity: sha512-aLJ4Nl/K/u6ZlgLa0NjKw5CuBOIgc6vudF42QvmGueu5FaMGM6IJrAuEvB5T2kr0PAfVwYmDFBBHCWdYhTw4Tg==}
     peerDependencies:
       typescript: '>=4.8.2'
+
+  '@ng-icons/core@29.3.0':
+    resolution: {integrity: sha512-UZzt5gxquD1D30MSlUKMzQVMvfFubc9TsL87srEl4jakit7nCb8rWm7KaDImWpV4/3YG1Y9Qb7r85DWCus/Zrg==}
+    peerDependencies:
+      '@angular/common': '>=18.0.0'
+      '@angular/core': '>=18.0.0'
+      rxjs: ^6.5.3 || ^7.4.0
+
+  '@ng-icons/heroicons@29.3.0':
+    resolution: {integrity: sha512-2SdpQW++mGWdANZkctGuBrW7L9NRgywVi7Pv/6Jx4HNGONugB62MDdIzPlqklpOeqP6eJ4vq67xsfrp9Kj4pEQ==}
 
   '@ngrx/operators@18.0.2':
     resolution: {integrity: sha512-4dyNkVKBw9ZqECMJu6bT2t21p3ANaMC+ZkcfiBfv5OUEFtB9HhN5uCem9tcgYeNBK8XQFA7/1tzd1T3KaiBY8A==}
@@ -6731,6 +6747,17 @@ snapshots:
       typescript: 5.3.3
     transitivePeerDependencies:
       - chokidar
+
+  '@ng-icons/core@29.3.0(@angular/common@18.1.3(@angular/core@18.1.3(rxjs@7.8.1)(zone.js@0.14.8))(rxjs@7.8.1))(@angular/core@18.1.3(rxjs@7.8.1)(zone.js@0.14.8))(rxjs@7.8.1)':
+    dependencies:
+      '@angular/common': 18.1.3(@angular/core@18.1.3(rxjs@7.8.1)(zone.js@0.14.8))(rxjs@7.8.1)
+      '@angular/core': 18.1.3(rxjs@7.8.1)(zone.js@0.14.8)
+      rxjs: 7.8.1
+      tslib: 2.6.3
+
+  '@ng-icons/heroicons@29.3.0':
+    dependencies:
+      tslib: 2.6.3
 
   '@ngrx/operators@18.0.2(rxjs@7.8.1)':
     dependencies:

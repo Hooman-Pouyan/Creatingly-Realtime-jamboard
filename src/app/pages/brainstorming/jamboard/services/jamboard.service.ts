@@ -4,6 +4,7 @@ import { API_BASE_URL } from '../../../../app.config';
 import { Observable } from 'rxjs';
 import { BaseRepository } from '../../../../core/repositories/base.repository';
 import { IJamElement } from '../models/element.model';
+import { IJamComment } from '../models/jamboard.model';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +18,12 @@ export class JamBoardService implements OnInit {
   getAllElements(): Observable<IJamElement[]> {
     return this.baseRepo.getWithoutCache<IJamElement[]>(
       `${this.baseUrl}/elements`
+    );
+  }
+
+  getAllComments(jamboardId: string): Observable<IJamComment[]> {
+    return this.baseRepo.getWithoutCache<IJamComment[]>(
+      `${this.baseUrl}/comments/?jamboardId=${jamboardId}`
     );
   }
 }

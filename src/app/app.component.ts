@@ -6,7 +6,8 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { AuthService } from './core/authentication/auth.service';
 import { UserCursorComponent } from './shared/components/user-cursor/user-cursor.component';
-import { ContextMenuComponent } from "./shared/components/context-menu/context-menu.component";
+import { ContextMenuComponent } from './shared/components/context-menu/context-menu.component';
+import { InsertComponentDirective } from './shared/directives/insert-component.directive';
 
 @Component({
   selector: 'app-root',
@@ -19,8 +20,9 @@ import { ContextMenuComponent } from "./shared/components/context-menu/context-m
     NzLayoutModule,
     NzMenuModule,
     UserCursorComponent,
-    ContextMenuComponent
-],
+    ContextMenuComponent,
+    InsertComponentDirective,
+  ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -4,18 +4,24 @@ import {
   effect,
   inject,
   OnInit,
+  signal,
   Signal,
   TemplateRef,
   viewChild,
+  ViewContainerRef,
+  WritableSignal,
 } from '@angular/core';
 import {
   NzContextMenuService,
   NzDropdownMenuComponent,
   NzDropDownModule,
 } from 'ng-zorro-antd/dropdown';
-import { DropDownComponent } from '../../drop-down/drop-down.component';
-import { ContextServiceService } from '../../../core/services/context-service.service';
-import { contextMenuItems } from '../../../core/utilities/context-menu-items';
+import { ContextService } from '../../../core/services/context.service';
+import {
+  contextMenuItems,
+  TContextMenuItem,
+} from '../../../core/utilities/context-menu-items';
+import { AuthService } from '../../../core/authentication/auth.service';
 
 @Component({
   selector: 'app-context-menu',
@@ -23,31 +29,41 @@ import { contextMenuItems } from '../../../core/utilities/context-menu-items';
   imports: [NzDropDownModule],
   templateUrl: './context-menu.component.html',
   styleUrl: './context-menu.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContextMenuComponent implements OnInit {
-  contextService = inject(ContextServiceService);
-  defaultMenu = contextMenuItems;
+  contextService = inject(ContextService);
+  authService = inject(AuthService);
+  defaultMenu: WritableSignal<TContextMenuItem[] | undefined> = signal([]);
+  onlyLoggedInUsersOptions = ['delete', 'comment', 'share'];
 
   dropDownMenu: Signal<NzDropdownMenuComponent | undefined> =
     viewChild('contextmenu');
 
   constructor(private nzContextMenuService: NzContextMenuService) {
-    this.defaultMenu[0].action.bind(this.contextService.addComment);
+    // this.defaultMenu[0].action.bind(this.contextService.addComment);
   }
+
   ngOnInit(): void {
+    this.defaultMenu.set(this.updateContextMenu());
     this.contextService.dropDownTemplateRef.set(this.dropDownMenu());
   }
 
-  contextMenu($event: MouseEvent, menu: NzDropdownMenuComponent): void {
-    this.nzContextMenuService.create($event, menu);
+  dispatchContextAction(action: string, id: string, data?: any) {
+    this.contextService.createContextAction(action, id);
   }
 
-  closeMenu(): void {
-    this.nzContextMenuService.close();
-  }
+  listenToAuthState = effect(() => {
+    if (this.authService.usersStore$()) {
+      this.defaultMenu.set(this.updateContextMenu());
+    }
+  });
 
-  doThat() {
-    console.log('doThat');
+  updateContextMenu(): TContextMenuItem[] {
+    return contextMenuItems.map((item) => {
+      return {
+        ...item,
+        disabled: !this.authService.usersStore$.isAuthenticated(),
+      };
+    });
   }
 }

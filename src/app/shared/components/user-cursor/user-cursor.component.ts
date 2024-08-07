@@ -21,6 +21,7 @@ import { SocketEvents } from '../../../core/models/socket.model';
 import { filter, take } from 'rxjs/operators';
 import { AuthService } from '../../../core/authentication/auth.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { JamboardStore } from '../../../pages/brainstorming/jamboard/states/jamboard.state';
 
 @Component({
   selector: 'app-user-cursor',
@@ -33,6 +34,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class UserCursorComponent implements OnInit {
   authService = inject(AuthService);
   socketService = inject(SocketService);
+  jamboardStore = inject(JamboardStore);
   destoryRef$ = inject(DestroyRef);
 
   constructor() {
@@ -48,12 +50,20 @@ export class UserCursorComponent implements OnInit {
       .pipe(
         takeUntilDestroyed(this.destoryRef$),
         filter(
-          (message) => message.type == 'cursor' && message.id !== this.userId
+          (message) =>
+            message.type == 'cursor' &&
+            message.id !== this.userId &&
+            message.data.activeModule ===
+              this.jamboardStore.state().activeModule
         )
       )
       .subscribe((message) => {
         this.updateUsersCursers(message.id, message.data);
-        console.log(message.id, this.userId);
+        console.log(
+          '++++++++++++++',
+          message.data.activeModule,
+          this.jamboardStore.state().activeModule
+        );
       });
   }
 
@@ -62,9 +72,13 @@ export class UserCursorComponent implements OnInit {
     transform: (userProfile) => {
       const cursers = userProfile.map((user) => ({
         id: user.id,
+        name: user.name,
+        avatar: user.avatarUrl,
         cursor: user.curser,
       }));
       this.UsersInSession.set(cursers);
+      console.log(this.UsersInSession());
+
       return cursers;
     },
   });

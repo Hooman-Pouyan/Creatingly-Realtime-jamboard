@@ -25,13 +25,11 @@
                               (ngModelChange)="reGenerateArray($event)"></nz-slider>
                   </div>
             </div> -->
-
-
             }
-
+            <app-comment-flow [comments]="jamboardStore.state.comments()" />
       </section>
 
-      <section class="w-full h-full col-span-2 justify-center items-center">
+      <section class="w-full h-full col-span-2 justify-center items-center  hidden lg:block">
             <app-jamsidebar [activeSettings]="activeSettings()"></app-jamsidebar>
       </section>
 </div>

@@ -3,12 +3,11 @@
       @for(user of UsersInSession(); track user.id) {
       @if(user.id !== userId) {
       <div [ngStyle]="{'top.px': user.cursor.position.y, 'left.px': user.cursor.position.x}" class="absolute">
-            asdasdsadaddas
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                   viewBox="0,0,255.99431,255.99431" width="30px" height="30px">
-                  <g fill="#207fc9" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt"
-                        stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0"
-                        font-family="none" font-weight="none" font-size="none" text-anchor="none"
+                  <g [attr.fill]="user.cursor.color" fill-rule="nonzero" stroke="none" stroke-width="1"
+                        stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray=""
+                        stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none"
                         style="mix-blend-mode: normal">
                         <g transform="scale(8.53333,8.53333)">
                               <path
@@ -17,6 +16,12 @@
                         </g>
                   </g>
             </svg>
+            <div class="flex justify-center items-center bg-slate-100 p-2 rounded-md shadow-sm ml-5 space-x-3">
+
+                  <span>{{user.name}}</span>
+                  <img [src]="user.avatar" alt="avatar" class="w-6 h-6 rounded-md">
+            </div>
+
       </div>
       }
 

@@ -52,7 +52,6 @@ export class AuthService {
           patchState(this.usersStore$, {
             UsersInSession: this.usersInSession(),
           });
-          console.log('nooooooooooooooo');
         }
       },
       { allowSignalWrites: true }
@@ -100,9 +99,9 @@ export class AuthService {
       this.updateUsersInSession(event.type, event.id, event.data);
     });
 
-  login(data: { email?: string; password?: string }): void {
+  login(data: { username?: string; password?: string }): void {
     this.userProfileRepository
-      .getUserProfile(data.email!)
+      .getUserProfile(data.username!)
       .pipe(
         tap((loggedInUser: IUser) => {
           this.dispatchAuthSocketActions('login', loggedInUser);

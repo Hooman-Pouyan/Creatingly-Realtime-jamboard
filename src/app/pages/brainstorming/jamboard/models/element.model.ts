@@ -52,9 +52,9 @@ export enum EJameElementStatus {
 }
 
 export type TJamElementContent = {
-  title: string;
+  title?: string;
   content: string;
-  imageUrl: string;
+  imageUrl?: string;
 };
 
 export type TJamElementInfo = makeOptional<{
@@ -65,8 +65,7 @@ export type TJamElementInfo = makeOptional<{
 }>;
 
 export type TAppearence = makeOptional<{
-  width: number;
-  height: number;
+  color: string;
   opacity: number;
 }>;
 export { IUser };

@@ -10,6 +10,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
 
 @NgModule({
   providers: [],
@@ -27,6 +29,8 @@ import { NzInputModule } from 'ng-zorro-antd/input';
     NzListModule,
     NzInputNumberModule,
     NzInputModule,
+    NzDividerModule,
+    NgIconComponent,
   ],
   exports: [
     NzButtonModule,
@@ -41,6 +45,8 @@ import { NzInputModule } from 'ng-zorro-antd/input';
     NzListModule,
     NzInputNumberModule,
     NzInputModule,
+    NzDividerModule,
+    NgIconComponent,
   ],
 })
 export class SharedModule {}

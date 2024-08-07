@@ -36,7 +36,13 @@ let JamboardGateWay = class JamboardGateWay {
         });
     }
     handleElementDataChange(body) {
-        this.server.emit(events_model_1.SocketEvents.JAMBOARD.ELEMENT.DATA, body);
+        console.log(body);
+        this.server.emit(events_model_1.SocketEvents.JAMBOARD.COMMENTS$, {
+            event: events_model_1.SocketEvents.JAMBOARD.COMMENTS$,
+            id: body[0],
+            type: body[1],
+            data: body[2],
+        });
         this.jamboardService.handleElementDataChange(body);
     }
     handleElementInfoChange(body) {
@@ -61,7 +67,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], JamboardGateWay.prototype, "handleElementAppearanceChange", null);
 __decorate([
-    (0, websockets_1.SubscribeMessage)(events_model_1.SocketEvents.JAMBOARD.ELEMENT.DATA),
+    (0, websockets_1.SubscribeMessage)(events_model_1.SocketEvents.JAMBOARD.COMMENTS$),
     __param(0, (0, websockets_1.MessageBody)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),

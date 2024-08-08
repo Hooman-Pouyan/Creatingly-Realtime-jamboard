@@ -1,5 +1,5 @@
-<!-- @if (comments().length) {
-<nz-list [nzDataSource]="comments()" [nzRenderItem]="item" [nzItemLayout]="'horizontal'" class="relative">
+@if (comments().length) {
+<nz-list class="w-full h-full" [nzDataSource]="comments()" [nzRenderItem]="item" [nzItemLayout]="'horizontal'">
       <ng-template #item let-item>
             <nz-comment [nzAuthor]="item.author" [nzDatetime]="item.displayTime">
                   <nz-avatar nz-comment-avatar nzIcon="user" [nzSrc]="item.avatar"></nz-avatar>
@@ -9,4 +9,4 @@
             </nz-comment>
       </ng-template>
 </nz-list>
-} -->
+}

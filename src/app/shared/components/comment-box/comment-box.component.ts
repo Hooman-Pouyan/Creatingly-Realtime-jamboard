@@ -14,6 +14,7 @@ import { AuthService } from '../../../core/authentication/auth.service';
 import { IJamComment } from '../../../pages/brainstorming/jamboard/models/jamboard.model';
 import { CommentService } from '../../../pages/brainstorming/jamboard/services/comment.service';
 import { JamboardStore } from '../../../pages/brainstorming/jamboard/states/jamboard.state';
+import { fromEvent } from 'rxjs';
 
 @Component({
   selector: 'app-comment-box',
@@ -45,6 +46,8 @@ export class CommentBoxComponent {
 
   inputValue = '';
   handleSubmit(): void {
+    console.log(window);
+    
     this.submitting = true;
     const content = this.inputValue;
     this.inputValue = '';

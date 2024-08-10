@@ -1,13 +1,16 @@
+<ng-icon [svg]="bootstrapFullscreenExit"
+  class="text-blue-800 text-lg font-extrabold cursor-pointer !absolute !left-7 !top-7 hover:text-blue-400 rounded-sm"
+  (click)="toggleFullScreen()"></ng-icon>
 <nz-layout class="app-layout">
-  <nz-sider class="menu-sidebar" nzCollapsible nzWidth="256px" nzBreakpoint="md" [(nzCollapsed)]="isCollapsed"
-    [nzTrigger]="null">
+  <nz-sider #layoutSidebar [hidden]="isFullScreenMode()" class="menu-sidebar transition-all duration-300" nzCollapsible
+    nzWidth="256px" nzBreakpoint="md" [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
     <div class="sidebar-logo">
       <a href="https://ng.ant.design/" target="_blank">
         <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
         <h1>Creatingly Test Project</h1>
       </a>
     </div>
-    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed()">
       <li nz-submenu nzOpen nzTitle="Product Development" nzIcon="dashboard">
         <ul>
           <li nz-menu-item nzMatchRouter>
@@ -24,15 +27,16 @@
     </ul>
   </nz-sider>
   <nz-layout>
-    <nz-header>
+    <nz-header #layoutHeader [hidden]="isFullScreenMode()">
       <div class="w-full app-header flex justify-between items-center">
         <div class="w-full">
-          <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
-            <span class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
+          <span class="header-trigger" (click)="toggleMenu()">
+            <span class="trigger" nz-icon [nzType]="isCollapsed() ? 'menu-unfold' : 'menu-fold'"></span>
           </span>
         </div>
         <app-header [userProfile]="authService.usersStore$.userProfile()!" [usersInSession]="usersInSession()"
-          (loginEmitter)="login($event)" (logoutEmitter)="logout()" />
+          (loginEmitter)="login($event)" (logoutEmitter)="logout()" (menuUpdate)="toggleMenu()"
+          (FullScreenUpdate)="toggleFullScreen()" [isFullScreenMode]="isFullScreenMode()" />
 
       </div>
     </nz-header>

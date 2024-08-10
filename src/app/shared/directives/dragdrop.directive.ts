@@ -40,6 +40,7 @@ import { EStatus } from '../../pages/planning/issue-tracking/models/task.models'
 import { makeOptional } from '../../core/models/transformers';
 import { EJameElementStatus } from '../../pages/brainstorming/jamboard/models/element.model';
 import { UtilityDirectaive } from './utility.directive';
+import { LayoutService } from '../../core/layout/services/layout.service';
 
 export interface DragDropPosition extends TPosition {
   previousPosition?: TPosition;
@@ -53,6 +54,7 @@ export interface DragDropPosition extends TPosition {
 })
 export class DragdropDirective implements OnInit {
   baseDirective = inject(UtilityDirectaive);
+  layoutService = inject(LayoutService);
   // currentPosition = signalState({});
   // ---- specific ----
   draggableElement = this.baseDirective.element;
@@ -162,12 +164,12 @@ export class DragdropDirective implements OnInit {
     this.baseDirective.renderer.setStyle(
       this.draggableElement,
       'left',
-      x + 'px'
+      x - this.layoutService.offsetX() + 'px'
     );
     this.baseDirective.renderer.setStyle(
       this.draggableElement,
       'top',
-      y + 'px'
+      y - this.layoutService.offsetY() + 'px'
     );
     this.baseDirective.renderer.addClass(
       this.draggableElement,

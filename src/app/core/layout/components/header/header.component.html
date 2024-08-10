@@ -1,4 +1,13 @@
 <nav class="px-10 w-full h-full flex justify-center items-center">
+  <section class="toggles absolute flex justify-center items-center h-full left-7 space-x-4">
+    <ng-icon [svg]="bootstrapLayoutSidebarInset"
+      class="text-blue-800 text-xl font-extrabold cursor-pointer  hover:text-blue-400 rounded-sm"
+      (click)="toggleMenu()"></ng-icon>
+    <ng-icon [svg]="bootstrapArrowsFullscreen"
+      class="text-blue-800 text-lg font-extrabold cursor-pointer hover:text-blue-400 rounded-sm"
+      (click)="toggleFullScreen()"></ng-icon>
+  </section>
+
   <section class="w-full space-x-6 h-full flex flex-row-reverse justify-between items-center">
     <div class="flex justify-center items-center">
       @if(userProfile()){

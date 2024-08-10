@@ -8,7 +8,7 @@
             <div class="w-full grid grid-cols-4 gap-3 justify-center items-center">
                   @for(tag of tags; track $index ) {
                   <!-- <app-tag [dataSource]="tag" class="!col-span-1 cursor-grab" [color]="tag.appearence.color!">asas</app-tag> -->
-                  <app-tag class="!col-span-1 cursor-grab" [color]="tag">Tag</app-tag>
+                  <app-tag class="!col-span-1 cursor-grab" [color]="tag.appearence.color!">Tag</app-tag>
                   }
             </div>
       </section>

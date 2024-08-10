@@ -25,6 +25,7 @@ import { AuthService } from '../../../core/authentication/auth.service';
 import { IJamboardState, JamboardStore } from './states/jamboard.state';
 import { ActivatedRoute } from '@angular/router';
 import { CommentFlowComponent } from '../../../shared/components/comment-flow/comment-flow.component';
+import { LayoutService } from '../../../core/layout/services/layout.service';
 
 @Component({
   selector: 'app-jamboard',

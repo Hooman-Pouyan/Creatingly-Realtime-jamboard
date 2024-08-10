@@ -6,6 +6,8 @@ import {
   effect,
   inject,
   OnInit,
+  signal,
+  viewChild,
 } from '@angular/core';
 import {
   ActivatedRoute,
@@ -17,7 +19,6 @@ import {
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
-import { HeaderComponent } from './header/header.component';
 import { AuthService } from '../authentication/auth.service';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import {
@@ -34,6 +35,11 @@ import {
 import { SocketService } from '../services/socket.service';
 import { SocketEvents } from '../models/socket.model';
 import { JamboardStore } from '../../pages/brainstorming/jamboard/states/jamboard.state';
+import { HeaderComponent } from './components/header/header.component';
+import { LayoutService } from './services/layout.service';
+import { provideIcons } from '@ng-icons/core';
+import { bootstrapFullscreenExit } from '@ng-icons/bootstrap-icons';
+import { NgIcon } from '@ng-icons/core';
 
 @Component({
   selector: 'app-layout',
@@ -46,9 +52,15 @@ import { JamboardStore } from '../../pages/brainstorming/jamboard/states/jamboar
     NzLayoutModule,
     NzMenuModule,
     HeaderComponent,
+    NgIcon,
   ],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss',
+  providers: [
+    provideIcons({
+      bootstrapFullscreenExit,
+    }),
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutComponent implements OnInit {
@@ -62,15 +74,34 @@ export class LayoutComponent implements OnInit {
       }
     });
   }
+  bootstrapFullscreenExit = bootstrapFullscreenExit;
 
   authService = inject(AuthService);
   socketService = inject(SocketService);
   jamboardStore = inject(JamboardStore);
+  layoutService = inject(LayoutService);
   router = inject(Router);
+  destroyRef = inject(DestroyRef);
   usersInSession = this.authService.usersStore$.UsersInSession;
   userProfile = this.authService.usersStore$.userProfile;
-  isCollapsed = false;
-  destroyRef = inject(DestroyRef);
+  isCollapsed = this.layoutService.isMenuCollapsed;
+  isFullScreenMode = this.layoutService.fullScreenMode;
+
+  layoutSidebar = viewChild('layoutSidebar');
+  layoutHeader = viewChild('layoutHeader');
+
+  a = effect(() => {
+    console.log(this.layoutSidebar());
+    console.log(this.layoutService.isMenuCollapsed());
+    console.log(this.layoutHeader());
+    console.log(this.isCollapsed);
+  });
+
+  toggleMenu() {
+    this.layoutService.isMenuCollapsed.set(
+      !this.layoutService.isMenuCollapsed()
+    );
+  }
 
   reactToUserProfile = effect(() => {
     if (this.userProfile()) {
@@ -105,5 +136,9 @@ export class LayoutComponent implements OnInit {
 
   logout() {
     this.authService.logout();
+  }
+
+  toggleFullScreen() {
+    this.layoutService.fullScreenMode.set(!this.layoutService.fullScreenMode());
   }
 }

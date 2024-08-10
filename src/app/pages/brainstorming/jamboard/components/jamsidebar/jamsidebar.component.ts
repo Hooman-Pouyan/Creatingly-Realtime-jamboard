@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { TagComponent } from '../../../../../shared/components/tag/tag.component';
 import { SharedModule } from '../../../../../shared/shared.module';
+import { IJamElement } from '../../models/element.model';
 
 @Component({
   selector: 'app-jamsidebar',
@@ -13,29 +14,29 @@ import { SharedModule } from '../../../../../shared/shared.module';
 export class JamsidebarComponent {
   activeSettings = input.required();
 
-  tags = ['red', 'green', 'blue', 'yellow', 'orange', 'purple', 'pink', 'gray'];
-  // tags: IJamElement[] = [
-  //   {
-  //     id: '1',
-  //     appearence: {
-  //       color: 'red',
-  //     },
-  //     data: {
-  //       content: {
-  //         content: 'hi',
-  //       },
-  //     },
-  //     info: {},
-  //     size: {
-  //       width: 100,
-  //       height: 50,
-  //     },
-  //     position: {
-  //       x: 400,
-  //       y: 200,
-  //     },
-  //     status: '',
-  //     options: {},
-  //   },
-  // ];
+  // tags = ['red', 'green', 'blue', 'yellow', 'orange', 'purple', 'pink', 'gray'];
+  tags: IJamElement[] = [
+    {
+      id: '1',
+      appearence: {
+        color: 'red',
+      },
+      data: {
+        content: {
+          content: 'hi',
+        },
+      },
+      info: {},
+      size: {
+        width: 100,
+        height: 50,
+      },
+      position: {
+        x: 400,
+        y: 200,
+      },
+      status: '',
+      options: {},
+    },
+  ];
 }

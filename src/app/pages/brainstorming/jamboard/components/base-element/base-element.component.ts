@@ -36,20 +36,18 @@ export class BaseElementComponent implements OnInit {
     property: string;
     data: any;
   }> = output();
-
-  elementId = computed(() => this.dataSource().id);
-  dataSource: InputSignal<IJamElement> = input.required();
   initialState: IJamElement = {
     id: '1',
     appearence: {},
     data: {
       content: {
         title: 'text',
-        content: 'hi',
+        text: 'hi',
         imageUrl: 'aa',
       },
     },
     info: {},
+    type: 'note',
     size: {
       width: 300,
       height: 300,
@@ -61,7 +59,9 @@ export class BaseElementComponent implements OnInit {
     status: '',
     options: {},
   };
-  elementState: SignalState<IJamElement> = signalState(this.initialState);
+  elementId = computed(() => this.dataSource().id);
+  dataSource: InputSignal<IJamElement> = input(this.initialState);
+  elementState: SignalState<IJamElement> = signalState(this.dataSource());
   jamboardEvents = SocketEvents;
 
   constructor() {
@@ -93,6 +93,8 @@ export class BaseElementComponent implements OnInit {
   }
 
   dispatchEvent(type: string, data: any) {
+    console.log(type, data);
+    
     this.socketService.sendMessage(
       SocketEvents.JAMBOARD.ELEMENT$,
       this.elementState().id,

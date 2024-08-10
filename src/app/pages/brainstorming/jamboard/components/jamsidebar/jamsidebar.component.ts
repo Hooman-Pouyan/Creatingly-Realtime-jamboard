@@ -21,9 +21,10 @@ export class JamsidebarComponent {
       appearence: {
         color: 'red',
       },
+      type: 'tag',
       data: {
         content: {
-          content: 'hi',
+          text: 'hi',
         },
       },
       info: {},

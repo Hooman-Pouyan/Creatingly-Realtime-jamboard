@@ -25,7 +25,6 @@ import { ContextMenuDirective } from '../../../../../shared/directives/context-m
   imports: [
     CommonModule,
     DragdropDirective,
-    ConnectorsDirective,
     ResizeDirective,
     NzCardModule,
     NzAvatarModule,

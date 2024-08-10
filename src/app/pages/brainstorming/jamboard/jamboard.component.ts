@@ -26,6 +26,8 @@ import { IJamboardState, JamboardStore } from './states/jamboard.state';
 import { ActivatedRoute } from '@angular/router';
 import { CommentFlowComponent } from '../../../shared/components/comment-flow/comment-flow.component';
 import { LayoutService } from '../../../core/layout/services/layout.service';
+import { TagComponent } from '../../../shared/components/tag/tag.component';
+import { ButtonComponent } from "../../../shared/components/button/button.component";
 
 @Component({
   selector: 'app-jamboard',
@@ -36,7 +38,9 @@ import { LayoutService } from '../../../core/layout/services/layout.service';
     JamsidebarComponent,
     NzGridModule,
     CommentFlowComponent,
-  ],
+    TagComponent,
+    ButtonComponent
+],
   providers: [ConvertToPropertyPipe],
   templateUrl: './jamboard.component.html',
   styleUrl: './jamboard.component.scss',

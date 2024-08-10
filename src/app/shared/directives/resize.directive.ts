@@ -143,11 +143,13 @@ export class ResizeDirective implements OnInit, AfterViewInit {
   }
 
   resizeStart$ = this.mouseDown$.pipe(
+    filter((event) => event.target.classList.contains('resizeHandler')),
     switchMap((mouseMove: any) => {
       const firstWidth = this.resizableElement.clientWidth;
       const firstHeight = this.resizableElement.clientHeight;
       const firstMouseX = mouseMove.clientX;
       const firstMosueY = mouseMove.clientY;
+
       return this.baseDirective.mouseMove$.pipe(
         tap(() =>
           this.resizableElementRect.set(
@@ -205,7 +207,7 @@ export class ResizeDirective implements OnInit, AfterViewInit {
 
   emitLatestSize = this.resizeStart$
     .pipe(
-      throttleTime(500),
+      throttleTime(300),
       tap((elementPosition) => {
         this.sizeUpdate.emit({
           width:

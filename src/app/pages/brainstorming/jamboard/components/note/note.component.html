@@ -7,7 +7,7 @@
 <nz-card [id]="elementState.id()" canContextMenu canResize canDragdrop [latestPosition]="elementState.position()"
       [latestSize]="elementState.size()" (positionUpdate)="dispatchEvent('position', $event)"
       (sizeUpdate)="dispatchEvent('size', $event)" [maxAllowedSize]="maxAllowedSize" [minAllowedSize]="minAllowedSize"
-      [nzCover]="coverTemplate" [nzActions]="[actionSetting, actionEdit, actionEllipsis]">
+      [nzCover]="coverTemplate" [nzActions]="[actionSetting, actionEdit, actionEllipsis]" class="!cursor-pointer">
       <nz-card-meta nzTitle="Card title" nzDescription="This is the description"
             [nzAvatar]="avatarTemplate"></nz-card-meta>
       <!-- <div class="flex justify-start items-center">

@@ -80,6 +80,11 @@ export class DragdropDirective implements OnInit {
 
   constructor() {}
   ngOnInit(): void {
+    this.mouseDown$.subscribe((w) => {
+      console.log(w.target);
+    });
+    console.log(this.baseDirective.element);
+
     this.baseDirective.renderer.setStyle(
       this.baseDirective.element,
       'position',
@@ -113,11 +118,12 @@ export class DragdropDirective implements OnInit {
 
   dragStart$ = this.mouseDown$;
   dragMove$ = this.dragStart$.pipe(
-    filter(
-      (mouseMove: any) =>
-        // to make sure element can not be dragged from the edges of the element where it can be resized (for future when we show resized handler ui in all 8 directions on element)
-        !this.isValidForDrag(mouseMove.offsetX, mouseMove.offsetY)
-    ),
+    // filter(
+    //   (mouseMove: any) =>
+    //     // to make sure element can not be dragged from the edges of the element where it can be resized (for future when we show resized handler ui in all 8 directions on element)
+    //     // !this.isValidForDrag(mouseMove.offsetX, mouseMove.offsetY)
+    // ),
+    filter((event) => !event.target.classList.contains('resizeHandler')),
     takeUntilDestroyed(this.baseDirective.destoryRef$),
     switchMap((start: any) =>
       this.baseDirective.mouseMove$.pipe(
@@ -145,7 +151,7 @@ export class DragdropDirective implements OnInit {
   emitLatestPosition = this.dragMove$
     .pipe(
       // any of these can be used based on needs, they do the same thing in different ways
-      throttleTime(500),
+      throttleTime(300),
       // auditTime(500),
       // bufferTime(500),
       tap((elementPosition) => {

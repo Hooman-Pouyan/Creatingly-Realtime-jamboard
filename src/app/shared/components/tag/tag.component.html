@@ -1,7 +1,6 @@
-<nz-tag canInsert [latestPosition]="{x: 400, y: 400}" (positionUpdate)="updatePosition($event)" [nzColor]="color()" class="rounded-sm">
-      <ng-content></ng-content>
-</nz-tag>
-
-<!-- <nz-tag [nzColor]="color()" class="rounded-sm">
-      <ng-content></ng-content>
-</nz-tag> -->
+<div class="bg-transparent p-3 !cursor-pointer" [id]="elementState.id()" canDragdrop
+      [latestPosition]="elementState().position" (positionUpdate)="dispatchEvent('position', $event)">
+      <nz-tag class="!pointer-events-none !w-full !h-full" [nzColor]="dataSource().appearence.color">
+            <ng-content class="bg-red-700"></ng-content>
+      </nz-tag>
+</div>

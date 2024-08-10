@@ -1,13 +1,29 @@
 <div class="w-full h-full grid grid-cols-12 grid-flow-row justify-center items-center">
 
       <section
-            class="!bg-green-500 w-full h-full col-span-10 grid grid-cols-4 gap-2 justify-center items-center !overflow-hidden relative">
+            class="w-full h-full col-span-10 grid grid-cols-4 gap-2 justify-center items-center !overflow-hidden relative">
             @for(element of jamboardStore.state.elements(); track element.id) {
-            <app-note (elementUpdate)="updateJamBoardState($event)" [dataSource]=" element" class="flex !w-fit">
+            @switch (element.type) {
+            @case ("note") {
+            <app-note (elementUpdate)="updateJamBoardState($event)" [dataSource]="element" class="flex !w-fit">
                   <div slot="header">header</div>
                   <div slot="content">main</div>
                   <div slot="detail">detail</div>
             </app-note>
+            }
+            @case ("tag") {
+            <app-tag (elementUpdate)="updateJamBoardState($event)" [dataSource]="element">
+                  <!-- <header ngExportAs="[slot=header]">{{element.data.content.text}}</header> -->
+                  {{element.data.content.text}}
+            </app-tag>
+            }
+            @case ("button") {
+            <app-button (elementUpdate)="updateJamBoardState($event)" [dataSource]="element">
+                  {{element.data.content.text}}
+            </app-button>
+            }
+            }
+
             }@empty {
             <!-- <div class="slider-container">
                   <span>Horizontal Gutter (px):</span>

@@ -4,6 +4,7 @@ import { IUser } from './jamboard.model';
 export type IJamElement = {
   id: string;
   appearence: TAppearence;
+  type: TJamElement;
   data: TJamElementData;
   info: TJamElementInfo;
   size: TSize;
@@ -11,6 +12,14 @@ export type IJamElement = {
   status: TJamElementStatus;
   options: unknown;
 };
+export type TJamElement =
+  | 'note'
+  | 'tag'
+  | 'chart'
+  | 'button'
+  | 'toggle'
+  | 'radio'
+  | 'tree';
 
 export const a: IUser = {
   id: '',
@@ -53,7 +62,7 @@ export enum EJameElementStatus {
 
 export type TJamElementContent = {
   title?: string;
-  content: string;
+  text: string;
   imageUrl?: string;
 };
 

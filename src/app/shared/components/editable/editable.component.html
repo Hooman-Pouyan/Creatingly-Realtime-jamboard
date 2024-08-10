@@ -1,0 +1,6 @@
+@if(!editMode()){
+{{content().text}}
+}@else {
+<input nz-input [placeholder]="placeholder()" [(ngModel)]="text" [type]="type()" />
+<button nz-button nzType="primary" (click)="updateContent()" class="mt-2">Save</button>
+}

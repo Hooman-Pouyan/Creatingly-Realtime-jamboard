@@ -18,6 +18,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { BaseElementComponent } from '../base-element/base-element.component';
 import { ContextMenuDirective } from '../../../../../shared/directives/context-menu.directive';
+import { EditableComponent } from "../../../../../shared/components/editable/editable.component";
 
 @Component({
   selector: 'app-note',
@@ -30,7 +31,8 @@ import { ContextMenuDirective } from '../../../../../shared/directives/context-m
     NzAvatarModule,
     NzIconModule,
     ContextMenuDirective,
-  ],
+    EditableComponent
+],
   templateUrl: './note.component.html',
   styleUrl: './note.component.scss',
   hostDirectives: [

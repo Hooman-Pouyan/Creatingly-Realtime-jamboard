@@ -26,4 +26,12 @@ export class JamBoardRepository extends BaseRepository {
   getAllComments(jamboardId: string): Observable<IJamComment[]> {
     return this.get(`${this.baseUrl}/comments/?jamboardId=${jamboardId}`);
   }
+
+  updateElement(
+    jamboardId: string,
+    elementId: string,
+    data: any
+  ): Observable<any> {
+    return this.patch(`${this.baseUrl}/elements/${elementId}`, data);
+  }
 }

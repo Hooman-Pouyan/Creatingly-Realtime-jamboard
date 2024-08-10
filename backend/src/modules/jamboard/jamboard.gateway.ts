@@ -32,7 +32,7 @@ export class JamboardGateWay implements OnModuleInit {
     this.server.emit(SocketEvents.JAMBOARD.ELEMENT$, {
       event: SocketEvents.JAMBOARD.ELEMENT$,
       id: body[0],
-      type: body[1],
+      delta: body[1],
       data: body[2],
     });
     // this.jamboardService.handleElementAppearanceChange(body);

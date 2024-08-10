@@ -1,7 +1,7 @@
 <div class="w-full h-full grid grid-cols-12 grid-flow-row justify-center items-center">
 
-      <section
-            class="w-full h-full col-span-10 grid grid-cols-4 gap-2 justify-center items-center !overflow-hidden relative">
+      <section #canvas
+            class="w-full h-full col-span-12 lg:col-span-10 grid grid-cols-4 gap-2 justify-center items-center !overflow-hidden relative">
             @for(element of jamboardStore.state.elements(); track element.id) {
             @switch (element.type) {
             @case ("note") {
@@ -14,12 +14,12 @@
             @case ("tag") {
             <app-tag (elementUpdate)="updateJamBoardState($event)" [dataSource]="element">
                   <!-- <header ngExportAs="[slot=header]">{{element.data.content.text}}</header> -->
-                  {{element.data.content.text}}
+                  {{element.content.text}}
             </app-tag>
             }
             @case ("button") {
             <app-button (elementUpdate)="updateJamBoardState($event)" [dataSource]="element">
-                  {{element.data.content.text}}
+                  {{element.content.text}}
             </app-button>
             }
             }

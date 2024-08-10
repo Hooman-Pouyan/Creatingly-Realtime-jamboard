@@ -5,7 +5,7 @@ export type IJamElement = {
   id: string;
   appearence: TAppearence;
   type: TJamElement;
-  data: TJamElementData;
+  content: TJamElementContent;
   info: TJamElementInfo;
   size: TSize;
   position: TPosition;
@@ -39,9 +39,6 @@ export const a: IUser = {
   },
 };
 
-export type TJamElementData = {
-  content: TJamElementContent;
-};
 export type TSize = { width: number; height: number };
 export type TJamElementStatus =
   | 'selected'

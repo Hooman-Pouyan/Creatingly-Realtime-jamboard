@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  DestroyRef,
   effect,
   inject,
   input,
@@ -18,6 +19,8 @@ import { IJamElement } from '../../models/element.model';
 import { filter } from 'rxjs';
 import { state } from '@angular/animations';
 import { ConvertToPropertyPipe } from '../../../../../shared/pipes/ConvertToProperty.pipe';
+import { JamBoardRepository } from '../../../../../core/repositories/jamboard.repository';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-base-element',
@@ -29,6 +32,7 @@ import { ConvertToPropertyPipe } from '../../../../../shared/pipes/ConvertToProp
 })
 export class BaseElementComponent implements OnInit {
   socketService = inject(SocketService);
+  jamboardRepo = inject(JamBoardRepository);
   convertToPropertyPipe = inject(ConvertToPropertyPipe);
   elementUpdate: OutputEmitterRef<{
     event: string;
@@ -39,12 +43,10 @@ export class BaseElementComponent implements OnInit {
   initialState: IJamElement = {
     id: '1',
     appearence: {},
-    data: {
-      content: {
-        title: 'text',
-        text: 'hi',
-        imageUrl: 'aa',
-      },
+    content: {
+      title: 'text',
+      text: 'hi',
+      imageUrl: 'aa',
     },
     info: {},
     type: 'note',
@@ -63,6 +65,7 @@ export class BaseElementComponent implements OnInit {
   dataSource: InputSignal<IJamElement> = input(this.initialState);
   elementState: SignalState<IJamElement> = signalState(this.dataSource());
   jamboardEvents = SocketEvents;
+  destroyRef$ = inject(DestroyRef);
 
   constructor() {
     effect(
@@ -86,20 +89,32 @@ export class BaseElementComponent implements OnInit {
         });
         patchState(this.elementState, {
           ...state,
-          [this.convertToPropertyPipe.transform(event.event, 'jamboard') ?? '']:
-            event.data,
+          [event.type]: event.data,
         });
+        console.log(event);
       });
   }
 
-  dispatchEvent(type: string, data: any) {
-    console.log(type, data);
-    
+  dispatchEvent(delta: string, newDeltaData: any) {
+    this.jamboardRepo
+      .updateElement('1', this.elementState().id, {
+        [delta]: (this.elementState() as any)[delta],
+      })
+      .pipe(takeUntilDestroyed(this.destroyRef$))
+      .subscribe();
+
     this.socketService.sendMessage(
       SocketEvents.JAMBOARD.ELEMENT$,
       this.elementState().id,
-      type,
-      data
+      delta,
+      newDeltaData
     );
+  }
+
+  updateState(delta: string, newDeltaData: any) {
+    patchState(this.elementState, (state) => ({
+      [delta]: newDeltaData,
+    }));
+    this.dispatchEvent(delta, (this.elementState as any)()[delta]);
   }
 }

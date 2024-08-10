@@ -6,7 +6,16 @@ import {
   Renderer2,
   signal,
 } from '@angular/core';
-import { filter, fromEvent, race, takeWhile, tap } from 'rxjs';
+import {
+  buffer,
+  debounceTime,
+  filter,
+  fromEvent,
+  map,
+  race,
+  takeWhile,
+  tap,
+} from 'rxjs';
 
 @Directive({
   selector: '[appUtility]',
@@ -23,11 +32,19 @@ export class UtilityDirectaive {
   isElementBeingDragged = signal(false);
   mouseLeave$ = fromEvent(this.element, 'mouseLeave');
   mouseMove$ = fromEvent(document, 'mousemove');
+  mouseClick$ = fromEvent(document, 'click');
+  doubleClick$ = this.mouseClick$.pipe(
+    buffer(this.mouseClick$.pipe(debounceTime(250))),
+    map((clicks) => clicks.length),
+    filter((clicksLength) => clicksLength >= 2)
+  );
+
   // cancelling the drag&drop process on the first emit from here only if the element was being interacted with
   interactionCancelation$ = race(
     fromEvent(this.element, 'mouseup'),
     fromEvent(document, 'mouseup'),
-    fromEvent(document, 'contextmenu')
+    fromEvent(document, 'contextmenu'),
+    this.doubleClick$
   ).pipe(
     takeWhile(
       (_) => this.isElementBeingDragged() || this.isElementBeingResized()

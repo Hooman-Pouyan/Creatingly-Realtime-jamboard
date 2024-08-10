@@ -2,10 +2,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   effect,
+  ElementRef,
+  HostListener,
   inject,
   OnInit,
+  Renderer2,
   Signal,
   signal,
+  viewChild,
 } from '@angular/core';
 import { NoteComponent } from './components/note/note.component';
 import { ConnectorsService } from './services/connectors.service';
@@ -27,7 +31,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CommentFlowComponent } from '../../../shared/components/comment-flow/comment-flow.component';
 import { LayoutService } from '../../../core/layout/services/layout.service';
 import { TagComponent } from '../../../shared/components/tag/tag.component';
-import { ButtonComponent } from "../../../shared/components/button/button.component";
+import { ButtonComponent } from '../../../shared/components/button/button.component';
 
 @Component({
   selector: 'app-jamboard',
@@ -39,15 +43,19 @@ import { ButtonComponent } from "../../../shared/components/button/button.compon
     NzGridModule,
     CommentFlowComponent,
     TagComponent,
-    ButtonComponent
-],
+    ButtonComponent,
+  ],
   providers: [ConvertToPropertyPipe],
   templateUrl: './jamboard.component.html',
   styleUrl: './jamboard.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class JamboardComponent implements OnInit {
-  constructor(private jamboardService: JamBoardService) {}
+  constructor(
+    private jamboardService: JamBoardService,
+    private el: ElementRef,
+    private renderer: Renderer2
+  ) {}
 
   ngOnInit(): void {
     this.jamboardStore.loadElements();
@@ -61,6 +69,28 @@ export class JamboardComponent implements OnInit {
   socketService = inject(SocketService);
   ConvertToPropertyPipe = inject(ConvertToPropertyPipe);
   jamboardEvents = SocketEvents.JAMBOARD;
+  canvas = viewChild('canvas');
+
+  @HostListener('drop', ['$event'])
+  onDrop(event: DragEvent) {
+    console.log(event);
+
+    event.preventDefault();
+    const data = event.dataTransfer?.getData('text');
+    const draggedElement = document.getElementById(data!);
+    const dropZone = event.target as HTMLElement;
+
+    if (dropZone && draggedElement) {
+      dropZone.appendChild(draggedElement); // Move the dragged element to the drop zone
+      console.log(`Dropped into ${dropZone.id}`);
+    }
+  }
+
+  @HostListener('dragover', ['$event'])
+  onDragOver(event: DragEvent) {
+    event.preventDefault(); // Necessary to allow a drop
+    console.log('Drag Over:', event.target);
+  }
 
   updateJamBoardState(event: {
     event: string;

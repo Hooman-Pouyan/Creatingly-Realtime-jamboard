@@ -4,21 +4,17 @@
       [style.height]="noteState()?.size?.height + 'px'" class="">
 </div> -->
 @if(dataSource()) {
-<nz-card [id]="elementState.id()" canContextMenu canResize canDragdrop [latestPosition]="elementState.position()"
-      [latestSize]="elementState.size()" (positionUpdate)="dispatchEvent('position', $event)"
-      (sizeUpdate)="dispatchEvent('size', $event)" [maxAllowedSize]="maxAllowedSize" [minAllowedSize]="minAllowedSize"
+<nz-card canContextMenu canResize canDragdrop [id]="elementState.id()" [latestPosition]="elementState().position"
+      [latestSize]="elementState.size()" (positionUpdate)="updateState('position', $event)"
+      (sizeUpdate)="updateState('size', $event)" [maxAllowedSize]="maxAllowedSize" [minAllowedSize]="minAllowedSize"
       [nzCover]="coverTemplate" [nzActions]="[actionSetting, actionEdit, actionEllipsis]" class="!cursor-pointer">
-      <nz-card-meta nzTitle="Card title" nzDescription="This is the description"
-            [nzAvatar]="avatarTemplate"></nz-card-meta>
-      <!-- <div class="flex justify-start items-center">
-            <ng-content select="[slot=header]"></ng-content>
+      <nz-card-meta class="!pointer-events-none" nzTitle="Card title" nzDescription="This is the description"
+            [nzAvatar]="avatarTemplate">
+      </nz-card-meta>
+      <div class="flex justify-center items-center p-4">
+            <app-editable [content]="elementState().content" (contentEmitter)="updateState('content', $event)"
+                  type="text" placeholder="Card title"></app-editable>
       </div>
-      <div class="p-5 flex justify-center">
-            <ng-content select="[slot=content]"></ng-content>
-      </div>
-      <div class="mt-3">
-            <ng-content select="[slot=detail]"></ng-content>
-      </div> -->
 </nz-card>
 <ng-template #avatarTemplate>
       <nz-avatar draggable="false" nzSrc="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"></nz-avatar>

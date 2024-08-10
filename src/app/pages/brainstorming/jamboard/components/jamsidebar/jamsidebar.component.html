@@ -1,1 +1,27 @@
-<!--  -->
+<div class="w-full h-full p-2 bg-slate-100 flex flex-col justify-start items-center">
+
+      @if(sideBar() == 'settings') {
+      <section class="w-full flex flex-col justify-center items-center">
+            @for (setting of settings; track $index) {
+                  
+            }
+      </section>
+      }@else {
+      <section class="w-full flex flex-col justify-center items-center">
+            <h3 class="mt-2">Tags</h3>
+            <div>
+                  <nz-divider nzType="horizontal"></nz-divider>
+            </div>
+            <div class="w-full space-y-5 p-5 m-3 justify-center items-center">
+                  @for(element of elements; track $index ) {
+                  <div draggable="true"
+                        class="w-full rounded-md shadow-md p-3 flex justify-start items-center border border-slate-500 bg-blue-200 cursor-grab">
+                        {{element}}</div>
+                  }
+            </div>
+      </section>
+      }
+
+
+
+</div>

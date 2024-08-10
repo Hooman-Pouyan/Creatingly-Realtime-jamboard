@@ -29,7 +29,7 @@ export class CommentService {
           this.dispatchSocketEvent(SocketEvents.JAMBOARD.COMMENTS$, comments);
         })
       )
-      .subscribe(console.log);
+      .subscribe();
   }
 
   onCommentMessages = toSignal(

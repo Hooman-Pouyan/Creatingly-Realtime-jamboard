@@ -17,6 +17,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { signalState } from '@ngrx/signals';
 import {
+  catchError,
   debounceTime,
   filter,
   fromEvent,
@@ -27,6 +28,7 @@ import {
   shareReplay,
   switchMap,
   takeUntil,
+  takeWhile,
   tap,
   throttleTime,
 } from 'rxjs';
@@ -37,6 +39,7 @@ import {
 import { EStatus } from '../../pages/planning/issue-tracking/models/task.models';
 import { makeOptional } from '../../core/models/transformers';
 import { EJameElementStatus } from '../../pages/brainstorming/jamboard/models/element.model';
+import { UtilityDirectaive } from './utility.directive';
 
 export interface DragDropPosition extends TPosition {
   previousPosition?: TPosition;
@@ -46,15 +49,13 @@ export interface DragDropPosition extends TPosition {
 @Directive({
   selector: '[canDragdrop]',
   standalone: true,
+  providers: [UtilityDirectaive],
 })
 export class DragdropDirective implements OnInit {
+  baseDirective = inject(UtilityDirectaive);
   // currentPosition = signalState({});
-  // ---- APIs ----
-  elementRef = inject(ElementRef);
-  renderer = inject(Renderer2);
-  destoryRef$ = inject(DestroyRef);
   // ---- specific ----
-  draggableElement = this.elementRef.nativeElement;
+  draggableElement = this.baseDirective.element;
   // ---- states ----
   positionX: WritableSignal<number> = signal(0);
   positionY: WritableSignal<number> = signal(0);
@@ -63,42 +64,37 @@ export class DragdropDirective implements OnInit {
   latestPosition: InputSignal<DragDropPosition> = input.required();
   positionUpdate: OutputEmitterRef<makeOptional<DragDropPosition>> = output();
 
+  mouseDown$ = fromEvent(this.draggableElement, 'mousedown').pipe(
+    // to only apply drag and drop on primary mouse button
+    filter((event: any) => event.button == 0)
+  );
+
   setUpCurrentPosition = effect(
     () => {
-      this.positionX.set(this.latestPosition().x);
-      this.positionY.set(this.latestPosition().y);
-      this.renderer.setStyle(
-        this.draggableElement,
-        'left',
-        this.latestPosition().x + 'px'
-      );
-      this.renderer.setStyle(
-        this.draggableElement,
-        'top',
-        this.latestPosition().y + 'px'
-      );
+      this.updatePosition(this.latestPosition().x, this.latestPosition().y);
     },
     { allowSignalWrites: true }
   );
 
   constructor() {}
   ngOnInit(): void {
-    this.dragMove$.subscribe((move) => {
-      this.positionX.set(move.x);
-      this.positionY.set(move.y);
-      this.renderer.setStyle(this.draggableElement, 'left', move.x + 'px');
-      this.renderer.setStyle(this.draggableElement, 'top', move.y + 'px');
-      this.renderer.addClass(this.draggableElement, EJameElementStatus.Grabbed);
-    });
-    this.renderer.setStyle(
-      this.elementRef.nativeElement,
+    this.baseDirective.renderer.setStyle(
+      this.baseDirective.element,
       'position',
       'absolute'
     );
-    this.dargCancelation$
-      .pipe(takeUntilDestroyed(this.destoryRef$))
-      .subscribe(() => {
-        this.renderer.removeClass(
+    this.dragMove$.subscribe({
+      next: (move) => {
+        this.baseDirective.isElementBeingDragged.set(true);
+        this.updatePosition(move.x, move.y);
+      },
+      error: (err) => catchError(err),
+      complete: () => {},
+    });
+
+    this.baseDirective.interactionCancelation$.subscribe({
+      next: () => {
+        this.baseDirective.renderer.removeClass(
           this.draggableElement,
           EJameElementStatus.Grabbed
         );
@@ -107,33 +103,31 @@ export class DragdropDirective implements OnInit {
           y: this.positionY(),
           isBeingDragged: false,
         });
-      });
+      },
+      error: (err) => catchError(err),
+      complete: () => this.baseDirective.isElementBeingDragged.set(false),
+    });
   }
-
-  mouseDown$ = fromEvent(this.draggableElement, 'mousedown').pipe(
-    filter((event: any) => event.button == 0)
-  );
-  mouseMove$ = fromEvent(document, 'mousemove');
-  dargCancelation$ = race(
-    fromEvent(this.draggableElement, 'mouseup'),
-    fromEvent(document, 'mouseup'),
-    fromEvent(document, 'contextmenu')
-  );
 
   dragStart$ = this.mouseDown$;
   dragMove$ = this.dragStart$.pipe(
     filter(
       (mouseMove: any) =>
+        // to make sure element can not be dragged from the edges of the element where it can be resized (for future when we show resized handler ui in all 8 directions on element)
         !this.isValidForDrag(mouseMove.offsetX, mouseMove.offsetY)
     ),
-    takeUntilDestroyed(this.destoryRef$),
+    takeUntilDestroyed(this.baseDirective.destoryRef$),
     switchMap((start: any) =>
-      this.mouseMove$.pipe(
+      this.baseDirective.mouseMove$.pipe(
+        // to make sure if we had more than 1 subscription to an event only one is created and shred among all
+        // and it's unsubscribed when destroyed
         shareReplay({
           bufferSize: 1,
           refCount: true,
         }),
-        takeUntilDestroyed(this.destoryRef$),
+        // we put takeuntil here because the wont destroy inner observables so we made sure we destory move event sub
+        takeUntilDestroyed(this.baseDirective.destoryRef$),
+        takeUntil(this.baseDirective.interactionCancelation$),
         map((moveEvent: any) => {
           const offsetX = moveEvent.x - start.offsetX;
           const offsetY = moveEvent.y - start.offsetY;
@@ -141,14 +135,14 @@ export class DragdropDirective implements OnInit {
             x: offsetX,
             y: offsetY,
           };
-        }),
-        takeUntil(this.dargCancelation$)
+        })
       )
     )
   );
 
   emitLatestPosition = this.dragMove$
     .pipe(
+      // any of these can be used based on needs, they do the same thing in different ways
       throttleTime(500),
       // auditTime(500),
       // bufferTime(500),
@@ -161,6 +155,25 @@ export class DragdropDirective implements OnInit {
       })
     )
     .subscribe();
+
+  updatePosition(x: number, y: number) {
+    this.positionX.set(x);
+    this.positionY.set(y);
+    this.baseDirective.renderer.setStyle(
+      this.draggableElement,
+      'left',
+      x + 'px'
+    );
+    this.baseDirective.renderer.setStyle(
+      this.draggableElement,
+      'top',
+      y + 'px'
+    );
+    this.baseDirective.renderer.addClass(
+      this.draggableElement,
+      EJameElementStatus.Grabbed
+    );
+  }
 
   isValidForDrag(offsetX: number, offsetY: number): boolean {
     return (

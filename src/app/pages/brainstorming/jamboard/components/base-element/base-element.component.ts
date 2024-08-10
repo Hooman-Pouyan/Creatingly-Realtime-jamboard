@@ -20,14 +20,14 @@ import { state } from '@angular/animations';
 import { ConvertToPropertyPipe } from '../../../../../shared/pipes/ConvertToProperty.pipe';
 
 @Component({
-  selector: 'app-base-jam-element',
+  selector: 'app-base-element',
   standalone: true,
   imports: [ConvertToPropertyPipe],
-  templateUrl: './base-jam-element.component.html',
-  styleUrl: './base-jam-element.component.scss',
+  templateUrl: './base-element.component.html',
+  styleUrl: './base-element.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BaseJamElementComponent implements OnInit {
+export class BaseElementComponent implements OnInit {
   socketService = inject(SocketService);
   convertToPropertyPipe = inject(ConvertToPropertyPipe);
   elementUpdate: OutputEmitterRef<{
@@ -78,7 +78,6 @@ export class BaseJamElementComponent implements OnInit {
       .onMessage(SocketEvents.JAMBOARD.ELEMENT$)
       .pipe(filter((event) => event.id === this.elementState.id()))
       .subscribe((event) => {
-        console.log('event in jamelement', event);
         this.elementUpdate.emit({
           event: event.event,
           elementId: this.elementState.id(),
@@ -94,8 +93,6 @@ export class BaseJamElementComponent implements OnInit {
   }
 
   dispatchEvent(type: string, data: any) {
-    console.log(type, data);
-
     this.socketService.sendMessage(
       SocketEvents.JAMBOARD.ELEMENT$,
       this.elementState().id,

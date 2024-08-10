@@ -59,11 +59,6 @@ export class UserCursorComponent implements OnInit {
       )
       .subscribe((message) => {
         this.updateUsersCursers(message.id, message.data);
-        console.log(
-          '++++++++++++++',
-          message.data.activeModule,
-          this.jamboardStore.state().activeModule
-        );
       });
   }
 
@@ -77,8 +72,6 @@ export class UserCursorComponent implements OnInit {
         cursor: user.curser,
       }));
       this.UsersInSession.set(cursers);
-      console.log(this.UsersInSession());
-
       return cursers;
     },
   });

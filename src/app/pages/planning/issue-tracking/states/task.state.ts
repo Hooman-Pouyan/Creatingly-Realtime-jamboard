@@ -67,15 +67,17 @@ export const TasksStore = signalStore(
         .getAll('website')
         .pipe(
           tap((_tasks) =>
-            patchState(store, { Tasks: _tasks, isLoading: false, status: 'success' })
+            patchState(store, {
+              Tasks: _tasks,
+              isLoading: false,
+              status: 'success',
+            })
           ),
           takeUntilDestroyed()
         )
         .subscribe();
     },
-    onDestroy(store) {
-      console.log('task store destroy', store);
-    },
+    onDestroy(store) {},
   }),
   withMethods((store, taskService = inject(TaskService)) => ({
     updateQuery(query: TQuery): void {

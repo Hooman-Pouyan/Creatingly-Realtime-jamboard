@@ -1,4 +1,4 @@
-<nz-tag canInsert [latestPosition]="{x: 400, y: 400}" [nzColor]="color()" class="rounded-sm">
+<nz-tag canInsert [latestPosition]="{x: 400, y: 400}" (positionUpdate)="updatePosition($event)" [nzColor]="color()" class="rounded-sm">
       <ng-content></ng-content>
 </nz-tag>
 

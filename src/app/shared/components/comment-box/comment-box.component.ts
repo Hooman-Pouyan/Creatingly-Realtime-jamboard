@@ -31,7 +31,6 @@ export class CommentBoxComponent {
   constructor() {
     effect(() => {
       this.data.set(this.jamboardStore.state.comments());
-      console.log(this.data());
     });
   }
 
@@ -46,8 +45,6 @@ export class CommentBoxComponent {
 
   inputValue = '';
   handleSubmit(): void {
-    console.log(window);
-    
     this.submitting = true;
     const content = this.inputValue;
     this.inputValue = '';

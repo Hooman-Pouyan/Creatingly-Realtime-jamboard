@@ -33,7 +33,6 @@ export class CommentFlowComponent {
   constructor() {
     effect(() => {
       this.data.set(this.jamboardStore.state.comments());
-      console.log(this.data());
     });
   }
 
@@ -45,5 +44,4 @@ export class CommentFlowComponent {
     author: this.userProfile()?.name,
     avatar: this.userProfile()?.avatarUrl,
   };
-  
 }

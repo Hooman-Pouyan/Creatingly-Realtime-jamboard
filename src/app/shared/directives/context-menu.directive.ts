@@ -34,8 +34,6 @@ export class ContextMenuDirective implements OnInit {
   ) {}
 
   createComment() {
-    console.log('add comment');
-
     this.vcr.clear();
     this.vcr.createComponent(CommentBoxComponent);
   }
@@ -47,9 +45,6 @@ export class ContextMenuDirective implements OnInit {
   }
 
   ContextMenuSignal = effect(() => {
-    console.log(this.contextService.contextAction());
-    console.log(this.contextableElement.id);
-
     if (this.contextService.contextAction()?.id == this.contextableElement.id) {
       switch (this.contextService.contextAction()?.type) {
         case 'comment':

@@ -59,8 +59,6 @@ export class AuthService {
   }
 
   updateUsersInSession(action: string, id: string, userData: IUser) {
-    console.log(action);
-
     let userIndex = this.usersStore$
       .UsersInSession()
       .findIndex((user) => user.id == id);
@@ -68,12 +66,10 @@ export class AuthService {
       patchState(this.usersStore$, (state) => ({
         UsersInSession: [...state.UsersInSession, userData],
       }));
-      console.log('on login', this.usersStore$.UsersInSession());
     } else if (action == 'logout') {
       patchState(this.usersStore$, (state) => ({
         UsersInSession: state.UsersInSession.filter((user) => user.id !== id),
       }));
-      console.log('on logout', this.usersStore$.UsersInSession());
     }
   }
 

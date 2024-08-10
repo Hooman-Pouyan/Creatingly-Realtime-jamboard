@@ -70,13 +70,9 @@ import { EStatus, ITask } from './models/task.models';
 export class IssueTrackingComponent implements OnInit {
   constructor() {
     this.store.loadAll('website', '');
-    effect(() => {
-      console.log(this.tasks());
-    });
+    effect(() => {});
   }
-  ngOnInit(): void {
-    console.log(this.store.todoTasks());
-  }
+  ngOnInit(): void {}
 
   board?: Signal<string> = input('website');
   protected store = inject(TasksStore);
@@ -105,16 +101,11 @@ export class IssueTrackingComponent implements OnInit {
         [EStatus.blocked]: this.blockedTasks(),
         [EStatus.inprogress]: this.inprogressTasks(),
       };
-      console.log(this.store.isLoading());
 
       this.store.updateTaskStatus(
         status[previousStatus][event.previousIndex].id,
         newStatus
       );
-
-      console.log(this.store.isLoading());
-
-      console.log(this.store.Tasks());
 
       transferArrayItem(
         event.previousContainer.data,

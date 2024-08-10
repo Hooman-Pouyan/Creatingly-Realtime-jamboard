@@ -16,7 +16,7 @@ import { ResizeDirective } from '../../../../../shared/directives/resize.directi
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
-import { BaseJamElementComponent } from '../base-jam-element/base-jam-element.component';
+import { BaseElementComponent } from '../base-element/base-element.component';
 import { ContextMenuDirective } from '../../../../../shared/directives/context-menu.directive';
 
 @Component({
@@ -48,7 +48,7 @@ import { ContextMenuDirective } from '../../../../../shared/directives/context-m
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NoteComponent extends BaseJamElementComponent implements OnInit {
+export class NoteComponent extends BaseElementComponent implements OnInit {
   minAllowedSize = 200;
   maxAllowedSize = 600;
 }

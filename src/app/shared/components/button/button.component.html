@@ -1,6 +1,6 @@
 <div class="cursor-grab" [minAllowedSize]="10" [maxAllowedSize]="400" canDragdrop canResize
       [latestPosition]="elementState().position" [latestSize]="elementState().size"
-      (positionUpdate)="dispatchEvent('size', $event)" (sizeUpdate)="dispatchEvent('size', $event)">
+      (positionUpdate)="dispatchEvent('position', $event)" (sizeUpdate)="dispatchEvent('size', $event)">
       <button class="!w-full !h-full" nz-button [nzType]="'primary'">
             <ng-content></ng-content>
       </button>

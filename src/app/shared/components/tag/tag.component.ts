@@ -4,6 +4,7 @@ import { DragdropDirective } from '../../directives/dragdrop.directive';
 import { InsertComponentDirective } from '../../directives/insert-component.directive';
 import { BaseElementComponent } from '../../../pages/brainstorming/jamboard/components/base-element/base-element.component';
 import { UtilityDirectaive } from '../../directives/utility.directive';
+import { ResizeDirective } from '../../directives/resize.directive';
 @Component({
   selector: 'app-tag',
   standalone: true,
@@ -12,6 +13,7 @@ import { UtilityDirectaive } from '../../directives/utility.directive';
     DragdropDirective,
     InsertComponentDirective,
     UtilityDirectaive,
+    ResizeDirective,
   ],
   templateUrl: './tag.component.html',
   styleUrl: './tag.component.scss',

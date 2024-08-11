@@ -21,6 +21,7 @@ import { state } from '@angular/animations';
 import { ConvertToPropertyPipe } from '../../../../../shared/pipes/ConvertToProperty.pipe';
 import { JamBoardRepository } from '../../../../../core/repositories/jamboard.repository';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { AuthService } from '../../../../../core/authentication/auth.service';
 
 @Component({
   selector: 'app-base-element',
@@ -33,6 +34,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class BaseElementComponent implements OnInit {
   socketService = inject(SocketService);
   jamboardRepo = inject(JamBoardRepository);
+  authService = inject(AuthService);
   convertToPropertyPipe = inject(ConvertToPropertyPipe);
   elementUpdate: OutputEmitterRef<{
     event: string;
@@ -81,7 +83,11 @@ export class BaseElementComponent implements OnInit {
       .onMessage(SocketEvents.JAMBOARD.ELEMENT$)
       .pipe(
         takeUntilDestroyed(this.destroyRef$),
-        filter((event) => event.id === this.elementState.id())
+        filter(
+          (event) =>
+            event.id === this.elementState.id() &&
+            event.userId !== this.authService.usersStore$.userProfile()?.id
+        )
       )
       .subscribe((event) => {
         this.elementUpdate.emit({
@@ -99,12 +105,12 @@ export class BaseElementComponent implements OnInit {
   }
 
   dispatchEvent(delta: string, newDeltaData: any) {
-    this.jamboardRepo
-      .updateElement('1', this.elementState().id, {
-        [delta]: (this.elementState() as any)[delta],
-      })
-      .pipe(takeUntilDestroyed(this.destroyRef$))
-      .subscribe();
+    // this.jamboardRepo
+    //   .updateElement('1', this.elementState().id, {
+    //     [delta]: (this.elementState() as any)[delta],
+    //   })
+    //   .pipe(takeUntilDestroyed(this.destroyRef$))
+    //   .subscribe();
 
     this.socketService.sendMessage(
       SocketEvents.JAMBOARD.ELEMENT$,

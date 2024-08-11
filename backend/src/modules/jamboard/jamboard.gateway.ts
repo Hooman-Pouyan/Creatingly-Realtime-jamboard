@@ -31,9 +31,10 @@ export class JamboardGateWay implements OnModuleInit {
     console.log(body);
     this.server.emit(SocketEvents.JAMBOARD.ELEMENT$, {
       event: SocketEvents.JAMBOARD.ELEMENT$,
-      id: body[0],
-      delta: body[1],
-      data: body[2],
+      userId: body[0],
+      id: body[1],
+      type: body[2],
+      data: body[3],
     });
     // this.jamboardService.handleElementAppearanceChange(body);
   }
@@ -44,9 +45,10 @@ export class JamboardGateWay implements OnModuleInit {
 
     this.server.emit(SocketEvents.JAMBOARD.COMMENTS$, {
       event: SocketEvents.JAMBOARD.COMMENTS$,
-      id: body[0],
-      type: body[1],
-      data: body[2],
+      userId: body[0],
+      id: body[1],
+      type: body[2],
+      data: body[3],
     });
     this.jamboardService.handleElementDataChange(body);
   }

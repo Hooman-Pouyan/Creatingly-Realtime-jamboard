@@ -26,4 +26,19 @@ export class JamBoardService implements OnInit {
       `${this.baseUrl}/comments/?jamboardId=${jamboardId}`
     );
   }
+
+  updateElement(
+    jamboardId: string,
+    elementId: string,
+    data: any
+  ): Observable<any> {
+    return this.baseRepo.patch<IJamComment>(
+      `${this.baseUrl}/elements/${elementId}`,
+      data
+    );
+  }
+
+  addElement(jamboardId: string, data: any): Observable<IJamComment> {
+    return this.baseRepo.post<IJamComment>(`${this.baseUrl}/elements/`, data);
+  }
 }

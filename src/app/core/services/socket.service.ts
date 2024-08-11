@@ -3,12 +3,14 @@ import { io, Socket } from 'socket.io-client';
 import { Observable } from 'rxjs';
 import { Environment } from '../../../environments/environment.production';
 import { deflate } from 'pako';
+import { IUser } from '../../pages/brainstorming/jamboard/models/element.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SocketService {
   private socket: Socket;
+  userId = JSON.parse(localStorage.getItem('userProfile')!)?.id ?? null;
 
   constructor() {
     this.socket = io(Environment.socketUrl, {
@@ -66,6 +68,6 @@ export class SocketService {
       data,
     };
     const compressedMessage = JSON.stringify(deflate(JSON.stringify(message)));
-    this.socket.emit(event, id, type, data);
+    this.socket.emit(event, this.userId, id, type, data);
   }
 }

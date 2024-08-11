@@ -32,6 +32,7 @@ import { CommentFlowComponent } from '../../../shared/components/comment-flow/co
 import { LayoutService } from '../../../core/layout/services/layout.service';
 import { TagComponent } from '../../../shared/components/tag/tag.component';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-jamboard',
@@ -137,8 +138,8 @@ export class JamboardComponent implements OnInit {
       info: {},
       type: data.type,
       size: {
-        width: 300,
-        height: 300,
+        width: 200,
+        height: 200,
       },
       position: {
         x: 400,
@@ -152,6 +153,21 @@ export class JamboardComponent implements OnInit {
       ...state,
       elements: [...state.elements, newElement],
     }));
+
+    this.jamBoardService.addElement('1', newElement).subscribe();
+
+    this.socketService
+      .onMessage(SocketEvents.JAMBOARD.ELEMENT$)
+      .pipe(filter((message) => message.type == 'elements'))
+      .subscribe({
+        next: (event) => {
+          console.log(event);
+          patchState(this.jamboardStore.state, (state) => ({
+            ...state,
+            elements: event.data,
+          }));
+        },
+      });
 
     this.socketService.sendMessage(
       SocketEvents.JAMBOARD.ELEMENT$,

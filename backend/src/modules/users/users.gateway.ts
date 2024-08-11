@@ -35,34 +35,13 @@ export class UsersGateWay implements OnModuleInit {
     console.log(body);
     this.server.emit(SocketEvents.JAMBOARD.USERS$, {
       event: SocketEvents.JAMBOARD.USERS$,
-      id: body[0],
-      type: body[1],
-      data: body[2],
+      userId: body[0],
+      id: body[1],
+      type: body[2],
+      data: body[3],
     });
     // this.usersService.handleStateUpdate(body);
   }
 
-  // @SubscribeMessage(SocketEvents.JAMBOARD.USERS.LOGOUT)
-  // handleElementSizeChange(@MessageBody() body: any) {
-  //   console.log(body);
-  //   this.server.emit(SocketEvents.JAMBOARD.USERS.LOGOUT, {
-  //     event: SocketEvents.JAMBOARD.USERS.LOGOUT,
-  //     id: body[0],
-  //     type: body[1],
-  //     data: body[2],
-  //   });
-  //   // this.jamboardService.handleElementSizeChange(body);
-  // }
 
-  // @SubscribeMessage(SocketEvents.JAMBOARD.USERS.UPDATE)
-  // handleElementPositionChange(@MessageBody() body: any) {
-  //   this.server.emit(SocketEvents.JAMBOARD.USERS.UPDATE, {
-  //     event: SocketEvents.JAMBOARD.USERS.UPDATE,
-  //     id: body[0],
-  //     type: body[1],
-  //     data: body[2],
-  //   });
-  // }
-  // console.log(body);
-  // this.usersService.handleElementPositionChange(body);
 }

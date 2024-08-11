@@ -13,11 +13,7 @@ import { SocketService } from '../services/socket.service';
 export class JamBoardRepository extends BaseRepository {
   socketService = inject(SocketService);
 
-  addComment(
-    jamboardId: string,
-    elementId: string,
-    data: any
-  ): Observable<IJamComment[]> {
+  addComment(jamboardId: string, data: any): Observable<IJamComment[]> {
     return this.post(`${this.baseUrl}/comments`, {
       comments: data,
     });
@@ -32,6 +28,13 @@ export class JamBoardRepository extends BaseRepository {
     elementId: string,
     data: any
   ): Observable<any> {
-    return this.patch(`${this.baseUrl}/elements/${elementId}`, data);
+    return this.patch<IJamComment>(
+      `${this.baseUrl}/elements/${elementId}`,
+      data
+    );
+  }
+
+  addElement(jamboardId: string, data: any): Observable<IJamComment> {
+    return this.post<IJamComment>(`${this.baseUrl}/elements/`, data);
   }
 }

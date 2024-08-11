@@ -7,6 +7,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { SocketService } from '../../../../core/services/socket.service';
 import { IJamComment } from '../models/jamboard.model';
 import { Observable } from 'rxjs';
+import { AuthService } from '../../../../core/authentication/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +24,7 @@ export class CommentService {
 
   addComment(jamboardId: string, elementId: string, data: any) {
     this.jamobardRepository
-      .addComment(jamboardId, elementId, data)
+      .addComment(jamboardId, data)
       .pipe(
         tap((comments) => {
           this.dispatchSocketEvent(SocketEvents.JAMBOARD.COMMENTS$, comments);

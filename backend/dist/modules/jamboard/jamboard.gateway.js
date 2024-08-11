@@ -30,18 +30,20 @@ let JamboardGateWay = class JamboardGateWay {
         console.log(body);
         this.server.emit(events_model_1.SocketEvents.JAMBOARD.ELEMENT$, {
             event: events_model_1.SocketEvents.JAMBOARD.ELEMENT$,
-            id: body[0],
-            type: body[1],
-            data: body[2],
+            userId: body[0],
+            id: body[1],
+            type: body[2],
+            data: body[3],
         });
     }
     handleElementDataChange(body) {
         console.log(body);
         this.server.emit(events_model_1.SocketEvents.JAMBOARD.COMMENTS$, {
             event: events_model_1.SocketEvents.JAMBOARD.COMMENTS$,
-            id: body[0],
-            type: body[1],
-            data: body[2],
+            userId: body[0],
+            id: body[1],
+            type: body[2],
+            data: body[3],
         });
         this.jamboardService.handleElementDataChange(body);
     }

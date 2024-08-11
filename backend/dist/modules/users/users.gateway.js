@@ -30,9 +30,10 @@ let UsersGateWay = class UsersGateWay {
         console.log(body);
         this.server.emit(events_model_1.SocketEvents.JAMBOARD.USERS$, {
             event: events_model_1.SocketEvents.JAMBOARD.USERS$,
-            id: body[0],
-            type: body[1],
-            data: body[2],
+            userId: body[0],
+            id: body[1],
+            type: body[2],
+            data: body[3],
         });
     }
 };

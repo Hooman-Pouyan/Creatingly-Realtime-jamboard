@@ -19,106 +19,134 @@
   ],
   "elements": [
     {
-      "id": "1",
+      "id": "38df37bd-d31e-4c3c-aa4a-c85619d4e229",
       "appearence": {},
       "content": {
         "title": "text",
-        "text": "Footer",
+        "text": "hi",
         "imageUrl": "aa"
       },
       "info": {},
       "type": "note",
       "size": {
-        "width": 241,
-        "height": 349,
-        "direction": "nwse-resize",
-        "isBeingResized": true
+        "width": 200,
+        "height": 200,
+        "isBeingResized": false
       },
       "position": {
-        "isBeingDragged": true,
-        "x": 329,
-        "y": 568
+        "x": 637,
+        "y": 265,
+        "isBeingDragged": false
       },
       "status": "",
-      "options": {},
-      "isBeingDragged": true,
-      "x": 341,
-      "y": 291,
-      "width": 600,
-      "height": 500,
-      "isBeingResized": false
+      "options": {}
     },
     {
-      "id": "2",
+      "id": "05a8f9d5-5c99-44a9-a372-3b4e15da1493",
       "appearence": {},
       "content": {
-        "title": "contentttttt",
-        "text": "hioi",
-        "imageUrl": "gasasas"
+        "title": "text",
+        "text": "hi",
+        "imageUrl": "aa"
       },
       "info": {},
       "type": "note",
       "size": {
-        "width": 275,
-        "height": 313,
+        "width": 200,
+        "height": 200,
         "isBeingResized": false
       },
       "position": {
-        "isBeingDragged": true,
-        "x": 89,
-        "y": 76
+        "x": 1284,
+        "y": 279,
+        "isBeingDragged": false
       },
       "status": "",
       "options": {}
     },
     {
-      "id": "3",
-      "appearence": {
-        "color": "green"
-      },
+      "id": "c95a6ca5-fb6e-4a1d-90a5-462250709e81",
+      "appearence": {},
       "content": {
-        "title": "hooooomannnn",
-        "text": "hoooman",
-        "imageUrl": "hoooman"
-      },
-      "info": {},
-      "type": "tag",
-      "size": {
-        "width": 75,
-        "height": 42,
-        "direction": "nwse-resize",
-        "isBeingResized": true
-      },
-      "position": {
-        "x": 1317,
-        "y": 168,
-        "isBeingDragged": true
-      },
-      "status": "",
-      "options": {}
-    },
-    {
-      "id": "4",
-      "appearence": {
-        "color": "primary"
-      },
-      "content": {
-        "title": "hooooomannnn",
-        "text": "Submit Button",
-        "imageUrl": "hoooman"
+        "title": "text",
+        "text": "hi",
+        "imageUrl": "aa"
       },
       "info": {},
       "type": "button",
       "size": {
-        "width": 229,
-        "height": 123,
-        "direction": "nwse-resize",
-        "isBeingResized": true
+        "width": 177,
+        "height": 53,
+        "isBeingResized": false,
+        "direction": "nwse-resize"
       },
       "position": {
-        "x": 1055,
-        "y": 633,
+        "x": 1164,
+        "y": 524,
         "isBeingDragged": true
+      },
+      "status": "",
+      "options": {}
+    },
+    {
+      "id": "3a91bb71-78b6-4392-8aee-470c1cf627e4",
+      "appearence": {},
+      "content": {
+        "title": "text",
+        "text": "hi",
+        "imageUrl": "aa"
+      },
+      "info": {},
+      "type": "note",
+      "size": {
+        "width": 200,
+        "height": 200
+      },
+      "position": {
+        "x": 400,
+        "y": 200
+      },
+      "status": "",
+      "options": {}
+    },
+    {
+      "id": "ec9ed75d-4186-4e14-8eab-0894b9f43148",
+      "appearence": {},
+      "content": {
+        "title": "text",
+        "text": "hi",
+        "imageUrl": "aa"
+      },
+      "info": {},
+      "type": "button",
+      "size": {
+        "width": 200,
+        "height": 200
+      },
+      "position": {
+        "x": 400,
+        "y": 200
+      },
+      "status": "",
+      "options": {}
+    },
+    {
+      "id": "ac7e3944-9a1e-4a0c-ae96-b08df46baf9d",
+      "appearence": {},
+      "content": {
+        "title": "text",
+        "text": "hi",
+        "imageUrl": "aa"
+      },
+      "info": {},
+      "type": "tag",
+      "size": {
+        "width": 200,
+        "height": 200
+      },
+      "position": {
+        "x": 400,
+        "y": 200
       },
       "status": "",
       "options": {}

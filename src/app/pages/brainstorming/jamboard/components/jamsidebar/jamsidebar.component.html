@@ -3,7 +3,7 @@
       @if(sideBar() == 'settings') {
       <section class="w-full flex flex-col justify-center items-center">
             @for (setting of settings; track $index) {
-                  
+
             }
       </section>
       }@else {
@@ -14,9 +14,8 @@
             </div>
             <div class="w-full space-y-5 p-5 m-3 justify-center items-center">
                   @for(element of elements; track $index ) {
-                  <div draggable="true"
-                        class="w-full rounded-md shadow-md p-3 flex justify-start items-center border border-slate-500 bg-blue-200 cursor-grab">
-                        {{element}}</div>
+                  <div [id]="generateUniqueId()" draggable="true"
+                        class="w-full rounded-md shadow-md p-3 flex justify-start items-center border border-slate-500 bg-blue-200 cursor-grab">{{element}}</div>
                   }
             </div>
       </section>

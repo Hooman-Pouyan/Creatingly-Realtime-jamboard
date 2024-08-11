@@ -29,14 +29,15 @@
       "info": {},
       "type": "note",
       "size": {
-        "width": 478,
-        "height": 201,
-        "isBeingResized": false
+        "width": 241,
+        "height": 349,
+        "direction": "nwse-resize",
+        "isBeingResized": true
       },
       "position": {
-        "x": 477,
-        "y": 333,
-        "isBeingDragged": false
+        "isBeingDragged": true,
+        "x": 329,
+        "y": 568
       },
       "status": "",
       "options": {},
@@ -64,8 +65,8 @@
       },
       "position": {
         "isBeingDragged": true,
-        "x": 364,
-        "y": 124
+        "x": 89,
+        "y": 76
       },
       "status": "",
       "options": {}

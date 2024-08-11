@@ -79,7 +79,10 @@ export class BaseElementComponent implements OnInit {
   ngOnInit(): void {
     this.socketService
       .onMessage(SocketEvents.JAMBOARD.ELEMENT$)
-      .pipe(filter((event) => event.id === this.elementState.id()))
+      .pipe(
+        takeUntilDestroyed(this.destroyRef$),
+        filter((event) => event.id === this.elementState.id())
+      )
       .subscribe((event) => {
         this.elementUpdate.emit({
           event: event.event,

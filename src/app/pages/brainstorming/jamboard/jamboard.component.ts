@@ -22,7 +22,7 @@ import { patchState, SignalState, signalState } from '@ngrx/signals';
 import { makeOptional } from '../../../core/models/transformers';
 import { ConvertToPropertyPipe } from '../../../shared/pipes/ConvertToProperty.pipe';
 import { IJamComment, IUser, TModules } from './models/jamboard.model';
-import { IJamElement } from './models/element.model';
+import { IJamElement, TJamElement } from './models/element.model';
 import { JamsidebarComponent } from './components/jamsidebar/jamsidebar.component';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { AuthService } from '../../../core/authentication/auth.service';
@@ -71,25 +71,32 @@ export class JamboardComponent implements OnInit {
   jamboardEvents = SocketEvents.JAMBOARD;
   canvas = viewChild('canvas');
 
-  @HostListener('drop', ['$event'])
-  onDrop(event: DragEvent) {
-    console.log(event);
-
-    event.preventDefault();
-    const data = event.dataTransfer?.getData('text');
-    const draggedElement = document.getElementById(data!);
-    const dropZone = event.target as HTMLElement;
-
-    if (dropZone && draggedElement) {
-      dropZone.appendChild(draggedElement); // Move the dragged element to the drop zone
-      console.log(`Dropped into ${dropZone.id}`);
-    }
+  @HostListener('dragstart', ['$event'])
+  onDragStart(event: DragEvent) {
+    event.dataTransfer?.setData(
+      'application/json',
+      JSON.stringify({
+        id: (event.target as HTMLElement).id,
+        type: (event.target as HTMLElement).textContent,
+      })
+    );
+    console.log('Drag Start:', event.target);
   }
 
   @HostListener('dragover', ['$event'])
   onDragOver(event: DragEvent) {
     event.preventDefault(); // Necessary to allow a drop
-    console.log('Drag Over:', event.target);
+  }
+
+  @HostListener('drop', ['$event'])
+  onDrop(event: DragEvent) {
+    event.preventDefault();
+    const data = event.dataTransfer?.getData('application/json');
+    const dropZone = event.target as HTMLElement;
+
+    if (dropZone.classList.contains('jamboard')) {
+      this.generateANewElement(JSON.parse(data!));
+    }
   }
 
   updateJamBoardState(event: {
@@ -116,5 +123,41 @@ export class JamboardComponent implements OnInit {
 
   sendSocketMessage(id: string = '1', event: string, data: IJamboardState) {
     // this.socketService.sendMessage(id, event, data);
+  }
+
+  generateANewElement(data: { id: string; type: TJamElement }) {
+    const newElement: IJamElement = {
+      id: data.id,
+      appearence: {},
+      content: {
+        title: 'text',
+        text: 'hi',
+        imageUrl: 'aa',
+      },
+      info: {},
+      type: data.type,
+      size: {
+        width: 300,
+        height: 300,
+      },
+      position: {
+        x: 400,
+        y: 200,
+      },
+      status: '',
+      options: {},
+    };
+
+    patchState(this.jamboardStore.state, (state) => ({
+      ...state,
+      elements: [...state.elements, newElement],
+    }));
+
+    this.socketService.sendMessage(
+      SocketEvents.JAMBOARD.ELEMENT$,
+      newElement.id,
+      'elements',
+      this.jamboardStore.state.elements()
+    );
   }
 }

@@ -7,6 +7,7 @@ import {
 import { TagComponent } from '../../../../../shared/components/tag/tag.component';
 import { SharedModule } from '../../../../../shared/shared.module';
 import { IJamElement } from '../../models/element.model';
+import { v4 as uuidv4 } from 'uuid';
 
 export type TJmasidebarState = 'settings' | 'elements';
 
@@ -38,4 +39,10 @@ export class JamsidebarComponent {
     'textarea',
     'select',
   ];
+
+  generateUniqueId() {
+    console.log(uuidv4());
+
+    return uuidv4();
+  }
 }

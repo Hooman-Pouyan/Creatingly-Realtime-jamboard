@@ -5,6 +5,7 @@ import { InsertComponentDirective } from '../../directives/insert-component.dire
 import { BaseElementComponent } from '../../../pages/brainstorming/jamboard/components/base-element/base-element.component';
 import { UtilityDirectaive } from '../../directives/utility.directive';
 import { ResizeDirective } from '../../directives/resize.directive';
+import { EditableComponent } from '../editable/editable.component';
 @Component({
   selector: 'app-tag',
   standalone: true,
@@ -14,6 +15,7 @@ import { ResizeDirective } from '../../directives/resize.directive';
     InsertComponentDirective,
     UtilityDirectaive,
     ResizeDirective,
+    EditableComponent
   ],
   templateUrl: './tag.component.html',
   styleUrl: './tag.component.scss',

@@ -19,134 +19,70 @@
   ],
   "elements": [
     {
-      "id": "38df37bd-d31e-4c3c-aa4a-c85619d4e229",
+      "id": "891fbe77-d259-42df-ab69-26ffca0e1140",
       "appearence": {},
       "content": {
-        "title": "text",
-        "text": "hi",
-        "imageUrl": "aa"
+        "title": "Title",
+        "text": "create and change elemetns real time",
+        "imageUrl": "url"
       },
       "info": {},
       "type": "note",
       "size": {
-        "width": 200,
-        "height": 200,
+        "width": 414,
+        "height": 417,
         "isBeingResized": false
       },
       "position": {
-        "x": 637,
-        "y": 265,
+        "x": 310,
+        "y": 119,
         "isBeingDragged": false
       },
       "status": "",
       "options": {}
     },
     {
-      "id": "05a8f9d5-5c99-44a9-a372-3b4e15da1493",
+      "id": "f9de1339-692a-40cc-b7fb-80a9dbd31a11",
       "appearence": {},
       "content": {
-        "title": "text",
-        "text": "hi",
-        "imageUrl": "aa"
+        "title": "Title",
+        "text": "Double click to change",
+        "imageUrl": "url"
       },
       "info": {},
-      "type": "note",
+      "type": "button",
       "size": {
-        "width": 200,
+        "width": 199,
         "height": 200,
         "isBeingResized": false
       },
       "position": {
-        "x": 1284,
-        "y": 279,
+        "x": 877,
+        "y": 544,
         "isBeingDragged": false
       },
       "status": "",
       "options": {}
     },
     {
-      "id": "c95a6ca5-fb6e-4a1d-90a5-462250709e81",
+      "id": "92531091-0e8f-4b94-87d2-4318360a3d41",
       "appearence": {},
       "content": {
-        "title": "text",
-        "text": "hi",
-        "imageUrl": "aa"
-      },
-      "info": {},
-      "type": "button",
-      "size": {
-        "width": 177,
-        "height": 53,
-        "isBeingResized": false,
-        "direction": "nwse-resize"
-      },
-      "position": {
-        "x": 1164,
-        "y": 524,
-        "isBeingDragged": true
-      },
-      "status": "",
-      "options": {}
-    },
-    {
-      "id": "3a91bb71-78b6-4392-8aee-470c1cf627e4",
-      "appearence": {},
-      "content": {
-        "title": "text",
-        "text": "hi",
-        "imageUrl": "aa"
-      },
-      "info": {},
-      "type": "note",
-      "size": {
-        "width": 200,
-        "height": 200
-      },
-      "position": {
-        "x": 400,
-        "y": 200
-      },
-      "status": "",
-      "options": {}
-    },
-    {
-      "id": "ec9ed75d-4186-4e14-8eab-0894b9f43148",
-      "appearence": {},
-      "content": {
-        "title": "text",
-        "text": "hi",
-        "imageUrl": "aa"
-      },
-      "info": {},
-      "type": "button",
-      "size": {
-        "width": 200,
-        "height": 200
-      },
-      "position": {
-        "x": 400,
-        "y": 200
-      },
-      "status": "",
-      "options": {}
-    },
-    {
-      "id": "ac7e3944-9a1e-4a0c-ae96-b08df46baf9d",
-      "appearence": {},
-      "content": {
-        "title": "text",
-        "text": "hi",
-        "imageUrl": "aa"
+        "title": "Title",
+        "text": "see other browsers real time",
+        "imageUrl": "url"
       },
       "info": {},
       "type": "tag",
       "size": {
         "width": 200,
-        "height": 200
+        "height": 200,
+        "isBeingResized": false
       },
       "position": {
-        "x": 400,
-        "y": 200
+        "x": 887,
+        "y": 191,
+        "isBeingDragged": false
       },
       "status": "",
       "options": {}
@@ -173,7 +109,7 @@
     {
       "id": "2",
       "name": "luke skywalker",
-      "status": "online",
+      "status": "offline",
       "avatarUrl": "https://avatars.githubusercontent.com/u/10214021?v=4",
       "curser": {
         "position": {

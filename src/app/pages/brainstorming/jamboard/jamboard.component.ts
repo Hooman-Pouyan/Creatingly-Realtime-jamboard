@@ -32,7 +32,7 @@ import { CommentFlowComponent } from '../../../shared/components/comment-flow/co
 import { LayoutService } from '../../../core/layout/services/layout.service';
 import { TagComponent } from '../../../shared/components/tag/tag.component';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
-import { filter } from 'rxjs/operators';
+import { filter, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-jamboard',
@@ -61,6 +61,7 @@ export class JamboardComponent implements OnInit {
   ngOnInit(): void {
     this.jamboardStore.loadElements();
     this.jamboardStore.loadComments();
+    this.ListenToElementCreation();
   }
 
   jamboardStore = inject(JamboardStore);
@@ -71,6 +72,7 @@ export class JamboardComponent implements OnInit {
   ConvertToPropertyPipe = inject(ConvertToPropertyPipe);
   jamboardEvents = SocketEvents.JAMBOARD;
   canvas = viewChild('canvas');
+  userId = this.authService.usersStore$.userProfile()?.id;
 
   @HostListener('dragstart', ['$event'])
   onDragStart(event: DragEvent) {
@@ -131,9 +133,9 @@ export class JamboardComponent implements OnInit {
       id: data.id,
       appearence: {},
       content: {
-        title: 'text',
-        text: 'hi',
-        imageUrl: 'aa',
+        title: 'Title',
+        text: 'This is a new element',
+        imageUrl: 'url',
       },
       info: {},
       type: data.type,
@@ -156,24 +158,34 @@ export class JamboardComponent implements OnInit {
 
     this.jamBoardService.addElement('1', newElement).subscribe();
 
-    this.socketService
-      .onMessage(SocketEvents.JAMBOARD.ELEMENT$)
-      .pipe(filter((message) => message.type == 'elements'))
-      .subscribe({
-        next: (event) => {
-          console.log(event);
-          patchState(this.jamboardStore.state, (state) => ({
-            ...state,
-            elements: event.data,
-          }));
-        },
-      });
-
     this.socketService.sendMessage(
       SocketEvents.JAMBOARD.ELEMENT$,
       newElement.id,
       'elements',
-      this.jamboardStore.state.elements()
+      newElement
     );
+  }
+
+  ListenToElementCreation() {
+    this.socketService
+      .onMessage(SocketEvents.JAMBOARD.ELEMENT$)
+      .pipe(
+        filter(
+          (message) =>
+            message.type == 'elements' && this.userId != message?.userId
+        )
+      )
+      .subscribe({
+        next: (event) => {
+          patchState(this.jamboardStore.state, (state) => ({
+            ...state,
+            elements: [...state.elements, event.data],
+          }));
+          console.log(
+            'this.jamboardStore.state()this.jamboardStore.state()this.jamboardStore.state()',
+            this.jamboardStore.state()
+          );
+        },
+      });
   }
 }

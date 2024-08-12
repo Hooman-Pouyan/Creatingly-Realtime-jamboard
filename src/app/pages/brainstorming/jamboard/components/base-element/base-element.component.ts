@@ -104,14 +104,22 @@ export class BaseElementComponent implements OnInit {
       });
   }
 
-  dispatchEvent(delta: string, newDeltaData: any) {
-    // this.jamboardRepo
-    //   .updateElement('1', this.elementState().id, {
-    //     [delta]: (this.elementState() as any)[delta],
-    //   })
-    //   .pipe(takeUntilDestroyed(this.destroyRef$))
-    //   .subscribe();
+  updateState(delta: string, newDeltaData: any) {
+    // updates the state of element
+    patchState(this.elementState, (state) => ({
+      [delta]: newDeltaData,
+    }));
+    console.log(newDeltaData);
 
+    // checks if the user interaxction with elements is done and if so send http request to the repo
+    if (!newDeltaData.isBeingDragged && !newDeltaData.isBeingResized)
+      this.sendRepoRequest(delta);
+
+    // emits socket message
+    this.dispatchEvent(delta, (this.elementState as any)()[delta]);
+  }
+
+  dispatchEvent(delta: string, newDeltaData: any) {
     this.socketService.sendMessage(
       SocketEvents.JAMBOARD.ELEMENT$,
       this.elementState().id,
@@ -120,10 +128,13 @@ export class BaseElementComponent implements OnInit {
     );
   }
 
-  updateState(delta: string, newDeltaData: any) {
-    patchState(this.elementState, (state) => ({
-      [delta]: newDeltaData,
-    }));
-    this.dispatchEvent(delta, (this.elementState as any)()[delta]);
+  sendRepoRequest(delta: string) {
+    // jamboard id should be dynamic but for now it is hardcoded till we add different tabs for a jamboard
+    this.jamboardRepo
+      .updateElement('1', this.elementState().id, {
+        [delta]: (this.elementState() as any)[delta],
+      })
+      .pipe(takeUntilDestroyed(this.destroyRef$))
+      .subscribe();
   }
 }

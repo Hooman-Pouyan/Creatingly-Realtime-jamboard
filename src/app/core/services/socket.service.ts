@@ -68,6 +68,7 @@ export class SocketService {
       data,
     };
     const compressedMessage = JSON.stringify(deflate(JSON.stringify(message)));
+    if (!data || !id || !type) return
     this.socket.emit(event, this.userId, id, type, data);
   }
 }

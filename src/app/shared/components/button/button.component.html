@@ -1,7 +1,7 @@
-<div class="cursor-grab" [minAllowedSize]="50" [maxAllowedSize]="400" canDragdrop canResize
+<div class="cursor-grab" [minAllowedSize]="50" [maxAllowedSize]="300" canDragdrop canResize
       [latestPosition]="elementState().position" [latestSize]="elementState().size"
-      (positionUpdate)="dispatchEvent('position', $event)" (sizeUpdate)="dispatchEvent('size', $event)">
-      <button class="!w-full !h-full" nz-button [nzType]="'primary'">
+      (positionUpdate)="updateState('position', $event)" (sizeUpdate)="updateState('size', $event)">
+      <button class="!w-full !h-full flex justify-center items-center" nz-button [nzType]="'primary'">
             <app-editable [content]="elementState().content" (contentEmitter)="updateState('content', $event)" />
       </button>
 </div>

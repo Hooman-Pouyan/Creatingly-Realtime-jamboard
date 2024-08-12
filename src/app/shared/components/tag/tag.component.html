@@ -1,10 +1,10 @@
-<div class="!cursor-grab" [id]="elementState.id()" canDragdrop canResize [minAllowedSize]="40" [maxAllowedSize]="120"
+<div class="!cursor-grab" [id]="elementState.id()" canDragdrop canResize [minAllowedSize]="300" [maxAllowedSize]="300"
   [latestPosition]="elementState().position" [latestSize]="elementState().size"
   (positionUpdate)="updateState('position', $event)" (sizeUpdate)="updateState('size', $event)">
   <nz-tag class="!w-full !h-full" [nzColor]="dataSource().appearence.color">
-    <div [style.width.px]="elementState().size.width" [style.height.px]="elementState().size.height">
-      <ng-content class="!bg-red-700"></ng-content>
-
+    <div class="flex justify-center items-center p-4">
+      <app-editable [content]="elementState().content" (contentEmitter)="updateState('content', $event)" type="text"
+        placeholder="Card title"></app-editable>
     </div>
   </nz-tag>
 </div>

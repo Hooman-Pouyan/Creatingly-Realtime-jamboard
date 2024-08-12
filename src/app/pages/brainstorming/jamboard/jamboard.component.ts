@@ -22,7 +22,7 @@ import { patchState, SignalState, signalState } from '@ngrx/signals';
 import { makeOptional } from '../../../core/models/transformers';
 import { ConvertToPropertyPipe } from '../../../shared/pipes/ConvertToProperty.pipe';
 import { IJamComment, IUser, TModules } from './models/jamboard.model';
-import { IJamElement, TJamElement } from './models/element.model';
+import { IJamElement, TJamElement, TPosition } from './models/element.model';
 import { JamsidebarComponent } from './components/jamsidebar/jamsidebar.component';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { AuthService } from '../../../core/authentication/auth.service';
@@ -96,9 +96,14 @@ export class JamboardComponent implements OnInit {
     event.preventDefault();
     const data = event.dataTransfer?.getData('application/json');
     const dropZone = event.target as HTMLElement;
-
+    console.log(event);
+    
     if (dropZone.classList.contains('jamboard')) {
-      this.generateANewElement(JSON.parse(data!));
+      const newElementPosition = {
+        x: event.x - 100,
+        y: event.y - 100,
+      };
+      this.generateANewElement(JSON.parse(data!), newElementPosition);
     }
   }
 
@@ -128,7 +133,15 @@ export class JamboardComponent implements OnInit {
     // this.socketService.sendMessage(id, event, data);
   }
 
-  generateANewElement(data: { id: string; type: TJamElement }) {
+  generateANewElement(
+    data: {
+      id: string;
+      type: TJamElement;
+    },
+    position: TPosition
+  ) {
+    console.log(position);
+    
     const newElement: IJamElement = {
       id: data.id,
       appearence: {},
@@ -137,16 +150,22 @@ export class JamboardComponent implements OnInit {
         text: 'This is a new element',
         imageUrl: 'url',
       },
-      info: {},
+      info: {
+        createAt: new Date(),
+        modifiedAt: new Date(),
+        createdBy: {
+          id: this.userId!,
+        },
+        modifiedBy: {
+          id: this.userId!,
+        },
+      },
       type: data.type,
       size: {
         width: 200,
         height: 200,
       },
-      position: {
-        x: 400,
-        y: 200,
-      },
+      position: position,
       status: '',
       options: {},
     };

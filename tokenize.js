@@ -36,7 +36,7 @@ function tokenizeObject(obj, tokenMap) {
       return acc;
     }, {});
   }
-  return obj;
+   return obj;
 }
 
 function detokenizeObject(obj, reverseTokenMap) {

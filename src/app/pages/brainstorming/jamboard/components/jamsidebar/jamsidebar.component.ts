@@ -32,17 +32,14 @@ export class JamsidebarComponent {
     'note',
     'button',
     'tag',
-    'tree',
+    'dropdown',
     'radio',
     'checkbox',
     'input',
-    'textarea',
     'select',
   ];
 
   generateUniqueId() {
-    console.log(uuidv4());
-
     return uuidv4();
   }
 }

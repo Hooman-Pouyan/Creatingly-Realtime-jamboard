@@ -19,76 +19,37 @@
   ],
   "elements": [
     {
-      "id": "891fbe77-d259-42df-ab69-26ffca0e1140",
+      "id": "502175d2-83ad-4a44-8070-e6b2c81058f4",
       "appearence": {},
       "content": {
         "title": "Title",
-        "text": "create and change elemetns real time",
+        "text": "New Content for The Note Card",
         "imageUrl": "url"
       },
-      "info": {},
+      "info": {
+        "createAt": "2024-08-13T12:40:08.689Z",
+        "modifiedAt": "2024-08-13T12:40:08.689Z",
+        "createdBy": {
+          "id": "1"
+        },
+        "modifiedBy": {
+          "id": "1"
+        }
+      },
       "type": "note",
       "size": {
-        "width": 414,
-        "height": 417,
-        "isBeingResized": false
+        "width": 400,
+        "height": 450
       },
       "position": {
-        "x": 310,
-        "y": 119,
-        "isBeingDragged": false
+        "x": 843,
+        "y": 174
       },
       "status": "",
       "options": {}
     },
     {
-      "id": "f9de1339-692a-40cc-b7fb-80a9dbd31a11",
-      "appearence": {},
-      "content": {
-        "title": "Title",
-        "text": "Double click to change",
-        "imageUrl": "url"
-      },
-      "info": {},
-      "type": "button",
-      "size": {
-        "width": 199,
-        "height": 200,
-        "isBeingResized": false
-      },
-      "position": {
-        "x": 940,
-        "y": 481,
-        "isBeingDragged": false
-      },
-      "status": "",
-      "options": {}
-    },
-    {
-      "id": "92531091-0e8f-4b94-87d2-4318360a3d41",
-      "appearence": {},
-      "content": {
-        "title": "Title",
-        "text": "see other browsers real time",
-        "imageUrl": "url"
-      },
-      "info": {},
-      "type": "tag",
-      "size": {
-        "width": 200,
-        "height": 200,
-        "isBeingResized": false
-      },
-      "position": {
-        "x": 887,
-        "y": 191,
-        "isBeingDragged": false
-      },
-      "status": "",
-      "options": {}
-    },
-    {
-      "id": "4afd2f5e-f64e-4276-8651-3eba293374ab",
+      "id": "e713c750-b960-404d-a2b6-60c7dc4d0e16",
       "appearence": {},
       "content": {
         "title": "Title",
@@ -96,21 +57,150 @@
         "imageUrl": "url"
       },
       "info": {
-        "createAt": "2024-08-13T11:10:33.598Z",
-        "modifiedAt": "2024-08-13T11:10:33.598Z",
-        "createdBy": {},
-        "modifiedBy": {}
+        "createAt": "2024-08-13T12:40:27.429Z",
+        "modifiedAt": "2024-08-13T12:40:27.429Z",
+        "createdBy": {
+          "id": "1"
+        },
+        "modifiedBy": {
+          "id": "1"
+        }
       },
-      "type": "tag",
+      "type": "button",
       "size": {
-        "width": 200,
-        "height": 200,
+        "width": 158,
+        "height": 51,
         "isBeingResized": false
       },
       "position": {
-        "x": 708,
-        "y": 512,
+        "x": 315,
+        "y": 592,
         "isBeingDragged": false
+      },
+      "status": "",
+      "options": {}
+    },
+    {
+      "id": "f3e99a55-5fca-4409-b6b7-50e5ccc38790",
+      "appearence": {},
+      "content": {
+        "title": "Title",
+        "text": "",
+        "imageUrl": "url"
+      },
+      "info": {
+        "createAt": "2024-08-13T12:40:42.361Z",
+        "modifiedAt": "2024-08-13T12:40:42.361Z",
+        "createdBy": {
+          "id": "1"
+        },
+        "modifiedBy": {
+          "id": "1"
+        }
+      },
+      "type": "dropdown",
+      "size": {
+        "width": 100,
+        "height": 100
+      },
+      "position": {
+        "x": 823,
+        "y": 534,
+        "isBeingDragged": false
+      },
+      "status": "",
+      "options": {}
+    },
+    {
+      "id": "0e1b4085-79f0-4776-baa6-0da4b513adf1",
+      "appearence": {},
+      "content": {
+        "title": "Title",
+        "text": "This is a new element",
+        "imageUrl": "url"
+      },
+      "info": {
+        "createAt": "2024-08-13T12:41:33.656Z",
+        "modifiedAt": "2024-08-13T12:41:33.656Z",
+        "createdBy": {
+          "id": "1"
+        },
+        "modifiedBy": {
+          "id": "1"
+        }
+      },
+      "type": "note",
+      "size": {
+        "width": 400,
+        "height": 450,
+        "isBeingResized": false
+      },
+      "position": {
+        "x": 321,
+        "y": 135,
+        "isBeingDragged": false
+      },
+      "status": "",
+      "options": {}
+    },
+    {
+      "id": "8d23037e-f011-47b6-9908-eb258b850cdb",
+      "appearence": {},
+      "content": {
+        "title": "Title",
+        "text": "This is a new eleddssfment",
+        "imageUrl": "url"
+      },
+      "info": {
+        "createAt": "2024-08-13T12:41:40.116Z",
+        "modifiedAt": "2024-08-13T12:41:40.116Z",
+        "createdBy": {
+          "id": "1"
+        },
+        "modifiedBy": {
+          "id": "1"
+        }
+      },
+      "type": "button",
+      "size": {
+        "width": 200,
+        "height": 100,
+        "isBeingResized": false
+      },
+      "position": {
+        "x": 933,
+        "y": 189,
+        "isBeingDragged": false
+      },
+      "status": "",
+      "options": {}
+    },
+    {
+      "id": "0e1b4085-79f0-4776-baa6-0da4b513adf1",
+      "appearence": {},
+      "content": {
+        "title": "Title",
+        "text": "This is a new element",
+        "imageUrl": "url"
+      },
+      "info": {
+        "createAt": "2024-08-13T12:41:47.583Z",
+        "modifiedAt": "2024-08-13T12:41:47.583Z",
+        "createdBy": {
+          "id": "1"
+        },
+        "modifiedBy": {
+          "id": "1"
+        }
+      },
+      "type": "note",
+      "size": {
+        "width": 400,
+        "height": 450
+      },
+      "position": {
+        "x": 496,
+        "y": 165
       },
       "status": "",
       "options": {}
@@ -137,7 +227,7 @@
     {
       "id": "2",
       "name": "luke skywalker",
-      "status": "offline",
+      "status": "online",
       "avatarUrl": "https://avatars.githubusercontent.com/u/10214021?v=4",
       "curser": {
         "position": {

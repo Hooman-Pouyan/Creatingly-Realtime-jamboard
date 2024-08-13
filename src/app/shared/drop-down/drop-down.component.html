@@ -1,15 +1,18 @@
-<a nz-dropdown [nzDropdownMenu]="menu">
-      Hover me
-      <span nz-icon nzType="down"></span>
-</a>
-<nz-dropdown-menu #menu="nzDropdownMenu">
-      <ul nz-menu nzSelectable>
-            <li nz-menu-item>1st menu item</li>
-            <li nz-menu-item>2nd menu item</li>
-            <li nz-menu-item>3rd menu item</li>
-            <li nz-menu-item nzDanger>4th danger item</li>
-      </ul>
-</nz-dropdown-menu>
+<div class="w-fit flex justify-center items-center" canDragdrop [latestPosition]="elementState().position"
+      (positionUpdate)="updateState('position', $event)">
+      <a nz-dropdown [nzDropdownMenu]="menu">
+            <app-editable [content]="elementState().content" (contentEmitter)="updateState('content', $event)" />
+            <span nz-icon nzType="down"></span>
+      </a>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu nzSelectable>
+                  <li nz-menu-item>1st menu item</li>
+                  <li nz-menu-item>2nd menu item</li>
+                  <li nz-menu-item>3rd menu item</li>
+                  <li nz-menu-item nzDanger>4th danger item</li>
+            </ul>
+      </nz-dropdown-menu>
+</div>
 <!-- 
 <nz-button-group>
       <button nz-button (click)="viewProfile()">

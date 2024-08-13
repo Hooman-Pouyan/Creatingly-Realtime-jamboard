@@ -11,10 +11,14 @@ import {
   debounceTime,
   filter,
   fromEvent,
+  interval,
   map,
   race,
+  switchMap,
+  takeUntil,
   takeWhile,
   tap,
+  timer,
 } from 'rxjs';
 
 @Directive({
@@ -33,6 +37,10 @@ export class UtilityDirectaive {
   mouseLeave$ = fromEvent(this.element, 'mouseLeave');
   mouseMove$ = fromEvent(document, 'mousemove');
   mouseClick$ = fromEvent(document, 'click');
+  mouseHold$ = fromEvent(document, 'mousedown').pipe(
+    switchMap(() => timer(500).pipe(takeUntil(fromEvent(document, 'mouseup')))),
+    filter(() => true)
+  );
   doubleClick$ = this.mouseClick$.pipe(
     buffer(this.mouseClick$.pipe(debounceTime(250))),
     map((clicks) => clicks.length),

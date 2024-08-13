@@ -33,6 +33,7 @@ import { LayoutService } from '../../../core/layout/services/layout.service';
 import { TagComponent } from '../../../shared/components/tag/tag.component';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import { filter, take } from 'rxjs/operators';
+import { DropDownComponent } from '../../../shared/drop-down/drop-down.component';
 
 @Component({
   selector: 'app-jamboard',
@@ -45,6 +46,8 @@ import { filter, take } from 'rxjs/operators';
     CommentFlowComponent,
     TagComponent,
     ButtonComponent,
+    DropDownComponent,
+    DropDownComponent,
   ],
   providers: [ConvertToPropertyPipe],
   templateUrl: './jamboard.component.html',
@@ -161,10 +164,7 @@ export class JamboardComponent implements OnInit {
         },
       },
       type: data.type,
-      size: {
-        width: 200,
-        height: 200,
-      },
+      size: this.initialSizeGenerator(data.type),
       position: position,
       status: '',
       options: {},
@@ -200,11 +200,32 @@ export class JamboardComponent implements OnInit {
             ...state,
             elements: [...state.elements, event.data],
           }));
-          console.log(
-            'this.jamboardStore.state()this.jamboardStore.state()this.jamboardStore.state()',
-            this.jamboardStore.state()
-          );
         },
       });
+  }
+
+  initialSizeGenerator(dataType: TJamElement) {
+    switch (dataType) {
+      case 'note':
+        return {
+          width: 400,
+          height: 450,
+        };
+      case 'tag':
+        return {
+          width: 150,
+          height: 50,
+        };
+      case 'button':
+        return {
+          width: 200,
+          height: 100,
+        };
+      default:
+        return {
+          width: 100,
+          height: 100,
+        };
+    }
   }
 }

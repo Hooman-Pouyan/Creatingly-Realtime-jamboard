@@ -1,6 +1,5 @@
-<div class="!cursor-grab" [id]="elementState.id()" canDragdrop canResize [minAllowedSize]="300" [maxAllowedSize]="300"
-  [latestPosition]="elementState().position" [latestSize]="elementState().size"
-  (positionUpdate)="updateState('position', $event)" (sizeUpdate)="updateState('size', $event)">
+<div class="!cursor-grab" canDragdrop [latestPosition]="elementState().position"
+  (positionUpdate)="updateState('position', $event)">
   <nz-tag class="!w-full !h-full" [nzColor]="dataSource().appearence.color">
     <div class="flex justify-center items-center p-4">
       <app-editable [content]="elementState().content" (contentEmitter)="updateState('content', $event)" type="text"

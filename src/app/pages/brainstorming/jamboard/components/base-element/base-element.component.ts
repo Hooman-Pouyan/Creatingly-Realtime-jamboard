@@ -22,11 +22,12 @@ import { ConvertToPropertyPipe } from '../../../../../shared/pipes/ConvertToProp
 import { JamBoardRepository } from '../../../../../core/repositories/jamboard.repository';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthService } from '../../../../../core/authentication/auth.service';
+import { DragdropDirective } from '../../../../../shared/directives/dragdrop.directive';
 
 @Component({
   selector: 'app-base-element',
   standalone: true,
-  imports: [ConvertToPropertyPipe],
+  imports: [ConvertToPropertyPipe, DragdropDirective],
   templateUrl: './base-element.component.html',
   styleUrl: './base-element.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -100,7 +101,6 @@ export class BaseElementComponent implements OnInit {
           ...state,
           [event.type]: event.data,
         });
-        console.log(event);
       });
   }
 

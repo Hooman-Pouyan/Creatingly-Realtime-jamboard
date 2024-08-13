@@ -85,7 +85,7 @@ export class ResizeDirective implements OnInit, AfterViewInit {
 
     this.baseDirective.interactionCancelation$.subscribe({
       next: () => {
-        console.log('eidhshdiugdigd');
+        console.log('resized cancelled');
 
         this.baseDirective.renderer.removeClass(
           this.resizableElement,

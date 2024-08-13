@@ -26,6 +26,7 @@ import {
   of,
   race,
   shareReplay,
+  skipUntil,
   switchMap,
   takeUntil,
   takeWhile,
@@ -80,11 +81,6 @@ export class DragdropDirective implements OnInit {
 
   constructor() {}
   ngOnInit(): void {
-    this.mouseDown$.subscribe((w) => {
-      console.log(w.target);
-    });
-    console.log(this.baseDirective.element);
-
     this.baseDirective.renderer.setStyle(
       this.baseDirective.element,
       'position',
@@ -101,10 +97,13 @@ export class DragdropDirective implements OnInit {
 
     this.baseDirective.interactionCancelation$.subscribe({
       next: () => {
-        this.baseDirective.renderer.removeClass(
+        console.log('drag drop cancelled');
+
+        this.baseDirective.renderer.addClass(
           this.draggableElement,
-          EJameElementStatus.Grabbed
+          'isDropped'
         );
+        
         this.positionUpdate.emit({
           x: this.positionX(),
           y: this.positionY(),
@@ -136,6 +135,16 @@ export class DragdropDirective implements OnInit {
         // we put takeuntil here because the wont destroy inner observables so we made sure we destory move event sub
         takeUntilDestroyed(this.baseDirective.destoryRef$),
         takeUntil(this.baseDirective.interactionCancelation$),
+        skipUntil(
+          this.baseDirective.mouseHold$.pipe(
+            tap(() => {
+              this.baseDirective.renderer.addClass(
+                this.draggableElement,
+                EJameElementStatus.Grabbed
+              );
+            })
+          )
+        ),
         map((moveEvent: any) => {
           const offsetX = moveEvent.x - start.offsetX;
           const offsetY = moveEvent.y - start.offsetY;
@@ -177,10 +186,10 @@ export class DragdropDirective implements OnInit {
       'top',
       y - this.layoutService.offsetY() + 'px'
     );
-    this.baseDirective.renderer.addClass(
-      this.draggableElement,
-      EJameElementStatus.Grabbed
-    );
+    // this.baseDirective.renderer.addClass(
+    //   this.draggableElement,
+    //   EJameElementStatus.Grabbed
+    // );
   }
 
   isValidForDrag(offsetX: number, offsetY: number): boolean {

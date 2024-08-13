@@ -22,6 +22,11 @@
                   {{element.content.text}}
             </app-button>
             }
+            @case ("dropdown") {
+            <app-drop-down [menuItems]="" (elementUpdate)="updateJamBoardState($event)" [dataSource]="element">
+                  {{element.content.text}}
+            </app-drop-down>
+            }
             }
 
             }@empty {

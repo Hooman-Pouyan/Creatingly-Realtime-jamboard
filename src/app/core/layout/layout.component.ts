@@ -91,10 +91,10 @@ export class LayoutComponent implements OnInit {
   layoutHeader = viewChild('layoutHeader');
 
   a = effect(() => {
-    console.log(this.layoutSidebar());
-    console.log(this.layoutService.isMenuCollapsed());
-    console.log(this.layoutHeader());
-    console.log(this.isCollapsed);
+    // console.log(this.layoutSidebar());
+    // console.log(this.layoutService.isMenuCollapsed());
+    // console.log(this.layoutHeader());
+    // console.log(this.isCollapsed);
   });
 
   toggleMenu() {

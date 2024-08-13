@@ -15,11 +15,12 @@ export type IJamElement = {
 export type TJamElement =
   | 'note'
   | 'tag'
-  | 'chart'
   | 'button'
   | 'toggle'
   | 'radio'
-  | 'tree';
+  | 'tree'
+  | 'dropdown'
+  | 'slider';
 
 export const a: IUser = {
   id: '',

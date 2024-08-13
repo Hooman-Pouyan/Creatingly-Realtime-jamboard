@@ -97,7 +97,7 @@ export class JamboardComponent implements OnInit {
     const data = event.dataTransfer?.getData('application/json');
     const dropZone = event.target as HTMLElement;
     console.log(event);
-    
+
     if (dropZone.classList.contains('jamboard')) {
       const newElementPosition = {
         x: event.x - 100,
@@ -141,7 +141,7 @@ export class JamboardComponent implements OnInit {
     position: TPosition
   ) {
     console.log(position);
-    
+
     const newElement: IJamElement = {
       id: data.id,
       appearence: {},

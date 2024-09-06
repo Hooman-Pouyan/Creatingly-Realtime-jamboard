@@ -3,7 +3,7 @@
 This is A Real Time Collaboration app built on top of Angular 18 and nest js
 
 i was Tasked to implement a performant readl time editing studio like figma
-for my interview with creatingly and here is a portion of result for my 3 day task
+for my interview with creatingly and here is a portion of result for my 3 days task
 
 https://github.com/user-attachments/assets/697c7619-42e8-4f85-9703-94d122328409
 

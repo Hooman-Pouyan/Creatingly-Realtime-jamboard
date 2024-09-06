@@ -5,14 +5,9 @@ This is A Real Time Collaboration app built on top of Angular 18 and nest js
 i was Tasked to implement a performant readl time editing studio like figma
 for my interview with creatingly and here is a portion of result for my 3 day task
 
-THIS APP IS STILL IN DEVELOP AND IT"S ONLY A DEMO OF MY INTERVIEW PROJECT _ THE FULL APP CAN"T BE ACCESSIBLE BECAUSE OF MY COLLABORATION WITH [CREATINGLY APP](https://creatingly.com/)
+https://github.com/user-attachments/assets/697c7619-42e8-4f85-9703-94d122328409
 
-https://github.com/user-attachments/assets/908b2088-0c27-41fe-8576-fe7464c70b16
-
-
-https://github.com/user-attachments/assets/6cd1c55b-1b51-49ea-9557-89f8a45965ce
-
-
+https://github.com/user-attachments/assets/6154c040-2265-4d56-81c4-5524434d7095
 
 similar to other known apps with such feature such as figma jam, google docs, etc this app uses below technologies with best practises and
 clean architecture to allow multiple users join a session, create a doc (we call it jam board here) and simoultinously interact with elements on the screen (add, edit, resize, drag & drop, change content, ...)
@@ -31,28 +26,6 @@ Json Server (Mock Data)
 Uuid
 No Real-time Libraries (i have implement every directive, and feature from scratch to make them more flexible)
 
+THIS APP IS STILL IN DEVELOP AND IT"S ONLY A DEMO OF MY INTERVIEW PROJECT _ THE FULL APP CAN"T BE ACCESSIBLE BECAUSE OF MY COLLABORATION WITH [CREATINGLY APP](https://creatingly.com/)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.1.2.
-
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

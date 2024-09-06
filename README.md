@@ -2,7 +2,15 @@
 
 This is A Real Time Collaboration app built on top of Angular 18 and nest js
 
-i have tried to implement readltime multi user editing feature like figma
+i was Tasked to implement a performant readl time editing studio like figma
+for my interview with creatingly and here is a portion of result for my 3 day task
+
+THIS APP IS STILL IN DEVELOP AND IT"S ONLY A DEMO OF MY INTERVIEW PROJECT _ THE FULL APP CAN"T BE ACCESSIBLE BECAUSE OF MY COLLABORATION WITH [CREATINGLY APP](https://creatingly.com/)
+
+https://github.com/user-attachments/assets/908b2088-0c27-41fe-8576-fe7464c70b16
+
+
+https://github.com/user-attachments/assets/6cd1c55b-1b51-49ea-9557-89f8a45965ce
 
 
 

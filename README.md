@@ -1,4 +1,4 @@
-# Creatingly-demo
+# Creatingly-App
 
 This is A Real Time Collaboration app built on top of Angular 18 and nest js
 
@@ -7,7 +7,7 @@ for my interview with creatingly and here is a portion of result for my 3 day ta
 
 https://github.com/user-attachments/assets/697c7619-42e8-4f85-9703-94d122328409
 
-https://github.com/user-attachments/assets/6154c040-2265-4d56-81c4-5524434d7095
+https://github.com/user-attachments/assets/a4140009-476b-4719-a296-7c69832fa9b0
 
 similar to other known apps with such feature such as figma jam, google docs, etc this app uses below technologies with best practises and
 clean architecture to allow multiple users join a session, create a doc (we call it jam board here) and simoultinously interact with elements on the screen (add, edit, resize, drag & drop, change content, ...)
